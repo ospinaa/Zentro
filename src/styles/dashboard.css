@@ -77,12 +77,19 @@
   font-weight: 600;
   color: var(--dash-primary);
   flex-shrink: 0;
+  text-decoration: none;
+  box-sizing: border-box;
   transition: transform var(--dash-transition), box-shadow var(--dash-transition);
 }
 
 .dash-nav__avatar:hover {
   transform: scale(1.04);
   box-shadow: var(--dash-shadow);
+}
+
+.dash-nav__avatar:focus-visible {
+  outline: 2px solid var(--dash-primary);
+  outline-offset: 2px;
 }
 
 .dash-nav__logout {
@@ -144,6 +151,27 @@
   color: var(--dash-text-muted);
   margin: 0;
   line-height: 1.5;
+}
+
+.dash-hero__profile-link {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--dash-primary);
+  text-decoration: none;
+  transition: color var(--dash-transition);
+}
+
+.dash-hero__profile-link:hover {
+  color: var(--dash-primary-hover);
+  text-decoration: underline;
+}
+
+.dash-hero__profile-link:focus-visible {
+  outline: 2px solid var(--dash-primary);
+  outline-offset: 3px;
+  border-radius: 4px;
 }
 
 .dash-grid {
@@ -274,4 +302,151 @@
 
 .dash-placeholder__back:hover {
   text-decoration: underline;
+}
+
+/* —— Profile page —— */
+
+.profile-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+  gap: 28px;
+  align-items: start;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .profile-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.profile-summary__card {
+  background: var(--dash-surface);
+  border-radius: var(--dash-radius);
+  padding: 28px 24px;
+  border: 1px solid var(--dash-border);
+  box-shadow: var(--dash-shadow);
+  text-align: center;
+  transition: box-shadow var(--dash-transition);
+}
+
+.profile-summary__card:hover {
+  box-shadow: var(--dash-shadow-hover);
+}
+
+.profile-summary__avatar-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.profile-summary__avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #dbeafe, #e0e7ff);
+  border: 3px solid var(--dash-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--dash-primary);
+  letter-spacing: -0.02em;
+}
+
+.profile-summary__edit-photo {
+  padding: 8px 14px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--dash-primary);
+  background: transparent;
+  border: 1px solid var(--dash-border);
+  border-radius: var(--dash-radius-sm);
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    background-color var(--dash-transition),
+    border-color var(--dash-transition),
+    color var(--dash-transition);
+}
+
+.profile-summary__edit-photo:hover {
+  background: rgba(37, 99, 235, 0.06);
+  border-color: #cbd5e1;
+}
+
+.profile-summary__edit-photo:active {
+  transform: scale(0.98);
+}
+
+.profile-summary__name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 6px;
+  color: var(--dash-text);
+}
+
+.profile-summary__email {
+  font-size: 0.875rem;
+  color: var(--dash-text-muted);
+  margin: 0 0 16px;
+  word-break: break-word;
+}
+
+.profile-summary__bio {
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--dash-text-muted);
+  margin: 0;
+  text-align: left;
+}
+
+.profile-form-card {
+  background: var(--dash-surface);
+  border-radius: var(--dash-radius);
+  padding: 28px 26px 32px;
+  border: 1px solid var(--dash-border);
+  box-shadow: var(--dash-shadow);
+}
+
+.profile-form-card__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin: 0 0 20px;
+  color: var(--dash-text);
+}
+
+.profile-form-card__success {
+  margin: -8px 0 18px;
+  padding: 12px 14px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #166534;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: var(--dash-radius-sm);
+}
+
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.profile-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+  justify-content: flex-end;
+}
+
+.profile-form__actions .auth-btn {
+  min-width: 120px;
 }

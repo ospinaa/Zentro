@@ -18,13 +18,14 @@ export function Navbar({ userInitials = 'U' }: NavbarProps) {
         ZENTRO
       </Link>
       <div className="dash-nav__actions">
-        <span
+        <Link
+          to="/profile"
           className="dash-nav__avatar"
           title="Profile"
-          aria-label="User avatar placeholder"
+          aria-label="View profile"
         >
           {userInitials.slice(0, 2).toUpperCase()}
-        </span>
+        </Link>
         <button type="button" className="dash-nav__logout" onClick={handleLogout}>
           Log out
         </button>

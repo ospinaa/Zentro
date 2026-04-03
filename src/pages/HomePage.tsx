@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { DashboardCard } from '../components/DashboardCard'
 import { DashboardLayout } from '../layout/DashboardLayout'
 
@@ -12,6 +13,9 @@ export function HomePage() {
       <div className="dash-hero">
         <h1 className="dash-hero__title">Welcome to ZENTRO</h1>
         <p className="dash-hero__subtitle">Connect, learn and play</p>
+        <Link to="/profile" className="dash-hero__profile-link">
+          View profile
+        </Link>
       </div>
 
       <div className="dash-grid">
