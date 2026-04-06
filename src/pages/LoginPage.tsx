@@ -66,7 +66,6 @@ export function LoginPage() {
 
           
 
-          {/* 👇 mostrar error */}
 
           {error && <p style={{ color: 'red', fontSize: '14px' }}>{error}</p>}
 
