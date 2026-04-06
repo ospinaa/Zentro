@@ -14,7 +14,7 @@ interface RegisterForm {
 }
 
 export function RegisterPage() {
-  const navigate = useNavigate() // 👈 agregado
+  const navigate = useNavigate() // 
 
   const [form, setForm] = useState<RegisterForm>({
     name: '',
@@ -61,13 +61,13 @@ export function RegisterPage() {
         confirmPassword: '',
       })
 
-      // 🔥 REDIRECCIÓN AUTOMÁTICA
+      
       navigate('/home', { replace: true })
 
     } catch (err: any) {
       console.error(err)
 
-      // 👇 mejor mensaje de error
+      
       if (err.code === 'auth/email-already-in-use') {
         setError('Email already in use')
       } else if (err.code === 'auth/weak-password') {
