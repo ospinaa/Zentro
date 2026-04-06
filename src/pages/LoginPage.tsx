@@ -16,7 +16,7 @@ export function LoginPage() {
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    // Simulated sign-in until real auth (e.g. Firebase) is wired
+    
     console.log('Login submit', { email, password })
     navigate('/home', { replace: true })
   }

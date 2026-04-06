@@ -1,7 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom'
 
 export interface NavbarProps {
-  /** Shown inside the avatar circle (e.g. initials) */
   userInitials?: string
 }
 
@@ -18,13 +17,15 @@ export function Navbar({ userInitials = 'U' }: NavbarProps) {
         ZENTRO
       </Link>
       <div className="dash-nav__actions">
-        <span
+       
+        <Link
+          to="/profile"
           className="dash-nav__avatar"
-          title="Profile"
-          aria-label="User avatar placeholder"
+          title="Ver perfil"
+          aria-label="Ir al perfil"
         >
           {userInitials.slice(0, 2).toUpperCase()}
-        </span>
+        </Link>
         <button type="button" className="dash-nav__logout" onClick={handleLogout}>
           Log out
         </button>

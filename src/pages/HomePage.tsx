@@ -25,6 +25,13 @@ export function HomePage() {
           description="Join or create sports events"
           to="/sports"
         />
+        {/* ← nuevo */}
+        <DashboardCard
+          title="Projects"
+          description="Manage tasks and track your progress"
+          to="/projects"
+          ctaLabel="Open"
+        />
       </div>
     </DashboardLayout>
   )
