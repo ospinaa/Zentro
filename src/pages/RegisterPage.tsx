@@ -15,7 +15,7 @@ interface RegisterForm {
 
 export function RegisterPage() {
   const navigate = useNavigate() // 
-
+  
   const [form, setForm] = useState<RegisterForm>({
     name: '',
     email: '',
@@ -61,13 +61,13 @@ export function RegisterPage() {
         confirmPassword: '',
       })
 
-      
+
       navigate('/home', { replace: true })
 
     } catch (err: any) {
       console.error(err)
 
-      
+
       if (err.code === 'auth/email-already-in-use') {
         setError('Email already in use')
       } else if (err.code === 'auth/weak-password') {

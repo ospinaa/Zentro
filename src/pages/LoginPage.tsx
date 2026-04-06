@@ -4,14 +4,16 @@ import { AuthCard } from '../components/AuthCard'
 import { Button } from '../components/Button'
 import { Input } from '../components/Input'
 import { AuthLayout } from '../layout/AuthLayout'
+
 import { loginUser } from '../services/auth' // 
+
 
 export function LoginPage() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('') // 
-
+  
   useEffect(() => {
     document.title = 'Sign in · Zentro'
   }, [])
@@ -61,7 +63,11 @@ export function LoginPage() {
             required
           />
 
+
           
+
+          {/* 👇 mostrar error */}
+
           {error && <p style={{ color: 'red', fontSize: '14px' }}>{error}</p>}
 
           <Button type="submit" variant="primary">
