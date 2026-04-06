@@ -106,7 +106,7 @@ export function ProfilePage() {
   return (
     <DashboardLayout userInitials={profile.name.slice(0, 2).toUpperCase()}>
       <div className="pf-root">
-        {/* ── Mobile sidebar toggle ── */}
+        
         <button
           className="pf-sidebar-toggle"
           type="button"
@@ -116,7 +116,7 @@ export function ProfilePage() {
           ☰
         </button>
 
-        {/* ── Mobile sidebar ── */}
+        
         {mobileSidebarOpen && (
           <div
             className="pf-sidebar-overlay"

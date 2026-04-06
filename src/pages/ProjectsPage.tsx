@@ -3,7 +3,7 @@ import { DashboardLayout } from '../layout/DashboardLayout'
 import { ProjectCard } from '../components/ProjectCard'
 import { ProjectModal } from '../components/ProjectModal'
 
-// ─── Types ────────────────────────────────────────────────────
+
 export type TaskStatus = 'todo' | 'in-progress' | 'done'
 
 export interface Task {
@@ -20,7 +20,7 @@ export interface Project {
   progress: number
 }
 
-// ─── Helpers ──────────────────────────────────────────────────
+
 function uid(): string {
   return Math.random().toString(36).slice(2, 9)
 }
@@ -31,7 +31,7 @@ function calcProgress(tasks: Task[]): number {
   return Math.round((done / tasks.length) * 100)
 }
 
-// ─── Page ─────────────────────────────────────────────────────
+
 export function ProjectsPage() {
   const [projects, setProjects] = useState<Project[]>([])
   const [showModal, setShowModal] = useState(false)
