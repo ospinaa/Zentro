@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom' 
+import { Link, useNavigate } from 'react-router-dom' 
 import { AuthCard } from '../components/AuthCard'
 import { Button } from '../components/Button'
 import { Input } from '../components/Input'
@@ -15,6 +16,9 @@ interface RegisterForm {
 
 export function RegisterPage() {
   const navigate = useNavigate() // 
+
+  const navigate = useNavigate() 
+ main
 
   const [form, setForm] = useState<RegisterForm>({
     name: '',
@@ -61,13 +65,13 @@ export function RegisterPage() {
         confirmPassword: '',
       })
 
-      
+
       navigate('/home', { replace: true })
 
     } catch (err: any) {
       console.error(err)
 
-      
+
       if (err.code === 'auth/email-already-in-use') {
         setError('Email already in use')
       } else if (err.code === 'auth/weak-password') {
