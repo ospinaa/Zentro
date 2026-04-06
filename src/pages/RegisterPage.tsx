@@ -1,9 +1,10 @@
 import { useEffect, useState, type FormEvent } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom' // 👈 agregado
 import { AuthCard } from '../components/AuthCard'
 import { Button } from '../components/Button'
 import { Input } from '../components/Input'
 import { AuthLayout } from '../layout/AuthLayout'
+import { registerUser } from '../services/auth'
 
 interface RegisterForm {
   name: string
@@ -13,13 +14,18 @@ interface RegisterForm {
 }
 
 export function RegisterPage() {
+  const navigate = useNavigate() // 👈 agregado
+
   const [form, setForm] = useState<RegisterForm>({
     name: '',
     email: '',
     password: '',
     confirmPassword: '',
   })
+
   const [confirmError, setConfirmError] = useState('')
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
 
   useEffect(() => {
     document.title = 'Create account · Zentro'
@@ -32,18 +38,44 @@ export function RegisterPage() {
     }
   }
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
+    setError('')
+    setSuccess('')
+
     if (form.password !== form.confirmPassword) {
       setConfirmError('Passwords do not match')
       return
     }
-    setConfirmError('')
-    console.log('Register submit', {
-      name: form.name,
-      email: form.email,
-      password: form.password,
-    })
+
+    try {
+      await registerUser(form.name, form.email, form.password)
+
+      setSuccess('Account created successfully')
+
+      // limpiar formulario
+      setForm({
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+      })
+
+      // 🔥 REDIRECCIÓN AUTOMÁTICA
+      navigate('/home', { replace: true })
+
+    } catch (err: any) {
+      console.error(err)
+
+      // 👇 mejor mensaje de error
+      if (err.code === 'auth/email-already-in-use') {
+        setError('Email already in use')
+      } else if (err.code === 'auth/weak-password') {
+        setError('Password should be at least 6 characters')
+      } else {
+        setError('Error creating account')
+      }
+    }
   }
 
   return (
@@ -65,6 +97,7 @@ export function RegisterPage() {
             onChange={(ev) => updateField('name', ev.target.value)}
             required
           />
+
           <Input
             id="register-email"
             name="email"
@@ -76,6 +109,7 @@ export function RegisterPage() {
             onChange={(ev) => updateField('email', ev.target.value)}
             required
           />
+
           <Input
             id="register-password"
             name="password"
@@ -87,6 +121,7 @@ export function RegisterPage() {
             onChange={(ev) => updateField('password', ev.target.value)}
             required
           />
+
           <Input
             id="register-confirm"
             name="confirmPassword"
@@ -99,6 +134,10 @@ export function RegisterPage() {
             error={confirmError}
             required
           />
+
+          {error && <p style={{ color: 'red', fontSize: '14px' }}>{error}</p>}
+          {success && <p style={{ color: 'green', fontSize: '14px' }}>{success}</p>}
+
           <Button type="submit" variant="primary">
             Sign up
           </Button>
