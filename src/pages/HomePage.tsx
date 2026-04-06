@@ -30,7 +30,7 @@ export function HomePage() {
           title="Projects"
           description="Manage tasks and track your progress"
           to="/projects"
-          ctaLabel="Open"
+          ctaLabel="Explore"
         />
       </div>
     </DashboardLayout>
