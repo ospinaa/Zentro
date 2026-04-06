@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { DashboardLayout } from "../layout/DashboardLayout";
 import { ProfileEditModal } from "../components/ProfileEditModal";
 
@@ -83,7 +83,7 @@ const INITIAL: ProfileData = {
 
 const SOCIAL_META: Record<
   string,
-  { label: string; color: string; icon: string }
+  { label: string; color: string}
 > = {
   whatsapp: { label: "WhatsApp", color: "#25d366" },
   github: { label: "GitHub", color: "#1a1a2e" },
@@ -210,7 +210,6 @@ export function ProfilePage() {
                     style={{ background: meta.color }}
                     title={meta.label}
                   >
-                    {meta.icon}
                   </a>
                 );
               })}
