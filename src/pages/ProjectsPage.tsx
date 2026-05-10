@@ -1,7 +1,10 @@
+
 // ─── src/pages/ProjectsPage.tsx ───────────────────────────────────────────────
 // Ahora consume el ProjectContext en lugar de manejar estado local.
 // Las funciones createProject, addTask, changeTaskStatus y moveTask
 // vienen del context y persisten automáticamente en localStorage.
+
+=======
 
 import { useEffect, useState } from 'react'
 import { DashboardLayout } from '../layout/DashboardLayout'
