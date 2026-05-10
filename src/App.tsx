@@ -1,31 +1,53 @@
+// ─── src/App.tsx ──────────────────────────────────────────────────────────────
+// Versión final con SessionProvider, CalendarPage y SearchPage integrados.
+
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import './styles/auth.css'
 import './styles/dashboard.css'
 import './styles/projects.css'
 import './styles/profile.css'
-import { AcademicPage } from './pages/AcademicPage'
-import { HomePage } from './pages/HomePage'
-import { LoginPage } from './pages/LoginPage'
-import { ProfilePage } from './pages/ProfilePage'
-import { ProjectsPage } from './pages/ProjectsPage'
-import { RegisterPage } from './pages/RegisterPage'
-import { SportsPage } from './pages/SportsPage'
+import './styles/calendar.css'   // ← nuevo
+
+// ── Providers ─────────────────────────────────────────────────────────────────
+
+import { ProjectProvider }  from './context/ProjectContext'
+import { SessionProvider }  from './context/SessionContext'   // ← nuevo
+
+// ── Páginas ───────────────────────────────────────────────────────────────────
+import { AcademicPage }  from './pages/AcademicPage'
+import { CalendarPage }  from './pages/CalendarPage'          // ← nuevo
+import { HomePage }      from './pages/HomePage'
+import { LoginPage }     from './pages/LoginPage'
+import { ProfilePage }   from './pages/ProfilePage'
+import { ProjectsPage }  from './pages/ProjectsPage'
+import { RegisterPage }  from './pages/RegisterPage'
+import { SearchPage }    from './pages/SearchPage'            // ← nuevo
+import { SportsPage }    from './pages/SportsPage'
+import { ProfileProvider } from './context/ProfileContexts'
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/academic" element={<AcademicPage />} />
-        <Route path="/sports" element={<SportsPage />} />
-        <Route path="/projects" element={<ProjectsPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="*" element={<Navigate to="/login" replace />} />
-      </Routes>
-    </BrowserRouter>
+    <ProfileProvider>
+      <ProjectProvider>
+        <SessionProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/"          element={<Navigate to="/login" replace />} />
+              <Route path="/login"     element={<LoginPage />} />
+              <Route path="/register"  element={<RegisterPage />} />
+              <Route path="/home"      element={<HomePage />} />
+              <Route path="/academic"  element={<AcademicPage />} />
+              <Route path="/sports"    element={<SportsPage />} />
+              <Route path="/projects"  element={<ProjectsPage />} />
+              <Route path="/profile"   element={<ProfilePage />} />
+              <Route path="/calendar"  element={<CalendarPage />} />   {/* ← nuevo */}
+              <Route path="/search"    element={<SearchPage />} />     {/* ← nuevo */}
+              <Route path="*"          element={<Navigate to="/login" replace />} />
+            </Routes>
+          </BrowserRouter>
+        </SessionProvider>
+      </ProjectProvider>
+    </ProfileProvider>
   )
 }
 
