@@ -1,5 +1,3 @@
-// ─── src/components/Navbar.tsx ────────────────────────────────────────────────
-// Navbar actualizada: agrega acceso rápido al calendario y a la búsqueda global.
 
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -20,7 +18,7 @@ export function Navbar({ userInitials = 'U' }: NavbarProps) {
         ZENTRO
       </Link>
 
-      {/* ── Accesos rápidos ── */}
+      
       <nav className="dash-nav__links">
         <Link to="/calendar" className="dash-nav__link" title="Calendario">
           🗓
