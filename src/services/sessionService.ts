@@ -36,13 +36,21 @@ export interface CalendarSession {
 // ── Obtener sesiones ──────────────────────────────────────────────────────────
 
 export async function getSessions(): Promise<CalendarSession[]> {
+
   const { data, error } = await supabase
     .from("sessions")
     .select("*")
-    .order("created_at", { ascending: false });
+    .order("created_at", {
+      ascending: false,
+    });
 
   if (error) {
-    console.error("Error obteniendo sesiones:", error);
+
+    console.error(
+      "Error obteniendo sesiones:",
+      error
+    );
+
     return [];
   }
 
@@ -65,7 +73,9 @@ export async function getSessions(): Promise<CalendarSession[]> {
 
     location: s.location,
 
-    createdAt: new Date(s.created_at).getTime(),
+    createdAt: new Date(
+      s.created_at
+    ).getTime(),
   }));
 }
 
@@ -89,7 +99,9 @@ export function resolveStatus(
     `${session.date}T${session.endTime}`
   );
 
-  if (now < start) return "upcoming";
+  if (now < start) {
+    return "upcoming";
+  }
 
   if (now >= start && now <= end) {
     return "ongoing";
@@ -110,16 +122,21 @@ export async function addSession(
   const user = auth.currentUser;
 
   if (!user) {
-    throw new Error("Usuario no autenticado");
+    throw new Error(
+      "Usuario no autenticado"
+    );
   }
 
-  const session: Partial<CalendarSession> = {
+  const tempSession: CalendarSession = {
     ...data,
+    id: "",
+    firebase_uid: user.uid,
     status: "upcoming",
+    createdAt: Date.now(),
   };
 
-  const resolvedStatus =
-    resolveStatus(session as CalendarSession);
+  const status =
+    resolveStatus(tempSession);
 
   const { error } = await supabase
     .from("sessions")
@@ -135,7 +152,7 @@ export async function addSession(
         start_time: data.startTime,
         end_time: data.endTime,
 
-        status: resolvedStatus,
+        status,
 
         tags: data.tags,
 
@@ -144,8 +161,149 @@ export async function addSession(
     ]);
 
   if (error) {
+
     console.error(
       "Error creando sesión:",
+      error
+    );
+  }
+
+  return await getSessions();
+}
+
+// ── Editar sesión ─────────────────────────────────────────────────────────────
+
+export async function updateSession(
+  id: string,
+  fields: Partial<
+    Omit<
+      CalendarSession,
+      "id" | "createdAt"
+    >
+  >
+): Promise<CalendarSession[]> {
+
+  const user = auth.currentUser;
+
+  if (!user) {
+    throw new Error(
+      "Usuario no autenticado"
+    );
+  }
+
+  const updateData: any = {};
+
+  if (fields.title !== undefined) {
+    updateData.title = fields.title;
+  }
+
+  if (fields.description !== undefined) {
+    updateData.description =
+      fields.description;
+  }
+
+  if (fields.date !== undefined) {
+    updateData.date = fields.date;
+  }
+
+  if (fields.startTime !== undefined) {
+    updateData.start_time =
+      fields.startTime;
+  }
+
+  if (fields.endTime !== undefined) {
+    updateData.end_time =
+      fields.endTime;
+  }
+
+  if (fields.status !== undefined) {
+    updateData.status =
+      fields.status;
+  }
+
+  if (fields.tags !== undefined) {
+    updateData.tags = fields.tags;
+  }
+
+  if (fields.location !== undefined) {
+    updateData.location =
+      fields.location;
+  }
+
+  const { error } = await supabase
+    .from("sessions")
+    .update(updateData)
+    .eq("id", id)
+    .eq("firebase_uid", user.uid);
+
+  if (error) {
+
+    console.error(
+      "Error editando sesión:",
+      error
+    );
+  }
+
+  return await getSessions();
+}
+
+// ── Eliminar sesión ───────────────────────────────────────────────────────────
+
+export async function deleteSession(
+  id: string
+): Promise<CalendarSession[]> {
+
+  const user = auth.currentUser;
+
+  if (!user) {
+    throw new Error(
+      "Usuario no autenticado"
+    );
+  }
+
+  const { error } = await supabase
+    .from("sessions")
+    .delete()
+    .eq("id", id)
+    .eq("firebase_uid", user.uid);
+
+  if (error) {
+
+    console.error(
+      "Error eliminando sesión:",
+      error
+    );
+  }
+
+  return await getSessions();
+}
+
+// ── Cancelar sesión ───────────────────────────────────────────────────────────
+
+export async function cancelSession(
+  id: string
+): Promise<CalendarSession[]> {
+
+  const user = auth.currentUser;
+
+  if (!user) {
+    throw new Error(
+      "Usuario no autenticado"
+    );
+  }
+
+  const { error } = await supabase
+    .from("sessions")
+    .update({
+      status: "cancelled",
+    })
+    .eq("id", id)
+    .eq("firebase_uid", user.uid);
+
+  if (error) {
+
+    console.error(
+      "Error cancelando sesión:",
       error
     );
   }
@@ -211,106 +369,4 @@ export function getSessionStats(
       (s) => s.status === "cancelled"
     ).length,
   };
-}
-
-// ── Editar sesión ─────────────────────────────────────────────────────────────
-
-export async function updateSession(
-  id: string,
-  fields: Partial<
-    Omit<
-      CalendarSession,
-      "id" | "createdAt"
-    >
-  >
-): Promise<CalendarSession[]> {
-
-  const updateData: any = {};
-
-  if (fields.title !== undefined) {
-    updateData.title = fields.title;
-  }
-
-  if (fields.description !== undefined) {
-    updateData.description =
-      fields.description;
-  }
-
-  if (fields.date !== undefined) {
-    updateData.date = fields.date;
-  }
-
-  if (fields.startTime !== undefined) {
-    updateData.start_time =
-      fields.startTime;
-  }
-
-  if (fields.endTime !== undefined) {
-    updateData.end_time =
-      fields.endTime;
-  }
-
-  if (fields.status !== undefined) {
-    updateData.status =
-      fields.status;
-  }
-
-  if (fields.tags !== undefined) {
-    updateData.tags =
-      fields.tags;
-  }
-
-  if (fields.location !== undefined) {
-    updateData.location =
-      fields.location;
-  }
-
-  const { error } = await supabase
-    .from("sessions")
-    .update(updateData)
-    .eq("id", id);
-
-  if (error) {
-    console.error(
-      "Error editando sesión:",
-      error
-    );
-  }
-
-  return await getSessions();
-}
-
-// ── Eliminar sesión ───────────────────────────────────────────────────────────
-
-export async function deleteSession(
-  id: string
-): Promise<CalendarSession[]> {
-
-  const { error } = await supabase
-    .from("sessions")
-    .delete()
-    .eq("id", id);
-
-  if (error) {
-    console.error(
-      "Error eliminando sesión:",
-      error
-    );
-  }
-
-  return await getSessions();
-}
-
-// ── Cancelar sesión ───────────────────────────────────────────────────────────
-
-export async function cancelSession(
-  id: string
-): Promise<CalendarSession[]> {
-
-  return await updateSession(
-    id,
-    {
-      status: "cancelled",
-    }
-  );
 }
