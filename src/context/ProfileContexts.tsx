@@ -23,6 +23,8 @@ interface ProfileContextValue {
 
   profile: ProfileData;
 
+  profileLoading: boolean;
+
   saveProfile: (
     data: ProfileData
   ) => Promise<void>;
@@ -80,6 +82,11 @@ export function ProfileProvider({
       EMPTY_PROFILE
     );
 
+  // ── NUEVO: estado de carga del perfil ──────────────────────────────────────
+
+  const [profileLoading, setProfileLoading] =
+    useState(true);
+
   // ── Cargar perfil ──────────────────────────────────────────────────────────
 
   const loadProfile = useCallback(
@@ -87,13 +94,20 @@ export function ProfileProvider({
 
       if (!user) {
         setProfile(EMPTY_PROFILE);
+        setProfileLoading(false);
         return;
       }
 
-      const data =
-        await profileService.getProfile();
+      setProfileLoading(true);
 
-      setProfile(data);
+      try {
+        const data =
+          await profileService.getProfile();
+
+        setProfile(data);
+      } finally {
+        setProfileLoading(false);
+      }
     },
     [user]
   );
@@ -102,12 +116,20 @@ export function ProfileProvider({
 
   useEffect(() => {
 
+    // Mientras Firebase aún está resolviendo la sesión,
+    // mantener profileLoading en true para no mostrar datos vacíos.
+    if (loading) {
+      setProfileLoading(true);
+      return;
+    }
+
     if (!loading && user) {
       loadProfile();
     }
 
     if (!loading && !user) {
       setProfile(EMPTY_PROFILE);
+      setProfileLoading(false);
     }
 
   }, [
@@ -176,6 +198,8 @@ export function ProfileProvider({
       value={{
 
         profile,
+
+        profileLoading,
 
         saveProfile,
 
