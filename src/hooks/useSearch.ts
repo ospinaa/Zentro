@@ -1,6 +1,4 @@
-// ─── src/hooks/useSearch.ts ───────────────────────────────────────────────────
-// Hook reutilizable que conecta el searchService con React.
-// Incluye debounce para no buscar en cada keystroke.
+
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { Project } from '../pages/ProjectsPage'
@@ -27,8 +25,8 @@ interface UseSearchReturn {
   resetFilters: () => void
 
   results: SearchResult[]
-  isSearching: boolean   // true mientras espera el debounce
-  hasQuery: boolean      // true si hay búsqueda activa
+  isSearching: boolean   
+  hasQuery: boolean      
   resultCount: number
 }
 
@@ -52,7 +50,6 @@ export function useSearch({
   const [isSearching, setIsSearching]  = useState(false)
   const [filters, setFilters]          = useState<SearchFilters>(DEFAULT_FILTERS)
 
-  // ── Debounce del query ────────────────────────────────────────────────────
 
   useEffect(() => {
     if (query === debouncedQuery) return
@@ -64,7 +61,6 @@ export function useSearch({
     return () => clearTimeout(t)
   }, [query, debouncedQuery, debounceMs])
 
-  // ── Setters ───────────────────────────────────────────────────────────────
 
   const setQuery = useCallback((q: string) => {
     setQueryRaw(q)
@@ -84,7 +80,6 @@ export function useSearch({
     setFilters(DEFAULT_FILTERS)
   }, [])
 
-  // ── Búsqueda memoizada ────────────────────────────────────────────────────
 
   const results = useMemo(
     () => search(projects, sessions, { ...filters, query: debouncedQuery }),

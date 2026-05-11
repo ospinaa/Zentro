@@ -1,4 +1,3 @@
-// ─── src/context/SessionContext.tsx ───────────────────────────────────────────
 
 import {
   createContext,
@@ -17,7 +16,6 @@ import * as sessionService from "../services/sessionService";
 
 import { useAuth } from "./AuthContext";
 
-// ── Tipos ─────────────────────────────────────────────────────────────────────
 
 interface SessionContextValue {
 
@@ -67,14 +65,12 @@ interface SessionContextValue {
   ) => Promise<void>;
 }
 
-// ── Context ───────────────────────────────────────────────────────────────────
 
 const SessionContext =
   createContext<SessionContextValue | null>(
     null
   );
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
 
 function todayISO(): string {
   return new Date()
@@ -88,7 +84,6 @@ function currentMonthISO(): string {
     .slice(0, 7);
 }
 
-// ── Provider ──────────────────────────────────────────────────────────────────
 
 export function SessionProvider({
   children,
@@ -96,7 +91,6 @@ export function SessionProvider({
   children: ReactNode;
 }) {
 
-  // NUEVO: esperar a que Firebase resuelva la autenticación
   const { user, loading } = useAuth();
 
   const [sessions, setSessions] = useState<
@@ -109,12 +103,10 @@ export function SessionProvider({
   const [currentMonth, setCurrentMonth] =
     useState(currentMonthISO);
 
-  // ── Cargar sesiones ────────────────────────────────────────────────────────
 
   const loadSessions = useCallback(
     async () => {
 
-      // No cargar si no hay usuario autenticado
       if (!user) {
         setSessions([]);
         return;
@@ -138,7 +130,6 @@ export function SessionProvider({
     [user]
   );
 
-  // NUEVO: solo cargar sesiones cuando Firebase haya confirmado el usuario
   useEffect(() => {
 
     if (loading) return;
@@ -147,7 +138,6 @@ export function SessionProvider({
 
   }, [loading, user, loadSessions]);
 
-  // ── Crear sesión ───────────────────────────────────────────────────────────
 
   const addSession = useCallback(
     async (
@@ -177,7 +167,6 @@ export function SessionProvider({
     []
   );
 
-  // ── Editar sesión ──────────────────────────────────────────────────────────
 
   const editSession = useCallback(
     async (
@@ -211,7 +200,6 @@ export function SessionProvider({
     []
   );
 
-  // ── Eliminar sesión ────────────────────────────────────────────────────────
 
   const removeSession = useCallback(
     async (
@@ -238,7 +226,6 @@ export function SessionProvider({
     []
   );
 
-  // ── Cancelar sesión ────────────────────────────────────────────────────────
 
   const cancelSession = useCallback(
     async (
@@ -265,7 +252,6 @@ export function SessionProvider({
     []
   );
 
-  // ── Datos derivados ────────────────────────────────────────────────────────
 
   const daysWithSessions =
     sessionService.getDaysWithSessions(
@@ -279,7 +265,6 @@ export function SessionProvider({
       selectedDate
     );
 
-  // ── Provider ───────────────────────────────────────────────────────────────
 
   return (
     <SessionContext.Provider
@@ -314,7 +299,6 @@ export function SessionProvider({
   );
 }
 
-// ── Hook ──────────────────────────────────────────────────────────────────────
 
 export function useSessions(): SessionContextValue {
 

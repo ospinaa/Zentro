@@ -31,7 +31,6 @@ export interface Project {
   progress: number
 }
 
-// ── Página ────────────────────────────────────────────────────────────────────
 
 export function ProjectsPage() {
   const { projects, createProject, addTask, changeTaskStatus, moveTask } =

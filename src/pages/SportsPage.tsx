@@ -128,7 +128,6 @@ export function SportsPage() {
           </button>
         </div>
 
-        {/* ───────────────── FORM ───────────────── */}
 
         {showForm && (
 
@@ -220,7 +219,6 @@ export function SportsPage() {
           </div>
         )}
 
-        {/* ───────────────── EVENTOS ───────────────── */}
 
         <div
           style={{

@@ -1,4 +1,3 @@
-// ─── src/context/ProfileContext.tsx ───────────────────────────────────────────
 
 import {
   createContext,
@@ -17,7 +16,6 @@ import * as profileService from "../services/profileService";
 
 import { useAuth } from "./AuthContext";
 
-// ── Tipos ─────────────────────────────────────────────────────────────────────
 
 interface ProfileContextValue {
 
@@ -40,14 +38,12 @@ interface ProfileContextValue {
   refreshProfile: () => Promise<void>;
 }
 
-// ── Context ───────────────────────────────────────────────────────────────────
 
 const ProfileContext =
   createContext<ProfileContextValue | null>(
     null
   );
 
-// ── Perfil vacío ──────────────────────────────────────────────────────────────
 
 const EMPTY_PROFILE: ProfileData = {
 
@@ -66,7 +62,6 @@ const EMPTY_PROFILE: ProfileData = {
   sessions: [],
 };
 
-// ── Provider ──────────────────────────────────────────────────────────────────
 
 export function ProfileProvider({
   children,
@@ -82,12 +77,10 @@ export function ProfileProvider({
       EMPTY_PROFILE
     );
 
-  // ── NUEVO: estado de carga del perfil ──────────────────────────────────────
 
   const [profileLoading, setProfileLoading] =
     useState(true);
 
-  // ── Cargar perfil ──────────────────────────────────────────────────────────
 
   const loadProfile = useCallback(
     async () => {
@@ -112,12 +105,10 @@ export function ProfileProvider({
     [user]
   );
 
-  // ── Esperar autenticación Firebase ─────────────────────────────────────────
 
   useEffect(() => {
 
-    // Mientras Firebase aún está resolviendo la sesión,
-    // mantener profileLoading en true para no mostrar datos vacíos.
+    
     if (loading) {
       setProfileLoading(true);
       return;
@@ -138,7 +129,6 @@ export function ProfileProvider({
     loadProfile,
   ]);
 
-  // ── Guardar perfil ─────────────────────────────────────────────────────────
 
   const saveProfile = useCallback(
     async (
@@ -154,7 +144,6 @@ export function ProfileProvider({
     []
   );
 
-  // ── Patch profile ──────────────────────────────────────────────────────────
 
   const patchProfile = useCallback(
     async (
@@ -171,7 +160,6 @@ export function ProfileProvider({
     []
   );
 
-  // ── Reset profile ──────────────────────────────────────────────────────────
 
   const resetProfile = useCallback(
     async () => {
@@ -184,14 +172,12 @@ export function ProfileProvider({
     []
   );
 
-  // ── Iniciales ──────────────────────────────────────────────────────────────
 
   const userInitials =
     profile.name
       ?.slice(0, 2)
       .toUpperCase() || "ZU";
 
-  // ── Provider ───────────────────────────────────────────────────────────────
 
   return (
     <ProfileContext.Provider
@@ -218,7 +204,6 @@ export function ProfileProvider({
   );
 }
 
-// ── Hook ──────────────────────────────────────────────────────────────────────
 
 export function useProfile(): ProfileContextValue {
 

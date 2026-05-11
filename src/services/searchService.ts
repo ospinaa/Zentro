@@ -1,12 +1,7 @@
-// ─── src/services/searchService.ts ───────────────────────────────────────────
-// Servicio de búsqueda y filtros avanzados.
-// Opera sobre los datos en memoria (recibe arrays, no lee localStorage directamente).
-// Así es fácilmente testeable y reutilizable en cualquier componente.
 
 import type { Project, Task, TaskStatus } from '../pages/ProjectsPage'
 import type { CalendarSession, SessionStatus } from './sessionService'
 
-// ── Tipos de resultados unificados ────────────────────────────────────────────
 
 export type ResultKind = 'project' | 'task' | 'session'
 
@@ -14,40 +9,32 @@ export interface SearchResult {
   kind: ResultKind
   id: string
   title: string
-  subtitle: string      // contexto (nombre del proyecto padre, fecha, etc.)
+  subtitle: string      
   status?: string
   tags?: string[]
-  score: number         // relevancia (mayor = más relevante)
+  score: number         
   payload: Project | Task | CalendarSession
 }
 
-// ── Filtros disponibles ───────────────────────────────────────────────────────
 
 export interface SearchFilters {
   query: string
 
-  // Proyectos / tareas
   taskStatus?: TaskStatus | 'all'
 
-  // Sesiones
+  
   sessionStatus?: SessionStatus | 'all'
-  dateFrom?: string   // ISO 'YYYY-MM-DD'
+  dateFrom?: string   
   dateTo?: string
 
-  // Compartidos
-  tags?: string[]     // AND: la entidad debe tener TODOS los tags
-  kinds?: ResultKind[] // qué tipos incluir; vacío = todos
+  tags?: string[]     
+  kinds?: ResultKind[] 
 }
 
-// ── Helpers internos ──────────────────────────────────────────────────────────
 
-/**
- * Puntuación de relevancia por coincidencia de texto.
- * Coincidencia exacta en título > coincidencia parcial > coincidencia en descripción.
- */
 function scoreText(query: string, title: string, extra: string = ''): number {
   const q = query.toLowerCase().trim()
-  if (!q) return 1  // sin búsqueda → todos pasan con score 1
+  if (!q) return 1  
   const t = title.toLowerCase()
   const e = extra.toLowerCase()
   if (t === q)             return 100
@@ -70,12 +57,7 @@ function inDateRange(date: string, from?: string, to?: string): boolean {
   return true
 }
 
-// ── Búsqueda principal ────────────────────────────────────────────────────────
 
-/**
- * Búsqueda unificada sobre proyectos, tareas y sesiones.
- * Retorna resultados ordenados por relevancia descendente.
- */
 export function search(
   projects: Project[],
   sessions: CalendarSession[],
@@ -85,12 +67,11 @@ export function search(
   const includeAll = kinds.length === 0
   const results: SearchResult[] = []
 
-  // ── Proyectos ──
   if (includeAll || kinds.includes('project')) {
     for (const project of projects) {
       const score = scoreText(query, project.name, project.description)
       if (!score) continue
-      if (!matchesTags([], tags)) continue  // proyectos no tienen tags propios
+      if (!matchesTags([], tags)) continue  
 
       results.push({
         kind:     'project',
@@ -104,7 +85,6 @@ export function search(
     }
   }
 
-  // ── Tareas ──
   if (includeAll || kinds.includes('task')) {
     for (const project of projects) {
       for (const task of project.tasks) {
@@ -125,7 +105,6 @@ export function search(
     }
   }
 
-  // ── Sesiones ──
   if (includeAll || kinds.includes('session')) {
     for (const session of sessions) {
       if (sessionStatus && sessionStatus !== 'all' && session.status !== sessionStatus) continue
@@ -151,10 +130,7 @@ export function search(
   return results.sort((a, b) => b.score - a.score)
 }
 
-/**
- * Búsqueda rápida: solo por texto, sin filtros adicionales.
- * Útil para la barra de búsqueda del navbar.
- */
+
 export function quickSearch(
   projects: Project[],
   sessions: CalendarSession[],

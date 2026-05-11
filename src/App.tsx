@@ -1,4 +1,3 @@
-// ─── src/App.tsx ──────────────────────────────────────────────────────────────
 import {
   BrowserRouter,
   Navigate,
@@ -12,7 +11,6 @@ import "./styles/projects.css";
 import "./styles/profile.css";
 import "./styles/calendar.css";
 
-// ── Providers ─────────────────────────────────────────────────────────────────
 
 import { AuthProvider } from "./context/AuthContext";
 import { ProjectProvider } from "./context/ProjectContext";
@@ -22,7 +20,6 @@ import { ProfileProvider } from "./context/ProfileContexts";
 import { AcademicProvider } from "./context/AcademicContext";
 import { SportsProvider } from "./context/SportsContext";
 
-// ── Páginas ───────────────────────────────────────────────────────────────────
 
 import { AcademicPage } from "./pages/AcademicPage";
 import { CalendarPage } from "./pages/CalendarPage";
@@ -40,8 +37,6 @@ function App() {
       <ProfileProvider>
         <ProjectProvider>
           <SessionProvider>
-
-            {/* ── NUEVOS PROVIDERS ── */}
             <AcademicProvider>
               <SportsProvider>
 

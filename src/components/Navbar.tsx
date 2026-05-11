@@ -1,4 +1,3 @@
-// ─── src/components/Navbar.tsx ────────────────────────────────────────────────
 
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -25,7 +24,6 @@ export function Navbar({
         ZENTRO
       </Link>
 
-      {/* ── Accesos rápidos ── */}
       <nav className="dash-nav__links">
 
         <Link

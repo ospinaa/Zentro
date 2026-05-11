@@ -1,4 +1,3 @@
-// ─── src/pages/CalendarPage.tsx ───────────────────────────────────────────────
 
 import { useEffect, useState } from 'react'
 import { DashboardLayout } from '../layout/DashboardLayout'
@@ -11,7 +10,6 @@ import type {
 import { useProfile } from '../context/ProfileContexts'
 import { auth } from '../services/firebase'
 
-// ── Helpers de fecha ──────────────────────────────────────────────────────────
 
 function daysInMonth(yearMonth: string): number {
   const [y, m] = yearMonth.split('-').map(Number)
@@ -59,7 +57,6 @@ function nextMonth(yearMonth: string): string {
   )}`
 }
 
-// ── Status ────────────────────────────────────────────────────────────────────
 
 const STATUS_COLOR: Record<
   SessionStatus,
@@ -81,7 +78,6 @@ const STATUS_LABEL: Record<
   cancelled: 'Cancelada',
 }
 
-// ── Modal ─────────────────────────────────────────────────────────────────────
 
 type ModalMode = 'create' | 'edit'
 
@@ -90,7 +86,6 @@ interface ModalState {
   session?: CalendarSession
 }
 
-// ── Formulario ────────────────────────────────────────────────────────────────
 
 function emptyForm(date: string) {
   return {
@@ -104,7 +99,6 @@ function emptyForm(date: string) {
   }
 }
 
-// ── Página ────────────────────────────────────────────────────────────────────
 
 export function CalendarPage() {
 
@@ -143,7 +137,6 @@ export function CalendarPage() {
       'Calendario · Zentro'
   }, [])
 
-  // ── Crear ──────────────────────────────────────────────────────────────────
 
   function openCreate() {
 
@@ -158,7 +151,6 @@ export function CalendarPage() {
     })
   }
 
-  // ── Editar ─────────────────────────────────────────────────────────────────
 
   function openEdit(
     session: CalendarSession
@@ -199,7 +191,6 @@ export function CalendarPage() {
     })
   }
 
-  // ── Submit ─────────────────────────────────────────────────────────────────
 
   async function handleSubmit() {
 
@@ -271,7 +262,6 @@ export function CalendarPage() {
     setModal(null)
   }
 
-  // ── Calendario ─────────────────────────────────────────────────────────────
 
   const totalDays =
     daysInMonth(currentMonth)
@@ -307,7 +297,6 @@ export function CalendarPage() {
 
       <div className="cal-page">
 
-        {/* Header */}
 
         <div className="cal-header">
 
@@ -458,7 +447,6 @@ export function CalendarPage() {
               })}
             </div>
 
-            {/* Leyenda */}
 
             <div className="cal-legend">
 
@@ -492,7 +480,6 @@ export function CalendarPage() {
             </div>
           </div>
 
-          {/* Panel sesiones */}
 
           <div className="cal-day-panel">
 
@@ -619,7 +606,6 @@ export function CalendarPage() {
 
                         )}
 
-                        {/* SOLO EL CREADOR */}
 
                         {isOwner && (
 
@@ -682,7 +668,6 @@ export function CalendarPage() {
 
       </div>
 
-      {/* Modal */}
 
       {modal && (
 

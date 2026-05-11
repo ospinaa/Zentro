@@ -95,7 +95,6 @@ export function ProfilePage() {
           ☰
         </button>
 
-        {/* ── Sidebar móvil ── */}
         {mobileSidebarOpen && (
           <div
             className="pf-sidebar-overlay"
@@ -111,11 +110,11 @@ export function ProfilePage() {
               </div>
 
               {[
-                { label: 'Home',        icon: '🏠', href: '/home'    },
-                { label: 'Actividades', icon: '📅', href: '#'        },
-                { label: 'Sesiones',    icon: '🎓', href: '#'        },
-                { label: 'Monitores',   icon: '👥', href: '#'        },
-                { label: 'Perfil',      icon: '👤', href: '/profile' },
+                { label: 'Home',        icon: '', href: '/home'    },
+                { label: 'Actividades', icon: '', href: '#'        },
+                { label: 'Sesiones',    icon: '', href: '#'        },
+                { label: 'Monitores',   icon: '', href: '#'        },
+                { label: 'Perfil',      icon: '', href: '/profile' },
               ].map((item) => (
                 <a
                   key={item.label}
@@ -135,7 +134,6 @@ export function ProfilePage() {
           </div>
         )}
 
-        {/* ── Header card ── */}
         <div className="pf-card pf-header-card">
 
           <div className="pf-header-card__left">
@@ -210,7 +208,6 @@ export function ProfilePage() {
           </div>
         </div>
 
-        {/* ── Servicios ── */}
         <section className="pf-section">
 
           <h2 className="pf-section__title">
@@ -246,7 +243,6 @@ export function ProfilePage() {
           </div>
         </section>
 
-        {/* ── Sesiones ── */}
         <section className="pf-section">
 
           <h2 className="pf-section__title">
@@ -278,7 +274,7 @@ export function ProfilePage() {
 
                   {ses.location && (
                     <p className="pf-session-card__date">
-                      📍 {ses.location}
+                       {ses.location}
                     </p>
                   )}
 
@@ -297,7 +293,6 @@ export function ProfilePage() {
         </section>
       </div>
 
-      {/* ── Modal de edición ── */}
       {editing && (
         <ProfileEditModal
           profile={profile}

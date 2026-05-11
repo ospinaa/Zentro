@@ -1,9 +1,7 @@
-// ─── src/services/sessionService.ts ───────────────────────────────────────────
 
 import { supabase } from "./supabase";
 import { auth } from "./firebase";
 
-// ── Tipos ─────────────────────────────────────────────────────────────────────
 
 export type SessionStatus =
   | "upcoming"
@@ -33,7 +31,6 @@ export interface CalendarSession {
   createdAt: number;
 }
 
-// ── Obtener sesiones ──────────────────────────────────────────────────────────
 
 export async function getSessions(): Promise<CalendarSession[]> {
 
@@ -79,7 +76,6 @@ export async function getSessions(): Promise<CalendarSession[]> {
   }));
 }
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
 
 export function resolveStatus(
   session: CalendarSession
@@ -110,7 +106,6 @@ export function resolveStatus(
   return "done";
 }
 
-// ── Crear sesión ──────────────────────────────────────────────────────────────
 
 export async function addSession(
   data: Omit<
@@ -171,7 +166,6 @@ export async function addSession(
   return await getSessions();
 }
 
-// ── Editar sesión ─────────────────────────────────────────────────────────────
 
 export async function updateSession(
   id: string,
@@ -247,7 +241,6 @@ export async function updateSession(
   return await getSessions();
 }
 
-// ── Eliminar sesión ───────────────────────────────────────────────────────────
 
 export async function deleteSession(
   id: string
@@ -278,7 +271,6 @@ export async function deleteSession(
   return await getSessions();
 }
 
-// ── Cancelar sesión ───────────────────────────────────────────────────────────
 
 export async function cancelSession(
   id: string
@@ -311,7 +303,6 @@ export async function cancelSession(
   return await getSessions();
 }
 
-// ── Consultas ─────────────────────────────────────────────────────────────────
 
 export function getSessionsByDay(
   sessions: CalendarSession[],

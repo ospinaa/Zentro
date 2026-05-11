@@ -1,4 +1,3 @@
-// ─── src/services/profileService.ts ───────────────────────────────────────────
 
 import { supabase } from "./supabase";
 import { auth } from "./firebase";
@@ -7,7 +6,6 @@ import type {
   ProfileData,
 } from "../pages/ProfilePage";
 
-// ── Perfil por defecto ────────────────────────────────────────────────────────
 
 const DEFAULT_PROFILE: ProfileData = {
 
@@ -26,7 +24,6 @@ const DEFAULT_PROFILE: ProfileData = {
   sessions: [],
 };
 
-// ── Obtener perfil actual ────────────────────────────────────────────────────
 
 export async function getProfile(): Promise<ProfileData> {
 
@@ -42,7 +39,6 @@ export async function getProfile(): Promise<ProfileData> {
     .eq("firebase_uid", user.uid)
     .single();
 
-  // ── Si NO existe → crearlo automáticamente ────────────────────────────────
 
   if (error || !data) {
 
@@ -72,7 +68,6 @@ export async function getProfile(): Promise<ProfileData> {
   };
 }
 
-// ── Crear perfil automático ──────────────────────────────────────────────────
 
 export async function createProfile() {
 
@@ -110,7 +105,6 @@ export async function createProfile() {
   }
 }
 
-// ── Guardar perfil completo ──────────────────────────────────────────────────
 
 export async function saveProfile(
   profile: ProfileData
@@ -147,7 +141,6 @@ export async function saveProfile(
   }
 }
 
-// ── Actualizar parcialmente ──────────────────────────────────────────────────
 
 export async function updateProfile(
   fields: Partial<ProfileData>
@@ -166,7 +159,6 @@ export async function updateProfile(
   return updated;
 }
 
-// ── Reset ────────────────────────────────────────────────────────────────────
 
 export async function resetProfile(): Promise<ProfileData> {
 

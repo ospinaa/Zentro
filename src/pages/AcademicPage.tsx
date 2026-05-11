@@ -130,7 +130,6 @@ export function AcademicPage() {
           </button>
         </div>
 
-        {/* ───────────────── FORM ───────────────── */}
 
         {showForm && (
 
@@ -222,7 +221,6 @@ export function AcademicPage() {
           </div>
         )}
 
-        {/* ───────────────── EVENTOS ───────────────── */}
 
         <div
           style={{

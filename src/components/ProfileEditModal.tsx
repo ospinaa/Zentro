@@ -21,7 +21,6 @@ export function ProfileEditModal({ profile, onClose, onSave }: Props) {
   const [tagInput, setTagInput] = useState('')
   const fileRef = useRef<HTMLInputElement>(null)
 
-  // ── Helpers ──
   function setField<K extends keyof ProfileData>(key: K, val: ProfileData[K]) {
     setDraft(d => ({ ...d, [key]: val }))
   }
@@ -34,7 +33,6 @@ export function ProfileEditModal({ profile, onClose, onSave }: Props) {
     reader.readAsDataURL(file)
   }
 
-  // Tags
   function addTag() {
     const t = tagInput.trim().toUpperCase()
     if (t && !draft.tags.includes(t)) setField('tags', [...draft.tags, t])
@@ -42,7 +40,6 @@ export function ProfileEditModal({ profile, onClose, onSave }: Props) {
   }
   function removeTag(t: string) { setField('tags', draft.tags.filter(x => x !== t)) }
 
-  // Socials
   function updateSocial(id: string, field: keyof SocialLink, val: string) {
     setField('socials', draft.socials.map(s => s.id === id ? { ...s, [field]: val } : s))
   }
@@ -51,7 +48,6 @@ export function ProfileEditModal({ profile, onClose, onSave }: Props) {
   }
   function removeSocial(id: string) { setField('socials', draft.socials.filter(s => s.id !== id)) }
 
-  // Services
   function updateService(id: string, field: keyof Service, val: string) {
     setField('services', draft.services.map(s => s.id === id ? { ...s, [field]: val } : s))
   }
@@ -60,7 +56,6 @@ export function ProfileEditModal({ profile, onClose, onSave }: Props) {
   }
   function removeService(id: string) { setField('services', draft.services.filter(s => s.id !== id)) }
 
-  // Sessions
   function updateSession(id: string, field: keyof Session, val: string) {
     setField('sessions', draft.sessions.map(s => s.id === id ? { ...s, [field]: val } : s))
   }

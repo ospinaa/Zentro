@@ -1,6 +1,4 @@
-// ─── src/pages/SearchPage.tsx ─────────────────────────────────────────────────
-// Página de búsqueda global con filtros avanzados.
-// Busca simultáneamente en proyectos, tareas y sesiones.
+
 
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -13,12 +11,11 @@ import type { TaskStatus } from '../pages/ProjectsPage'
 import type { SessionStatus } from '../services/sessionService'
 import { useProfile } from '../context/ProfileContexts'
 
-// ── Etiquetas de UI ───────────────────────────────────────────────────────────
 
 const KIND_LABELS: Record<ResultKind, string> = {
-  project: '📁 Proyecto',
-  task:    '✅ Tarea',
-  session: '🗓 Sesión',
+  project: 'Proyecto',
+  task:    'Tarea',
+  session: 'Sesión',
 }
 
 const TASK_STATUS_OPTS: { value: TaskStatus | 'all'; label: string }[] = [
@@ -42,7 +39,6 @@ const KIND_OPTS: { value: ResultKind; label: string }[] = [
   { value: 'session', label: 'Sesiones' },
 ]
 
-// ── Tarjeta de resultado ──────────────────────────────────────────────────────
 
 function ResultCard({ result, onClick }: { result: SearchResult; onClick: () => void }) {
   return (
@@ -68,7 +64,6 @@ function ResultCard({ result, onClick }: { result: SearchResult; onClick: () => 
   )
 }
 
-// ── Página principal ──────────────────────────────────────────────────────────
 
 export function SearchPage() {
   const { projects } = useProjects()
@@ -84,7 +79,6 @@ export function SearchPage() {
 
   useEffect(() => { document.title = 'Buscar · Zentro' }, [])
 
-  // Al hacer click en un resultado, navega a la sección correspondiente
   function handleResultClick(result: SearchResult) {
     if (result.kind === 'project' || result.kind === 'task') navigate('/projects')
     if (result.kind === 'session') navigate('/calendar')
@@ -106,7 +100,6 @@ export function SearchPage() {
           <p className="dash-hero__subtitle">Proyectos, tareas y sesiones en un solo lugar</p>
         </div>
 
-        {/* ── Barra de búsqueda ── */}
         <div className="sr-search-bar">
           <span className="sr-search-bar__icon">🔍</span>
           <input
@@ -124,7 +117,6 @@ export function SearchPage() {
 
         <div className="sr-body">
 
-          {/* ── Filtros ── */}
           <aside className="sr-filters">
             <div className="sr-filters__group">
               <p className="sr-filters__label">Tipo de resultado</p>
@@ -191,7 +183,6 @@ export function SearchPage() {
             </button>
           </aside>
 
-          {/* ── Resultados ── */}
           <div className="sr-results">
             {isSearching && (
               <p className="sr-results__info">Buscando…</p>

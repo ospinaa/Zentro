@@ -13,7 +13,6 @@ import {
 
 import { auth } from "../services/firebase";
 
-// ── Tipos ─────────────────────────────────────────────────────────────────────
 
 interface AuthContextValue {
   user: User | null;
@@ -21,14 +20,12 @@ interface AuthContextValue {
   loading: boolean;
 }
 
-// ── Context ───────────────────────────────────────────────────────────────────
 
 const AuthContext =
   createContext<AuthContextValue | null>(
     null
   );
 
-// ── Provider ──────────────────────────────────────────────────────────────────
 
 export function AuthProvider({
   children,
@@ -71,7 +68,6 @@ export function AuthProvider({
   );
 }
 
-// ── Hook ──────────────────────────────────────────────────────────────────────
 
 export function useAuth() {
 

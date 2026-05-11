@@ -17,9 +17,7 @@ export interface AcademicEvent {
   createdAt: number;
 }
 
-// ─────────────────────────────────────────────
-// Obtener eventos
-// ─────────────────────────────────────────────
+
 
 export async function getAcademicEvents(): Promise<AcademicEvent[]> {
 
@@ -54,9 +52,7 @@ export async function getAcademicEvents(): Promise<AcademicEvent[]> {
   }));
 }
 
-// ─────────────────────────────────────────────
-// Crear evento
-// ─────────────────────────────────────────────
+
 
 export async function addAcademicEvent(
   data: Omit<
@@ -99,9 +95,7 @@ export async function addAcademicEvent(
   return await getAcademicEvents();
 }
 
-// ─────────────────────────────────────────────
-// Editar evento
-// ─────────────────────────────────────────────
+
 
 export async function updateAcademicEvent(
   id: string,
@@ -131,9 +125,7 @@ export async function updateAcademicEvent(
   return await getAcademicEvents();
 }
 
-// ─────────────────────────────────────────────
-// Eliminar evento
-// ─────────────────────────────────────────────
+
 
 export async function deleteAcademicEvent(
   id: string
