@@ -3,11 +3,11 @@
 // Incluye debounce para no buscar en cada keystroke.
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import type { Project, TaskStatus } from '../pages/ProjectsPage'
-import type { CalendarSession, SessionStatus } from '../services/sessionService'
+import type { Project } from '../pages/ProjectsPage'
+import type { CalendarSession } from '../services/sessionService'
 import {
   search,
-  type ResultKind,
+
   type SearchFilters,
   type SearchResult,
 } from '../services/searchService'
