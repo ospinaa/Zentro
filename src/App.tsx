@@ -5,6 +5,7 @@ import {
   Route,
   Routes,
 } from "react-router-dom";
+
 import "./styles/auth.css";
 import "./styles/dashboard.css";
 import "./styles/projects.css";
@@ -17,7 +18,12 @@ import { AuthProvider } from "./context/AuthContext";
 import { ProjectProvider } from "./context/ProjectContext";
 import { SessionProvider } from "./context/SessionContext";
 import { ProfileProvider } from "./context/ProfileContexts";
+
+import { AcademicProvider } from "./context/AcademicContext";
+import { SportsProvider } from "./context/SportsContext";
+
 // ── Páginas ───────────────────────────────────────────────────────────────────
+
 import { AcademicPage } from "./pages/AcademicPage";
 import { CalendarPage } from "./pages/CalendarPage";
 import { HomePage } from "./pages/HomePage";
@@ -34,68 +40,90 @@ function App() {
       <ProfileProvider>
         <ProjectProvider>
           <SessionProvider>
-            <BrowserRouter>
-              <Routes>
-                <Route
-                  path="/"
-                  element={
-                    <Navigate
-                      to="/login"
-                      replace
+
+            {/* ── NUEVOS PROVIDERS ── */}
+            <AcademicProvider>
+              <SportsProvider>
+
+                <BrowserRouter>
+                  <Routes>
+
+                    <Route
+                      path="/"
+                      element={
+                        <Navigate
+                          to="/login"
+                          replace
+                        />
+                      }
                     />
-                  }
-                />
-                <Route
-                  path="/login"
-                  element={<LoginPage />}
-                />
-                <Route
-                  path="/register"
-                  element={<RegisterPage />}
-                />
-                <Route
-                  path="/home"
-                  element={<HomePage />}
-                />
-                <Route
-                  path="/academic"
-                  element={<AcademicPage />}
-                />
-                <Route
-                  path="/sports"
-                  element={<SportsPage />}
-                />
-                <Route
-                  path="/projects"
-                  element={<ProjectsPage />}
-                />
-                <Route
-                  path="/profile"
-                  element={<ProfilePage />}
-                />
-                <Route
-                  path="/calendar"
-                  element={<CalendarPage />}
-                />
-                <Route
-                  path="/search"
-                  element={<SearchPage />}
-                />
-                <Route
-                  path="*"
-                  element={
-                    <Navigate
-                      to="/login"
-                      replace
+
+                    <Route
+                      path="/login"
+                      element={<LoginPage />}
                     />
-                  }
-                />
-              </Routes>
-            </BrowserRouter>
+
+                    <Route
+                      path="/register"
+                      element={<RegisterPage />}
+                    />
+
+                    <Route
+                      path="/home"
+                      element={<HomePage />}
+                    />
+
+                    <Route
+                      path="/academic"
+                      element={<AcademicPage />}
+                    />
+
+                    <Route
+                      path="/sports"
+                      element={<SportsPage />}
+                    />
+
+                    <Route
+                      path="/projects"
+                      element={<ProjectsPage />}
+                    />
+
+                    <Route
+                      path="/profile"
+                      element={<ProfilePage />}
+                    />
+
+                    <Route
+                      path="/calendar"
+                      element={<CalendarPage />}
+                    />
+
+                    <Route
+                      path="/search"
+                      element={<SearchPage />}
+                    />
+
+                    <Route
+                      path="*"
+                      element={
+                        <Navigate
+                          to="/login"
+                          replace
+                        />
+                      }
+                    />
+
+                  </Routes>
+                </BrowserRouter>
+
+              </SportsProvider>
+            </AcademicProvider>
+
           </SessionProvider>
         </ProjectProvider>
       </ProfileProvider>
     </AuthProvider>
   );
 }
+
 export default App;
