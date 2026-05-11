@@ -1,124 +1,214 @@
 // ─── src/services/sessionService.ts ───────────────────────────────────────────
-// Servicio de sesiones del calendario.
-// Persiste en localStorage. Independiente del perfil para mayor flexibilidad.
 
-export type SessionStatus = 'upcoming' | 'ongoing' | 'done' | 'cancelled'
+import { supabase } from "./supabase";
+import { auth } from "./firebase";
+
+// ── Tipos ─────────────────────────────────────────────────────────────────────
+
+export type SessionStatus =
+  | "upcoming"
+  | "ongoing"
+  | "done"
+  | "cancelled";
 
 export interface CalendarSession {
-  id: string
-  title: string
-  description: string
-  date: string        // ISO: '2025-04-28'
-  startTime: string   // '15:00'
-  endTime: string     // '16:30'
-  status: SessionStatus
-  tags: string[]
-  location: string    // presencial o link
-  createdAt: number   // timestamp
+  id: string;
+
+  firebase_uid?: string;
+
+  title: string;
+  description: string;
+
+  date: string;
+
+  startTime: string;
+  endTime: string;
+
+  status: SessionStatus;
+
+  tags: string[];
+
+  location: string;
+
+  createdAt: number;
 }
 
-const STORAGE_KEY = 'zentro_sessions'
+// ── Obtener sesiones ──────────────────────────────────────────────────────────
+
+export async function getSessions(): Promise<CalendarSession[]> {
+  const { data, error } = await supabase
+    .from("sessions")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error obteniendo sesiones:", error);
+    return [];
+  }
+
+  return data.map((s) => ({
+    id: s.id,
+
+    firebase_uid: s.firebase_uid,
+
+    title: s.title,
+    description: s.description,
+
+    date: s.date,
+
+    startTime: s.start_time,
+    endTime: s.end_time,
+
+    status: s.status,
+
+    tags: s.tags || [],
+
+    location: s.location,
+
+    createdAt: new Date(s.created_at).getTime(),
+  }));
+}
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-export function uid(): string {
-  return Math.random().toString(36).slice(2, 9)
-}
+export function resolveStatus(
+  session: CalendarSession
+): SessionStatus {
 
-/**
- * Calcula el status automáticamente según la fecha y hora actuales.
- * Si el usuario no lo fijó manualmente como 'cancelled'.
- */
-export function resolveStatus(session: CalendarSession): SessionStatus {
-  if (session.status === 'cancelled') return 'cancelled'
-  const now = new Date()
-  const start = new Date(`${session.date}T${session.startTime}`)
-  const end   = new Date(`${session.date}T${session.endTime}`)
-  if (now < start) return 'upcoming'
-  if (now >= start && now <= end) return 'ongoing'
-  return 'done'
-}
-
-// ── CRUD ──────────────────────────────────────────────────────────────────────
-
-export function getSessions(): CalendarSession[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    return raw ? (JSON.parse(raw) as CalendarSession[]) : []
-  } catch {
-    return []
+  if (session.status === "cancelled") {
+    return "cancelled";
   }
+
+  const now = new Date();
+
+  const start = new Date(
+    `${session.date}T${session.startTime}`
+  );
+
+  const end = new Date(
+    `${session.date}T${session.endTime}`
+  );
+
+  if (now < start) return "upcoming";
+
+  if (now >= start && now <= end) {
+    return "ongoing";
+  }
+
+  return "done";
 }
 
-function persist(sessions: CalendarSession[]): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions))
-}
+// ── Crear sesión ──────────────────────────────────────────────────────────────
 
-export function addSession(
-  data: Omit<CalendarSession, 'id' | 'status' | 'createdAt'>
-): CalendarSession[] {
-  const session: CalendarSession = {
+export async function addSession(
+  data: Omit<
+    CalendarSession,
+    "id" | "status" | "createdAt"
+  >
+): Promise<CalendarSession[]> {
+
+  const user = auth.currentUser;
+
+  if (!user) {
+    throw new Error("Usuario no autenticado");
+  }
+
+  const session: Partial<CalendarSession> = {
     ...data,
-    id: uid(),
-    status: 'upcoming',
-    createdAt: Date.now(),
+    status: "upcoming",
+  };
+
+  const resolvedStatus =
+    resolveStatus(session as CalendarSession);
+
+  const { error } = await supabase
+    .from("sessions")
+    .insert([
+      {
+        firebase_uid: user.uid,
+
+        title: data.title,
+        description: data.description,
+
+        date: data.date,
+
+        start_time: data.startTime,
+        end_time: data.endTime,
+
+        status: resolvedStatus,
+
+        tags: data.tags,
+
+        location: data.location,
+      },
+    ]);
+
+  if (error) {
+    console.error(
+      "Error creando sesión:",
+      error
+    );
   }
-  session.status = resolveStatus(session)
-  const sessions = [...getSessions(), session]
-  persist(sessions)
-  return sessions
-}
 
-export function updateSession(
-  id: string,
-  fields: Partial<Omit<CalendarSession, 'id' | 'createdAt'>>
-): CalendarSession[] {
-  const sessions = getSessions().map((s) => {
-    if (s.id !== id) return s
-    const updated = { ...s, ...fields }
-    // recalcula status salvo que se cancele explícitamente
-    if (fields.status !== 'cancelled') updated.status = resolveStatus(updated)
-    return updated
-  })
-  persist(sessions)
-  return sessions
-}
-
-export function deleteSession(id: string): CalendarSession[] {
-  const sessions = getSessions().filter((s) => s.id !== id)
-  persist(sessions)
-  return sessions
-}
-
-export function cancelSession(id: string): CalendarSession[] {
-  return updateSession(id, { status: 'cancelled' })
+  return await getSessions();
 }
 
 // ── Consultas ─────────────────────────────────────────────────────────────────
 
-/** Sesiones de un día específico (ISO date string). */
-export function getSessionsByDay(date: string): CalendarSession[] {
-  return getSessions().filter((s) => s.date === date)
+export function getSessionsByDay(
+  sessions: CalendarSession[],
+  date: string
+): CalendarSession[] {
+
+  return sessions.filter(
+    (s) => s.date === date
+  );
 }
 
-/** Sesiones del mes (YYYY-MM). */
-export function getSessionsByMonth(yearMonth: string): CalendarSession[] {
-  return getSessions().filter((s) => s.date.startsWith(yearMonth))
+export function getSessionsByMonth(
+  sessions: CalendarSession[],
+  yearMonth: string
+): CalendarSession[] {
+
+  return sessions.filter((s) =>
+    s.date.startsWith(yearMonth)
+  );
 }
 
-/** Días del mes que tienen al menos una sesión. */
-export function getDaysWithSessions(yearMonth: string): Set<string> {
-  return new Set(getSessionsByMonth(yearMonth).map((s) => s.date))
+export function getDaysWithSessions(
+  sessions: CalendarSession[],
+  yearMonth: string
+): Set<string> {
+
+  return new Set(
+    getSessionsByMonth(
+      sessions,
+      yearMonth
+    ).map((s) => s.date)
+  );
 }
 
-/** Estadísticas rápidas. */
-export function getSessionStats() {
-  const all = getSessions()
+export function getSessionStats(
+  sessions: CalendarSession[]
+) {
+
   return {
-    total:     all.length,
-    upcoming:  all.filter((s) => s.status === 'upcoming').length,
-    ongoing:   all.filter((s) => s.status === 'ongoing').length,
-    done:      all.filter((s) => s.status === 'done').length,
-    cancelled: all.filter((s) => s.status === 'cancelled').length,
-  }
+    total: sessions.length,
+
+    upcoming: sessions.filter(
+      (s) => s.status === "upcoming"
+    ).length,
+
+    ongoing: sessions.filter(
+      (s) => s.status === "ongoing"
+    ).length,
+
+    done: sessions.filter(
+      (s) => s.status === "done"
+    ).length,
+
+    cancelled: sessions.filter(
+      (s) => s.status === "cancelled"
+    ).length,
+  };
 }
