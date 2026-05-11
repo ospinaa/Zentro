@@ -250,7 +250,7 @@ export function SportsPage() {
                 </p>
 
                 <p>
-                  🕒 {e.eventTime}
+                  {e.eventTime}
                 </p>
 
                 {e.externalLink && (
