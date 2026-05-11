@@ -1,4 +1,3 @@
-// ─── src/services/profileService.ts ───────────────────────────────────────────
 
 import type { ProfileData } from '../pages/ProfilePage'
 
