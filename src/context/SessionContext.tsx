@@ -45,6 +45,24 @@ interface SessionContextValue {
       "id" | "status" | "createdAt"
     >
   ) => Promise<void>;
+
+  editSession: (
+    id: string,
+    fields: Partial<
+      Omit<
+        CalendarSession,
+        "id" | "createdAt"
+      >
+    >
+  ) => Promise<void>;
+
+  removeSession: (
+    id: string
+  ) => Promise<void>;
+
+  cancelSession: (
+    id: string
+  ) => Promise<void>;
 }
 
 // ── Context ───────────────────────────────────────────────────────────────────
@@ -123,6 +141,64 @@ export function SessionProvider({
     []
   );
 
+  // ── Editar sesión ──────────────────────────────────────────────────────────
+
+  const editSession = useCallback(
+    async (
+      id: string,
+      fields: Partial<
+        Omit<
+          CalendarSession,
+          "id" | "createdAt"
+        >
+      >
+    ) => {
+
+      const updated =
+        await sessionService.updateSession(
+          id,
+          fields
+        );
+
+      setSessions(updated);
+    },
+    []
+  );
+
+  // ── Eliminar sesión ────────────────────────────────────────────────────────
+
+  const removeSession = useCallback(
+    async (
+      id: string
+    ) => {
+
+      const updated =
+        await sessionService.deleteSession(
+          id
+        );
+
+      setSessions(updated);
+    },
+    []
+  );
+
+  // ── Cancelar sesión ────────────────────────────────────────────────────────
+
+  const cancelSession = useCallback(
+    async (
+      id: string
+    ) => {
+
+      const updated =
+        await sessionService.cancelSession(
+          id
+        );
+
+      setSessions(updated);
+    },
+    []
+  );
+
   // ── Datos derivados ────────────────────────────────────────────────────────
 
   const daysWithSessions =
@@ -159,6 +235,12 @@ export function SessionProvider({
           loadSessions,
 
         addSession,
+
+        editSession,
+
+        removeSession,
+
+        cancelSession,
       }}
     >
       {children}
