@@ -1,16 +1,7 @@
-
-// ─── src/pages/ProfilePage.tsx ────────────────────────────────────────────────
-// Ahora consume ProfileContext → el perfil persiste entre recargas
-// y las iniciales de la Navbar se sincronizan automáticamente.
-
-
 import { useProfile } from '../context/ProfileContexts'
-
-// ── Tipos exportados ──────────────────────────────────────────────────────────
 import { useEffect, useState } from "react";
 import { DashboardLayout } from "../layout/DashboardLayout";
 import { ProfileEditModal } from "../components/ProfileEditModal";
-
 
 export interface SocialLink {
   id: string
@@ -42,23 +33,18 @@ export interface ProfileData {
   sessions: Session[]
 }
 
-// ── Meta para redes sociales ──────────────────────────────────────────────────
-
-
 const SOCIAL_META: Record<string, { label: string; color: string }> = {
   whatsapp: { label: 'WhatsApp', color: '#25d366' },
-  github:   { label: 'GitHub',   color: '#1a1a2e' },
+  github: { label: 'GitHub', color: '#1a1a2e' },
   linkedin: { label: 'LinkedIn', color: '#0a66c2' },
-  discord:  { label: 'Discord',  color: '#5865f2' },
-  youtube:  { label: 'YouTube',  color: '#ff0000' },
-  other:    { label: 'Otro',     color: '#6b7280' },
+  discord: { label: 'Discord', color: '#5865f2' },
+  youtube: { label: 'YouTube', color: '#ff0000' },
+  other: { label: 'Otro', color: '#6b7280' },
 }
 
-// ── Página ────────────────────────────────────────────────────────────────────
-
 export function ProfilePage() {
-  // ← Estado y funciones vienen del context global
   const { profile, saveProfile, userInitials } = useProfile()
+
   const [editing, setEditing] = useState(false)
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
 
@@ -69,8 +55,6 @@ export function ProfilePage() {
   return (
     <DashboardLayout userInitials={userInitials}>
       <div className="pf-root">
-
-        {/* ── Botón toggle sidebar móvil ── */}
         <button
           className="pf-sidebar-toggle"
           type="button"
@@ -80,26 +64,35 @@ export function ProfilePage() {
           ☰
         </button>
 
-        {/* ── Sidebar móvil ── */}
         {mobileSidebarOpen && (
           <div
             className="pf-sidebar-overlay"
             onClick={() => setMobileSidebarOpen(false)}
           >
-            <nav className="pf-sidebar" onClick={(e) => e.stopPropagation()}>
+            <nav
+              className="pf-sidebar"
+              onClick={(e) => e.stopPropagation()}
+            >
               <div className="pf-sidebar__avatar">
                 {profile.photo ? (
-                  <img src={profile.photo} alt="avatar" className="pf-sidebar__img" />
+                  <img
+                    src={profile.photo}
+                    alt="avatar"
+                    className="pf-sidebar__img"
+                  />
                 ) : (
-                  <span className="pf-sidebar__initials">{userInitials}</span>
+                  <span className="pf-sidebar__initials">
+                    {userInitials}
+                  </span>
                 )}
               </div>
+
               {[
-                { label: 'Home',        icon: '🏠', href: '/home'    },
-                { label: 'Actividades', icon: '📅', href: '#'        },
-                { label: 'Sesiones',    icon: '🎓', href: '#'        },
-                { label: 'Monitores',   icon: '👥', href: '#'        },
-                { label: 'Perfil',      icon: '👤', href: '/profile' },
+                { label: 'Home', icon: '🏠', href: '/home' },
+                { label: 'Actividades', icon: '📅', href: '#' },
+                { label: 'Sesiones', icon: '🎓', href: '#' },
+                { label: 'Monitores', icon: '👥', href: '#' },
+                { label: 'Perfil', icon: '👤', href: '/profile' },
               ].map((item) => (
                 <a
                   key={item.label}
@@ -107,35 +100,61 @@ export function ProfilePage() {
                   className="pf-sidebar__item"
                   onClick={() => setMobileSidebarOpen(false)}
                 >
-                  <span className="pf-sidebar__icon">{item.icon}</span>
-                  <span className="pf-sidebar__label">{item.label}</span>
+                  <span className="pf-sidebar__icon">
+                    {item.icon}
+                  </span>
+
+                  <span className="pf-sidebar__label">
+                    {item.label}
+                  </span>
                 </a>
               ))}
-              <button className="pf-sidebar__add" type="button">+</button>
+
+              <button
+                className="pf-sidebar__add"
+                type="button"
+              >
+                +
+              </button>
             </nav>
           </div>
         )}
 
-        {/* ── Header card ── */}
         <div className="pf-card pf-header-card">
           <div className="pf-header-card__left">
             <div className="pf-avatar-wrap">
               {profile.photo ? (
-                <img src={profile.photo} alt="foto de perfil" className="pf-avatar" />
+                <img
+                  src={profile.photo}
+                  alt="foto de perfil"
+                  className="pf-avatar"
+                />
               ) : (
                 <div className="pf-avatar pf-avatar--placeholder">
                   <span>{userInitials}</span>
                 </div>
               )}
             </div>
+
             <div className="pf-identity">
               <h1 className="pf-name">{profile.name}</h1>
+
               <div className="pf-tags">
                 {profile.tags.map((tag) => (
-                  <span key={tag} className="pf-tag">{tag}</span>
+                  <span key={tag} className="pf-tag">
+                    {tag}
+                  </span>
                 ))}
-                <button className="pf-share-btn" type="button" title="Compartir">↗</button>
+
+                <button
+                  className="pf-share-btn"
+                  type="button"
+                  title="Compartir"
+                >
+                  ↗
+                </button>
               </div>
+
               <p className="pf-bio">{profile.bio}</p>
             </div>
           </div>
@@ -144,6 +163,7 @@ export function ProfilePage() {
             <div className="pf-socials">
               {profile.socials.map((s) => {
                 const meta = SOCIAL_META[s.platform]
+
                 return (
                   <a
                     key={s.id}
@@ -154,14 +174,12 @@ export function ProfilePage() {
                     style={{ background: meta.color }}
                     title={meta.label}
                   >
-
                     {meta.label[0]}
-
-
                   </a>
                 )
               })}
             </div>
+
             <button
               className="pf-edit-btn"
               type="button"
@@ -172,50 +190,79 @@ export function ProfilePage() {
           </div>
         </div>
 
-        {/* ── Servicios ── */}
         <section className="pf-section">
-          <h2 className="pf-section__title">Servicios que ofrezco</h2>
+          <h2 className="pf-section__title">
+            Servicios que ofrezco
+          </h2>
+
           <div className="pf-services-grid">
             {profile.services.map((svc) => (
-              <div key={svc.id} className="pf-service-card">
-                <span className="pf-service-card__icon">{svc.icon}</span>
-                <p className="pf-service-card__title">{svc.title}</p>
-                <p className="pf-service-card__desc">{svc.description}</p>
+              <div
+                key={svc.id}
+                className="pf-service-card"
+              >
+                <span className="pf-service-card__icon">
+                  {svc.icon}
+                </span>
+
+                <p className="pf-service-card__title">
+                  {svc.title}
+                </p>
+
+                <p className="pf-service-card__desc">
+                  {svc.description}
+                </p>
               </div>
             ))}
+
             {profile.services.length === 0 && (
-              <p className="pem-empty">Sin servicios aún. ¡Edita tu perfil!</p>
+              <p className="pem-empty">
+                Sin servicios aún. ¡Edita tu perfil!
+              </p>
             )}
           </div>
         </section>
 
-        {/* ── Sesiones ── */}
         <section className="pf-section">
           <h2 className="pf-section__title">Sesiones</h2>
+
           <div className="pf-sessions">
             {profile.sessions.map((ses) => (
-              <div key={ses.id} className="pf-session-card">
-                <span className="pf-session-card__icon">🗓</span>
+              <div
+                key={ses.id}
+                className="pf-session-card"
+              >
+                <span className="pf-session-card__icon">
+                  🗓
+                </span>
+
                 <div>
-                  <p className="pf-session-card__title">{ses.title}</p>
-                  <p className="pf-session-card__date">{ses.date} {ses.time}</p>
+                  <p className="pf-session-card__title">
+                    {ses.title}
+                  </p>
+
+                  <p className="pf-session-card__date">
+                    {ses.date} {ses.time}
+                  </p>
                 </div>
               </div>
             ))}
+
             {profile.sessions.length === 0 && (
-              <p className="pem-empty">Sin sesiones aún.</p>
+              <p className="pem-empty">
+                Sin sesiones aún.
+              </p>
             )}
           </div>
         </section>
       </div>
 
-      {/* ── Modal de edición ── */}
       {editing && (
         <ProfileEditModal
           profile={profile}
           onClose={() => setEditing(false)}
           onSave={(updated) => {
-            saveProfile(updated)   // ← persiste en localStorage vía context
+            saveProfile(updated)
             setEditing(false)
           }}
         />

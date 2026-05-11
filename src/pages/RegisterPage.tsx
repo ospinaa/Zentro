@@ -53,7 +53,7 @@ export function RegisterPage() {
 
       setSuccess('Account created successfully')
 
-      // limpiar formulario
+
       setForm({
         name: '',
         email: '',

@@ -19,7 +19,7 @@ export const registerUser = async (
     password
   );
 
-  // agregar nombre al usuario
+
   if (auth.currentUser) {
     await updateProfile(auth.currentUser, {
       displayName: name

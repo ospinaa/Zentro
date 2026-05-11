@@ -1,10 +1,4 @@
 
-// ─── src/pages/ProjectsPage.tsx ───────────────────────────────────────────────
-// Ahora consume el ProjectContext en lugar de manejar estado local.
-// Las funciones createProject, addTask, changeTaskStatus y moveTask
-// vienen del context y persisten automáticamente en localStorage.
-
-
 import { useEffect, useState } from 'react'
 import { DashboardLayout } from '../layout/DashboardLayout'
 import { ProjectCard } from '../components/ProjectCard'
@@ -13,7 +7,6 @@ import { useProjects } from '../context/ProjectContext'
 import { useProfile } from '../context/ProfileContexts'
 
 
-// ── Tipos exportados (los componentes los importan desde aquí) ────────────────
 
 export type TaskStatus = 'todo' | 'in-progress' | 'done'
 
@@ -31,7 +24,6 @@ export interface Project {
   progress: number
 }
 
-// ── Página ────────────────────────────────────────────────────────────────────
 
 export function ProjectsPage() {
   const { projects, createProject, addTask, changeTaskStatus, moveTask, removeTask } =
