@@ -67,7 +67,7 @@ export function ProjectProvider({ children }: { children: ReactNode }) {
     return () => window.removeEventListener('storage', onStorage)
   }, [])
 
-  // ── Funciones que delegan al servicio y sincronizan el estado ──
+
 
   const createProject = useCallback((name: string, description: string) => {
     projectService.addProject(name, description)
@@ -126,12 +126,7 @@ export function ProjectProvider({ children }: { children: ReactNode }) {
   )
 }
 
-// ── Hook ──────────────────────────────────────────────────────────────────────
 
-/**
- * useProjects — hook para consumir el ProjectContext.
- * Lanza error si se usa fuera del provider (ayuda en desarrollo).
- */
 export function useProjects(): ProjectContextValue {
   const ctx = useContext(ProjectContext)
   if (!ctx) {
