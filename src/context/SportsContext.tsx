@@ -1,16 +1,6 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  type ReactNode,
-} from "react";
-
+import { createContext, useContext, useEffect, useState, type ReactNode, } from "react";
 import * as sportsService from "../services/sportsService";
-
-import type {
-  SportsEvent,
-} from "../services/sportsService";
+import type { SportsEvent, } from "../services/sportsService";
 
 interface SportsContextValue {
 

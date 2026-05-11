@@ -180,7 +180,7 @@ export function SportsPage() {
             </div>
 
             <div className="auth-field">
-              <label>Link</label>
+              <label>Link o numero de contacto</label>
 
               <input
                 className="auth-input"
