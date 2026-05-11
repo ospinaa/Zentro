@@ -4,7 +4,6 @@
 // Las funciones createProject, addTask, changeTaskStatus y moveTask
 // vienen del context y persisten automáticamente en localStorage.
 
-=======
 
 import { useEffect, useState } from 'react'
 import { DashboardLayout } from '../layout/DashboardLayout'
