@@ -3,14 +3,10 @@
 // Ahora consume ProfileContext → el perfil persiste entre recargas
 // y las iniciales de la Navbar se sincronizan automáticamente.
 
-import { useEffect, useState } from 'react'
-import { DashboardLayout } from '../layout/DashboardLayout'
-import { ProfileEditModal } from '../components/ProfileEditModal'
+
 import { useProfile } from '../context/ProfileContexts'
 
-
 // ── Tipos exportados ──────────────────────────────────────────────────────────
-=======
 import { useEffect, useState } from "react";
 import { DashboardLayout } from "../layout/DashboardLayout";
 import { ProfileEditModal } from "../components/ProfileEditModal";
@@ -57,19 +53,6 @@ const SOCIAL_META: Record<string, { label: string; color: string }> = {
   youtube:  { label: 'YouTube',  color: '#ff0000' },
   other:    { label: 'Otro',     color: '#6b7280' },
 }
-=======
-const SOCIAL_META: Record<
-  string,
-  { label: string; color: string}
-> = {
-  whatsapp: { label: "WhatsApp", color: "#25d366" },
-  github: { label: "GitHub", color: "#1a1a2e" },
-  linkedin: { label: "LinkedIn", color: "#0a66c2" },
-  discord: { label: "Discord", color: "#5865f2" },
-  youtube: { label: "YouTube", color: "#ff0000" },
-  other: { label: "Otro", color: "#6b7280" },
-};
-
 
 // ── Página ────────────────────────────────────────────────────────────────────
 
@@ -173,7 +156,7 @@ export function ProfilePage() {
                   >
 
                     {meta.label[0]}
-=======
+
 
                   </a>
                 )
