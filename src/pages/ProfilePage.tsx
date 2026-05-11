@@ -79,6 +79,8 @@ export function ProfilePage() {
     document.title = 'Perfil · Zentro'
   }, [])
 
+  
+
   return (
     <DashboardLayout userInitials={userInitials}>
       <div className="pf-root">
