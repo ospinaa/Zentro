@@ -1,6 +1,3 @@
-// ─── src/context/ProfileContext.tsx ───────────────────────────────────────────
-// Context global del perfil de usuario.
-// Persiste automáticamente en localStorage y expone helpers tipados.
 
 import {
     createContext,
@@ -12,29 +9,29 @@ import {
   import type { ProfileData } from '../pages/ProfilePage'
   import * as profileService from '../services/profileService'
   
-  // ── Tipos ─────────────────────────────────────────────────────────────────────
+
   
   interface ProfileContextValue {
     profile: ProfileData
   
-    /** Reemplaza el perfil completo (viene del modal de edición). */
+
     saveProfile: (data: ProfileData) => void
   
-    /** Actualiza solo algunos campos del perfil. */
+
     patchProfile: (fields: Partial<ProfileData>) => void
   
-    /** Restablece el perfil al estado inicial. */
+   
     resetProfile: () => void
   
-    /** Iniciales para la navbar y el avatar. */
+  
     userInitials: string
   }
   
-  // ── Creación del context ──────────────────────────────────────────────────────
+
   
   const ProfileContext = createContext<ProfileContextValue | null>(null)
   
-  // ── Provider ──────────────────────────────────────────────────────────────────
+
   
   export function ProfileProvider({ children }: { children: ReactNode }) {
     const [profile, setProfile] = useState<ProfileData>(() =>
@@ -67,12 +64,7 @@ import {
     )
   }
   
-  // ── Hook ──────────────────────────────────────────────────────────────────────
-  
-  /**
-   * useProfile — hook para consumir el ProfileContext.
-   * Lanza error si se usa fuera del provider.
-   */
+
   export function useProfile(): ProfileContextValue {
     const ctx = useContext(ProfileContext)
     if (!ctx) {
