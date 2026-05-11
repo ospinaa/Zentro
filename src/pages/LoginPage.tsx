@@ -5,20 +5,30 @@ import { Button } from '../components/Button'
 import { Input } from '../components/Input'
 import { AuthLayout } from '../layout/AuthLayout'
 
+import { loginUser } from '../services/auth' // 
+
+
 export function LoginPage() {
   const navigate = useNavigate()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-
+  const [error, setError] = useState('') // 
+  
   useEffect(() => {
     document.title = 'Sign in · Zentro'
   }, [])
 
-  function handleSubmit(e: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    // Simulated sign-in until real auth (e.g. Firebase) is wired
-    console.log('Login submit', { email, password })
-    navigate('/home', { replace: true })
+    setError('')
+
+    try {
+      await loginUser(email, password)
+      navigate('/home', { replace: true })
+    } catch (err) {
+      console.error(err)
+      setError('Invalid email or password')
+    }
   }
 
   return (
@@ -40,6 +50,7 @@ export function LoginPage() {
             onChange={(ev) => setEmail(ev.target.value)}
             required
           />
+
           <Input
             id="login-password"
             name="password"
@@ -51,6 +62,13 @@ export function LoginPage() {
             onChange={(ev) => setPassword(ev.target.value)}
             required
           />
+
+
+          
+
+
+          {error && <p style={{ color: 'red', fontSize: '14px' }}>{error}</p>}
+
           <Button type="submit" variant="primary">
             Sign in
           </Button>

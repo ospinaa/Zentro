@@ -29,6 +29,13 @@ export function HomePage() {
           description="Join or create sports events"
           to="/sports"
         />
+        
+        <DashboardCard
+          title="Projects"
+          description="Manage tasks and track your progress"
+          to="/projects"
+          ctaLabel="Explore"
+        />
       </div>
     </DashboardLayout>
   )
