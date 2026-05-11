@@ -109,10 +109,20 @@ export function SessionProvider({
   const loadSessions = useCallback(
     async () => {
 
-      const data =
-        await sessionService.getSessions();
+      try {
 
-      setSessions(data);
+        const data =
+          await sessionService.getSessions();
+
+        setSessions(data);
+
+      } catch (error) {
+
+        console.error(
+          "Error cargando sesiones:",
+          error
+        );
+      }
     },
     []
   );
@@ -131,12 +141,22 @@ export function SessionProvider({
       >
     ) => {
 
-      const updated =
-        await sessionService.addSession(
-          data
-        );
+      try {
 
-      setSessions(updated);
+        const updated =
+          await sessionService.addSession(
+            data
+          );
+
+        setSessions(updated);
+
+      } catch (error) {
+
+        console.error(
+          "Error creando sesión:",
+          error
+        );
+      }
     },
     []
   );
@@ -154,13 +174,23 @@ export function SessionProvider({
       >
     ) => {
 
-      const updated =
-        await sessionService.updateSession(
-          id,
-          fields
-        );
+      try {
 
-      setSessions(updated);
+        const updated =
+          await sessionService.updateSession(
+            id,
+            fields
+          );
+
+        setSessions(updated);
+
+      } catch (error) {
+
+        console.error(
+          "Error editando sesión:",
+          error
+        );
+      }
     },
     []
   );
@@ -172,12 +202,22 @@ export function SessionProvider({
       id: string
     ) => {
 
-      const updated =
-        await sessionService.deleteSession(
-          id
-        );
+      try {
 
-      setSessions(updated);
+        const updated =
+          await sessionService.deleteSession(
+            id
+          );
+
+        setSessions(updated);
+
+      } catch (error) {
+
+        console.error(
+          "Error eliminando sesión:",
+          error
+        );
+      }
     },
     []
   );
@@ -189,12 +229,22 @@ export function SessionProvider({
       id: string
     ) => {
 
-      const updated =
-        await sessionService.cancelSession(
-          id
-        );
+      try {
 
-      setSessions(updated);
+        const updated =
+          await sessionService.cancelSession(
+            id
+          );
+
+        setSessions(updated);
+
+      } catch (error) {
+
+        console.error(
+          "Error cancelando sesión:",
+          error
+        );
+      }
     },
     []
   );
