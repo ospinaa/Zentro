@@ -1,40 +1,176 @@
 // ─── src/services/profileService.ts ───────────────────────────────────────────
 
-import type { ProfileData } from '../pages/ProfilePage'
+import { supabase } from "./supabase";
+import { auth } from "./firebase";
 
-const STORAGE_KEY = 'zentro_profile'
+import type {
+  ProfileData,
+} from "../pages/ProfilePage";
+
+// ── Perfil por defecto ────────────────────────────────────────────────────────
 
 const DEFAULT_PROFILE: ProfileData = {
-  name: 'Tu Nombre',
-  bio: 'Escribe algo sobre ti...',
+
+  name: "",
+
+  bio: "",
+
   photo: null,
-  tags: ['DMI', 'COM'],
+
+  tags: [],
+
   socials: [],
+
   services: [],
+
   sessions: [],
+};
+
+// ── Obtener perfil actual ────────────────────────────────────────────────────
+
+export async function getProfile(): Promise<ProfileData> {
+
+  const user = auth.currentUser;
+
+  if (!user) {
+    return DEFAULT_PROFILE;
+  }
+
+  const { data, error } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("firebase_uid", user.uid)
+    .single();
+
+  // ── Si NO existe → crearlo automáticamente ────────────────────────────────
+
+  if (error || !data) {
+
+    await createProfile();
+
+    return {
+      ...DEFAULT_PROFILE,
+
+      name: user.displayName || "",
+    };
+  }
+
+  return {
+    name: data.name || "",
+
+    bio: data.bio || "",
+
+    photo: data.photo || null,
+
+    tags: data.tags || [],
+
+    socials: data.socials || [],
+
+    services: data.services || [],
+
+    sessions: data.sessions || [],
+  };
 }
 
-export function getProfile(): ProfileData {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    return raw ? (JSON.parse(raw) as ProfileData) : DEFAULT_PROFILE
-  } catch {
-    return DEFAULT_PROFILE
+// ── Crear perfil automático ──────────────────────────────────────────────────
+
+export async function createProfile() {
+
+  const user = auth.currentUser;
+
+  if (!user) return;
+
+  const { error } = await supabase
+    .from("profiles")
+    .insert([
+      {
+        firebase_uid: user.uid,
+
+        name: user.displayName || "",
+
+        bio: "",
+
+        photo: null,
+
+        tags: [],
+
+        socials: [],
+
+        services: [],
+
+        sessions: [],
+      },
+    ]);
+
+  if (error) {
+    console.error(
+      "Error creando perfil:",
+      error
+    );
   }
 }
 
-export function saveProfile(profile: ProfileData): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(profile))
+// ── Guardar perfil completo ──────────────────────────────────────────────────
+
+export async function saveProfile(
+  profile: ProfileData
+): Promise<void> {
+
+  const user = auth.currentUser;
+
+  if (!user) return;
+
+  const { error } = await supabase
+    .from("profiles")
+    .update({
+      name: profile.name,
+
+      bio: profile.bio,
+
+      photo: profile.photo,
+
+      tags: profile.tags,
+
+      socials: profile.socials,
+
+      services: profile.services,
+
+      sessions: profile.sessions,
+    })
+    .eq("firebase_uid", user.uid);
+
+  if (error) {
+    console.error(
+      "Error guardando perfil:",
+      error
+    );
+  }
 }
 
-export function updateProfile(fields: Partial<ProfileData>): ProfileData {
-  const current = getProfile()
-  const updated = { ...current, ...fields }
-  saveProfile(updated)
-  return updated
+// ── Actualizar parcialmente ──────────────────────────────────────────────────
+
+export async function updateProfile(
+  fields: Partial<ProfileData>
+): Promise<ProfileData> {
+
+  const current =
+    await getProfile();
+
+  const updated = {
+    ...current,
+    ...fields,
+  };
+
+  await saveProfile(updated);
+
+  return updated;
 }
 
-export function resetProfile(): ProfileData {
-  saveProfile(DEFAULT_PROFILE)
-  return DEFAULT_PROFILE
+// ── Reset ────────────────────────────────────────────────────────────────────
+
+export async function resetProfile(): Promise<ProfileData> {
+
+  await saveProfile(DEFAULT_PROFILE);
+
+  return DEFAULT_PROFILE;
 }
