@@ -212,3 +212,105 @@ export function getSessionStats(
     ).length,
   };
 }
+
+// ── Editar sesión ─────────────────────────────────────────────────────────────
+
+export async function updateSession(
+  id: string,
+  fields: Partial<
+    Omit<
+      CalendarSession,
+      "id" | "createdAt"
+    >
+  >
+): Promise<CalendarSession[]> {
+
+  const updateData: any = {};
+
+  if (fields.title !== undefined) {
+    updateData.title = fields.title;
+  }
+
+  if (fields.description !== undefined) {
+    updateData.description =
+      fields.description;
+  }
+
+  if (fields.date !== undefined) {
+    updateData.date = fields.date;
+  }
+
+  if (fields.startTime !== undefined) {
+    updateData.start_time =
+      fields.startTime;
+  }
+
+  if (fields.endTime !== undefined) {
+    updateData.end_time =
+      fields.endTime;
+  }
+
+  if (fields.status !== undefined) {
+    updateData.status =
+      fields.status;
+  }
+
+  if (fields.tags !== undefined) {
+    updateData.tags =
+      fields.tags;
+  }
+
+  if (fields.location !== undefined) {
+    updateData.location =
+      fields.location;
+  }
+
+  const { error } = await supabase
+    .from("sessions")
+    .update(updateData)
+    .eq("id", id);
+
+  if (error) {
+    console.error(
+      "Error editando sesión:",
+      error
+    );
+  }
+
+  return await getSessions();
+}
+
+// ── Eliminar sesión ───────────────────────────────────────────────────────────
+
+export async function deleteSession(
+  id: string
+): Promise<CalendarSession[]> {
+
+  const { error } = await supabase
+    .from("sessions")
+    .delete()
+    .eq("id", id);
+
+  if (error) {
+    console.error(
+      "Error eliminando sesión:",
+      error
+    );
+  }
+
+  return await getSessions();
+}
+
+// ── Cancelar sesión ───────────────────────────────────────────────────────────
+
+export async function cancelSession(
+  id: string
+): Promise<CalendarSession[]> {
+
+  return await updateSession(
+    id,
+    {
+      status: "cancelled",
+    }
+  );
+}
