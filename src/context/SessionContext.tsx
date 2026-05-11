@@ -1,6 +1,3 @@
-// ─── src/context/SessionContext.tsx ───────────────────────────────────────────
-// Context global para el calendario de sesiones.
-// Expone CRUD completo y la fecha seleccionada actualmente en el calendario.
 
 import {
     createContext,
@@ -12,24 +9,24 @@ import {
   import type { CalendarSession, SessionStatus } from '../services/sessionService'
   import * as sessionService from '../services/sessionService'
   
-  // ── Tipos ─────────────────────────────────────────────────────────────────────
+
   
   interface SessionContextValue {
     sessions: CalendarSession[]
   
-    /** Fecha actualmente seleccionada en el calendario (ISO: 'YYYY-MM-DD'). */
+
     selectedDate: string
   
-    /** Mes visible en el calendario (ISO: 'YYYY-MM'). */
+
     currentMonth: string
   
     setSelectedDate: (date: string) => void
     setCurrentMonth: (month: string) => void
   
-    /** Días del mes visible que tienen sesiones. */
+
     daysWithSessions: Set<string>
   
-    /** Sesiones del día seleccionado. */
+
     sessionsOfDay: CalendarSession[]
   
     addSession: (data: Omit<CalendarSession, 'id' | 'status' | 'createdAt'>) => void
@@ -38,12 +35,10 @@ import {
     cancelSession: (id: string) => void
   }
   
-  // ── Context ───────────────────────────────────────────────────────────────────
+
   
   const SessionContext = createContext<SessionContextValue | null>(null)
-  
-  // ── Helpers de fecha ──────────────────────────────────────────────────────────
-  
+    
   function todayISO(): string {
     return new Date().toISOString().slice(0, 10)
   }
@@ -52,7 +47,6 @@ import {
     return new Date().toISOString().slice(0, 7)
   }
   
-  // ── Provider ──────────────────────────────────────────────────────────────────
   
   export function SessionProvider({ children }: { children: ReactNode }) {
     const [sessions, setSessions] = useState<CalendarSession[]>(() =>
@@ -107,7 +101,6 @@ import {
     )
   }
   
-  // ── Hook ──────────────────────────────────────────────────────────────────────
   
   export function useSessions(): SessionContextValue {
     const ctx = useContext(SessionContext)
