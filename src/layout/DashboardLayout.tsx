@@ -12,7 +12,20 @@ export function DashboardLayout({
   userInitials,
 }: DashboardLayoutProps) {
 
-  const { profile } = useProfile()
+  const { profile, profileLoading } = useProfile()
+
+  // Mientras el perfil aún está cargando desde Supabase,
+  // no renderizamos nada para evitar mostrar datos vacíos/mockeados.
+  if (profileLoading) {
+    return (
+      <div className="dash-layout">
+        <div className="dash-loading">
+          {/* Puedes reemplazar esto con un spinner o skeleton de tu diseño */}
+          <span>Cargando...</span>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="dash-layout">

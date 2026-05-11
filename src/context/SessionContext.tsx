@@ -15,6 +15,8 @@ import type {
 
 import * as sessionService from "../services/sessionService";
 
+import { useAuth } from "./AuthContext";
+
 // ── Tipos ─────────────────────────────────────────────────────────────────────
 
 interface SessionContextValue {
@@ -94,6 +96,9 @@ export function SessionProvider({
   children: ReactNode;
 }) {
 
+  // NUEVO: esperar a que Firebase resuelva la autenticación
+  const { user, loading } = useAuth();
+
   const [sessions, setSessions] = useState<
     CalendarSession[]
   >([]);
@@ -108,6 +113,12 @@ export function SessionProvider({
 
   const loadSessions = useCallback(
     async () => {
+
+      // No cargar si no hay usuario autenticado
+      if (!user) {
+        setSessions([]);
+        return;
+      }
 
       try {
 
@@ -124,12 +135,17 @@ export function SessionProvider({
         );
       }
     },
-    []
+    [user]
   );
 
+  // NUEVO: solo cargar sesiones cuando Firebase haya confirmado el usuario
   useEffect(() => {
+
+    if (loading) return;
+
     loadSessions();
-  }, [loadSessions]);
+
+  }, [loading, user, loadSessions]);
 
   // ── Crear sesión ───────────────────────────────────────────────────────────
 
