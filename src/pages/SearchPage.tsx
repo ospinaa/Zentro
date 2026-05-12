@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
 
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -12,9 +16,9 @@ import { useProfile } from '../context/ProfileContexts'
 
 
 const KIND_LABELS: Record<ResultKind, string> = {
-  project: '📁 Proyecto',
-  task:    '✅ Tarea',
-  session: '🗓 Sesión',
+  project: 'Proyecto',
+  task:    'Tarea',
+  session: 'Sesión',
 }
 
 const TASK_STATUS_OPTS: { value: TaskStatus | 'all'; label: string }[] = [
@@ -99,7 +103,10 @@ export function SearchPage() {
           <p className="dash-hero__subtitle">Proyectos, tareas y sesiones en un solo lugar</p>
         </div>
 
+<<<<<<< HEAD
        
+=======
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
         <div className="sr-search-bar">
           <span className="sr-search-bar__icon">🔍</span>
           <input
@@ -117,7 +124,10 @@ export function SearchPage() {
 
         <div className="sr-body">
 
+<<<<<<< HEAD
           
+=======
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
           <aside className="sr-filters">
             <div className="sr-filters__group">
               <p className="sr-filters__label">Tipo de resultado</p>
@@ -184,7 +194,10 @@ export function SearchPage() {
             </button>
           </aside>
 
+<<<<<<< HEAD
           
+=======
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
           <div className="sr-results">
             {isSearching && (
               <p className="sr-results__info">Buscando…</p>

@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
 
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth"; 

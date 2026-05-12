@@ -1,10 +1,14 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import type { Project, TaskStatus } from '../pages/ProjectsPage'
-import type { CalendarSession, SessionStatus } from '../services/sessionService'
+import type { Project } from '../pages/ProjectsPage'
+import type { CalendarSession } from '../services/sessionService'
 import {
   search,
-  type ResultKind,
+
   type SearchFilters,
   type SearchResult,
 } from '../services/searchService'
@@ -49,7 +53,10 @@ export function useSearch({
   const [isSearching, setIsSearching]  = useState(false)
   const [filters, setFilters]          = useState<SearchFilters>(DEFAULT_FILTERS)
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
 
   useEffect(() => {
     if (query === debouncedQuery) return
@@ -61,7 +68,10 @@ export function useSearch({
     return () => clearTimeout(t)
   }, [query, debouncedQuery, debounceMs])
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
 
   const setQuery = useCallback((q: string) => {
     setQueryRaw(q)

@@ -26,7 +26,7 @@ export interface Project {
 
 
 export function ProjectsPage() {
-  const { projects, createProject, addTask, changeTaskStatus, moveTask, removeTask } =
+  const { projects, createProject, addTask, changeTaskStatus, moveTask } =
     useProjects()
   const { userInitials } = useProfile()
   const [showModal, setShowModal] = useState(false)

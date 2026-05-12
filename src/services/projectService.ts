@@ -1,11 +1,23 @@
+<<<<<<< HEAD
+=======
+
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
 import type { Project, Task, TaskStatus } from '../pages/ProjectsPage'
 
 const STORAGE_KEY = 'zentro_projects'
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
 export function uid(): string {
   return Math.random().toString(36).slice(2, 9)
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
 export function calcProgress(tasks: Task[]): number {
   if (tasks.length === 0) return 0
 
@@ -14,6 +26,10 @@ export function calcProgress(tasks: Task[]): number {
   return Math.round((done / tasks.length) * 100)
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
 export function getProjects(): Project[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
@@ -28,10 +44,15 @@ function saveProjects(projects: Project[]): void {
   localStorage.setItem(STORAGE_KEY, JSON.stringify(projects))
 }
 
+<<<<<<< HEAD
 export function addProject(
   name: string,
   description: string
 ): Project {
+=======
+
+export function addProject(name: string, description: string): Project {
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
   const project: Project = {
     id: uid(),
     name,
@@ -68,6 +89,7 @@ export function updateProject(
   return projects
 }
 
+<<<<<<< HEAD
 export function addTask(
   projectId: string,
   title: string
@@ -78,6 +100,11 @@ export function addTask(
     status: 'todo'
   }
 
+=======
+
+export function addTask(projectId: string, title: string): Project[] {
+  const newTask: Task = { id: uid(), title, status: 'todo' }
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
   const projects = getProjects().map((p) => {
     if (p.id !== projectId) return p
 
@@ -95,6 +122,10 @@ export function addTask(
   return projects
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
 export function updateTask(
   projectId: string,
   taskId: string,
@@ -119,10 +150,14 @@ export function updateTask(
   return projects
 }
 
+<<<<<<< HEAD
 export function deleteTask(
   projectId: string,
   taskId: string
 ): Project[] {
+=======
+export function deleteTask(projectId: string, taskId: string): Project[] {
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
   const projects = getProjects().map((p) => {
     if (p.id !== projectId) return p
 
@@ -142,6 +177,10 @@ export function deleteTask(
   return projects
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
 export function moveTask(
   projectId: string,
   fromIndex: number,
@@ -164,6 +203,10 @@ export function moveTask(
   return projects
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
 export function getProjectStats(project: Project) {
   const total = project.tasks.length
 

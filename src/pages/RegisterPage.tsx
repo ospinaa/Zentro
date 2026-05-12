@@ -53,7 +53,10 @@ export function RegisterPage() {
 
       setSuccess('Account created successfully')
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
       setForm({
         name: '',
         email: '',

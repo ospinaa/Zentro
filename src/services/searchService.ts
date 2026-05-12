@@ -1,12 +1,21 @@
+<<<<<<< HEAD
 import type { Project, Task, TaskStatus } from '../pages/ProjectsPage'
 import type { CalendarSession, SessionStatus } from './sessionService'
 
+=======
+
+import type { Project, Task, TaskStatus } from '../pages/ProjectsPage'
+import type { CalendarSession, SessionStatus } from './sessionService'
+
+
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
 export type ResultKind = 'project' | 'task' | 'session'
 
 export interface SearchResult {
   kind: ResultKind
   id: string
   title: string
+<<<<<<< HEAD
   subtitle: string
   status?: string
   tags?: string[]
@@ -33,6 +42,34 @@ function scoreText(
 
   if (!q) return 1
 
+=======
+  subtitle: string      
+  status?: string
+  tags?: string[]
+  score: number         
+  payload: Project | Task | CalendarSession
+}
+
+
+export interface SearchFilters {
+  query: string
+
+  taskStatus?: TaskStatus | 'all'
+
+  
+  sessionStatus?: SessionStatus | 'all'
+  dateFrom?: string   
+  dateTo?: string
+
+  tags?: string[]     
+  kinds?: ResultKind[] 
+}
+
+
+function scoreText(query: string, title: string, extra: string = ''): number {
+  const q = query.toLowerCase().trim()
+  if (!q) return 1  
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
   const t = title.toLowerCase()
   const e = extra.toLowerCase()
 
@@ -68,6 +105,10 @@ function inDateRange(
   return true
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
 export function search(
   projects: Project[],
   sessions: CalendarSession[],
@@ -95,7 +136,11 @@ export function search(
       )
 
       if (!score) continue
+<<<<<<< HEAD
       if (!matchesTags([], tags)) continue
+=======
+      if (!matchesTags([], tags)) continue  
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
 
       results.push({
         kind: 'project',
@@ -189,6 +234,10 @@ export function search(
   return results.sort((a, b) => b.score - a.score)
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> a26aa50691b5e80f70ab39b91744990bcbc72a30
 export function quickSearch(
   projects: Project[],
   sessions: CalendarSession[],
