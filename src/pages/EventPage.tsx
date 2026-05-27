@@ -156,3 +156,50 @@ export function EventPage({
                   />
                 </div>
               </div>
+
+              <div className="pm-footer">
+                <button className="auth-btn auth-btn--secondary" onClick={resetForm}>
+                  Cancelar
+                </button>
+                <button
+                  className="auth-btn auth-btn--primary"
+                  onClick={handleSubmit}
+                  disabled={submitting || !form.title.trim()}
+                >
+                  {submitting ? 'Guardando…' : editingId ? 'Guardar cambios' : 'Publicar'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* ── Events grid ── */}
+        {events.length === 0 ? (
+          <div className="ep-empty">
+            <span className="ep-empty__icon">{icon}</span>
+            <p>No hay eventos aún. ¡Sé el primero en publicar!</p>
+            <button className="proj-page__new-btn" onClick={openCreate}>
+              + Publicar evento
+            </button>
+          </div>
+        ) : (
+          <div className="ep-grid">
+            {events.map(ev => {
+              const isOwner = auth.currentUser?.uid === ev.firebase_uid
+              return (
+                <div
+                  key={ev.id}
+                  className="ep-card"
+                  style={{ '--ep-accent': accentColor } as React.CSSProperties}
+                >
+                  <div className="ep-card__top">
+                    <h3 className="ep-card__title">{ev.title}</h3>
+                    {ev.eventTime && (
+                      <span className="ep-card__time">🕒 {ev.eventTime}</span>
+                    )}
+                  </div>
+
+                  {ev.description && (
+                    <p className="ep-card__desc">{ev.description}</p>
+                  )}
+
