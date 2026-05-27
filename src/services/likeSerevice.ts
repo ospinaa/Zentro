@@ -41,3 +41,33 @@ export async function getLikes(
 
   return { count: count ?? 0, likedByMe }
 }
+
+/** Toggle like: si ya existe lo borra, si no existe lo crea */
+export async function toggleLike(
+  eventId: string,
+  eventType: EventType,
+): Promise<LikeState> {
+  const uid = auth.currentUser?.uid
+  if (!uid) throw new Error('No autenticado')
+
+  const { data: existing } = await supabase
+    .from('event_likes')
+    .select('id')
+    .eq('event_id', eventId)
+    .eq('event_type', eventType)
+    .eq('firebase_uid', uid)
+    .maybeSingle()
+
+  if (existing) {
+    await supabase.from('event_likes').delete().eq('id', existing.id)
+  } else {
+    await supabase.from('event_likes').insert([{
+      firebase_uid: uid,
+      event_id: eventId,
+      event_type: eventType,
+    }])
+  }
+
+  return getLikes(eventId, eventType)
+}
+
