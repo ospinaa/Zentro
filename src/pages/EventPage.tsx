@@ -203,3 +203,41 @@ export function EventPage({
                     <p className="ep-card__desc">{ev.description}</p>
                   )}
 
+                  <div className="ep-card__actions">
+                    {ev.externalLink && (
+                      <a
+                        href={ev.externalLink}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="ep-card__link-btn"
+                      >
+                        {linkLabel} ↗
+                      </a>
+                    )}
+
+                    {isOwner && (
+                      <div className="ep-card__owner-actions">
+                        <button
+                          className="cal-action-btn cal-action-btn--edit"
+                          onClick={() => openEdit(ev)}
+                        >
+                          Editar
+                        </button>
+                        <button
+                          className="cal-action-btn cal-action-btn--delete"
+                          onClick={() => onRemove(ev.id)}
+                        >
+                          Eliminar
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
+      </div>
+    </DashboardLayout>
+  )
+}
