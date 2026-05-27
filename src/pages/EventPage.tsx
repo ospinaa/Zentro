@@ -106,3 +106,53 @@ export function EventPage({
           </button>
         </div>
 
+        {/* ── Form modal ── */}
+        {showForm && (
+          <div className="pm-overlay" role="dialog" aria-modal="true">
+            <div className="pm-panel">
+              <div className="pm-header">
+                <h2 className="pm-title">
+                  {editingId ? 'Editar evento' : 'Nuevo evento'}
+                </h2>
+                <button className="pm-close" type="button" onClick={resetForm}>✕</button>
+              </div>
+
+              <div className="pm-body">
+                <div className="auth-field">
+                  <label className="auth-label">Título *</label>
+                  <input
+                    className="auth-input"
+                    placeholder="Nombre del evento"
+                    value={form.title}
+                    onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
+                  />
+                </div>
+                <div className="auth-field">
+                  <label className="auth-label">Descripción</label>
+                  <textarea
+                    className="auth-input pm-textarea"
+                    rows={3}
+                    placeholder="¿De qué trata el evento?"
+                    value={form.description}
+                    onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
+                  />
+                </div>
+                <div className="auth-field">
+                  <label className="auth-label">Hora</label>
+                  <input
+                    type="time"
+                    className="auth-input"
+                    value={form.eventTime}
+                    onChange={e => setForm(f => ({ ...f, eventTime: e.target.value }))}
+                  />
+                </div>
+                <div className="auth-field">
+                  <label className="auth-label">Link / Contacto</label>
+                  <input
+                    className="auth-input"
+                    placeholder="https://... o número de contacto"
+                    value={form.externalLink}
+                    onChange={e => setForm(f => ({ ...f, externalLink: e.target.value }))}
+                  />
+                </div>
+              </div>
