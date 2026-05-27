@@ -87,3 +87,22 @@ export function EventPage({
     }
   }
 
+  return (
+    <DashboardLayout>
+      <div className="ep-page">
+        {/* ── Header ── */}
+        <div className="ep-header">
+          <div>
+            <h1 className="ep-header__title">
+              <span className="ep-header__icon">{icon}</span>
+              {pageTitle}
+            </h1>
+            <p className="ep-header__sub">
+              {events.length} evento{events.length !== 1 ? 's' : ''} publicado{events.length !== 1 ? 's' : ''}
+            </p>
+          </div>
+          <button className="proj-page__new-btn" onClick={openCreate}>
+            + Publicar evento
+          </button>
+        </div>
+
