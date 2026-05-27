@@ -71,3 +71,27 @@ export async function toggleLike(
   return getLikes(eventId, eventType)
 }
 
+/** Carga los likes de múltiples eventos en una sola query */
+export async function getBulkLikes(
+  eventIds: string[],
+  eventType: EventType,
+): Promise<Record<string, LikeState>> {
+  if (eventIds.length === 0) return {}
+  const uid = auth.currentUser?.uid ?? null
+
+  const { data: allLikes } = await supabase
+    .from('event_likes')
+    .select('event_id, firebase_uid')
+    .in('event_id', eventIds)
+    .eq('event_type', eventType)
+
+  const result: Record<string, LikeState> = {}
+  for (const id of eventIds) {
+    const rows = allLikes?.filter(r => r.event_id === id) ?? []
+    result[id] = {
+      count: rows.length,
+      likedByMe: uid ? rows.some(r => r.firebase_uid === uid) : false,
+    }
+  }
+  return result
+}
