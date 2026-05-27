@@ -45,6 +45,15 @@ export function Navbar({
       </nav>
 
       <div className="dash-nav__actions">
+        <Link
+          to="/profile"
+          className="dash-nav__avatar"
+          title="Profile"
+          aria-label="View profile"
+        >
+          {userInitials.slice(0, 2).toUpperCase()}
+        </Link>
+        <button type="button" className="dash-nav__logout" onClick={handleLogout}>
 
         <Link
           to="/profile"
