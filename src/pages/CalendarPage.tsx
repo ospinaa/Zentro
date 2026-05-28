@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react'
 import { DashboardLayout } from '../layout/DashboardLayout'
 import { useSessions } from '../context/SessionContext'
@@ -299,17 +298,10 @@ export function CalendarPage() {
 
 
         <div className="cal-header">
-
-          <div>
-
-            <h1 className="dash-hero__title">
-              Calendario
-            </h1>
-
-            <p className="dash-hero__subtitle">
-              Gestiona tus sesiones
-            </p>
-
+          <div className="cal-header__text">
+            <p className="cal-header__eyebrow">Organización</p>
+            <h1 className="cal-header__title">Calendario</h1>
+            <p className="cal-header__subtitle">Visualiza y organiza todas tus sesiones programadas.</p>
           </div>
 
           <button
