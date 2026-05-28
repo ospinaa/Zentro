@@ -1,3 +1,5 @@
+// ─── src/pages/AcademicPage.tsx ──────────────────────────────────────────────
+
 import { useEffect, useState } from "react";
 import { DashboardLayout } from "../layout/DashboardLayout";
 
@@ -43,11 +45,8 @@ export function AcademicPage() {
 
     const payload = {
       title,
-
       description,
-
       eventTime,
-
       externalLink,
     };
 
@@ -105,20 +104,29 @@ export function AcademicPage() {
   return (
     <DashboardLayout>
 
-      <div className="dash-placeholder">
+      <div className="dash-page">
 
-        <div
-          style={{
-            display: "flex",
-            justifyContent:
-              "space-between",
-            alignItems: "center",
-            marginBottom: "20px",
-          }}
-        >
-          <h1 className="dash-placeholder__title">
-            Academic Exchange
-          </h1>
+        {/* ───────────────── HERO ───────────────── */}
+
+        <div className="dash-hero academic-hero">
+
+          <div>
+
+            <p className="dash-hero__eyebrow">
+              Comunidad académica
+            </p>
+
+            <h1 className="dash-hero__title">
+              Academic Exchange
+            </h1>
+
+            <p className="dash-hero__subtitle">
+              Comparte conocimiento,
+              publica eventos académicos
+              y conecta con estudiantes.
+            </p>
+
+          </div>
 
           <button
             className="proj-page__new-btn"
@@ -130,13 +138,23 @@ export function AcademicPage() {
           </button>
         </div>
 
+        {/* ───────────────── FORM ───────────────── */}
 
         {showForm && (
 
-          <div className="pm-panel">
+          <div className="event-form-card">
+
+            <h2 className="event-form-card__title">
+              {editingId
+                ? "Editar evento"
+                : "Nuevo evento académico"}
+            </h2>
 
             <div className="auth-field">
-              <label>Título</label>
+
+              <label className="auth-label">
+                Título
+              </label>
 
               <input
                 className="auth-input"
@@ -150,12 +168,14 @@ export function AcademicPage() {
             </div>
 
             <div className="auth-field">
-              <label>
+
+              <label className="auth-label">
                 Descripción
               </label>
 
               <textarea
                 className="auth-input"
+                rows={4}
                 value={description}
                 onChange={(e) =>
                   setDescription(
@@ -166,7 +186,10 @@ export function AcademicPage() {
             </div>
 
             <div className="auth-field">
-              <label>Hora</label>
+
+              <label className="auth-label">
+                Hora
+              </label>
 
               <input
                 type="time"
@@ -181,7 +204,10 @@ export function AcademicPage() {
             </div>
 
             <div className="auth-field">
-              <label>Link</label>
+
+              <label className="auth-label">
+                Link
+              </label>
 
               <input
                 className="auth-input"
@@ -195,13 +221,8 @@ export function AcademicPage() {
               />
             </div>
 
-            <div
-              style={{
-                display: "flex",
-                gap: "10px",
-                marginTop: "20px",
-              }}
-            >
+            <div className="event-form-card__actions">
+
               <button
                 className="auth-btn auth-btn--primary"
                 onClick={handleSubmit}
@@ -217,18 +238,15 @@ export function AcademicPage() {
               >
                 Cancelar
               </button>
+
             </div>
           </div>
         )}
 
+        {/* ───────────────── EVENTS ───────────────── */}
 
-        <div
-          style={{
-            display: "grid",
-            gap: "20px",
-            marginTop: "30px",
-          }}
-        >
+        <div className="events-grid">
+
           {events.map((e) => {
 
             const isOwner =
@@ -239,43 +257,51 @@ export function AcademicPage() {
 
               <div
                 key={e.id}
-                className="pf-service-card"
+                className="event-card"
               >
-                <h3>
-                  {e.title}
-                </h3>
 
-                <p>
-                  {e.description}
-                </p>
+                <div className="event-card__top">
 
-                <p>
-                  🕒 {e.eventTime}
-                </p>
+                  <div className="event-card__icon">
+                    🎓
+                  </div>
 
-                {e.externalLink && (
-                  <a
-                    href={e.externalLink}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    <button
-                      className="auth-btn auth-btn--primary"
+                  <div className="event-card__content">
+
+                    <h3 className="event-card__title">
+                      {e.title}
+                    </h3>
+
+                    <p className="event-card__description">
+                      {e.description}
+                    </p>
+
+                  </div>
+                </div>
+
+                <div className="event-card__footer">
+
+                  <div className="event-card__time">
+                    🕒 {e.eventTime}
+                  </div>
+
+                  {e.externalLink && (
+                    <a
+                      href={e.externalLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="event-card__link"
                     >
-                      Más info por este medio
-                    </button>
-                  </a>
-                )}
+                      Más info
+                    </a>
+                  )}
+
+                </div>
 
                 {isOwner && (
 
-                  <div
-                    style={{
-                      display: "flex",
-                      gap: "10px",
-                      marginTop: "15px",
-                    }}
-                  >
+                  <div className="event-card__actions">
+
                     <button
                       className="auth-btn auth-btn--secondary"
                       onClick={() =>
@@ -295,6 +321,7 @@ export function AcademicPage() {
                     >
                       Eliminar
                     </button>
+
                   </div>
                 )}
               </div>

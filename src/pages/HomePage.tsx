@@ -2,7 +2,6 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 
-import { DashboardCard } from '../components/DashboardCard'
 import { DashboardLayout } from '../layout/DashboardLayout'
 import { useProfile } from '../context/ProfileContexts'
 import { useSessions } from '../context/SessionContext'
@@ -64,8 +63,9 @@ export function HomePage() {
   useEffect(() => { document.title = 'Home · Zentro' }, [])
 
   return (
-    <DashboardLayout>
+    <DashboardLayout userInitials={userInitials}>
       <div className="home-page">
+
         {/* ── Hero ── */}
         <div className="home-hero">
           <div className="home-hero__text">
@@ -73,7 +73,6 @@ export function HomePage() {
             <h1 className="home-hero__name">{firstName} 👋</h1>
             <p className="home-hero__sub">Aquí está tu resumen de hoy</p>
           </div>
-
           <div className="home-stats">
             <StatPill value={upcomingSessions} label="Sesiones próximas" color="#3b5bdb" />
             <StatPill value={activeTasks}      label="Tareas activas"    color="#7c3aed" />
@@ -81,19 +80,15 @@ export function HomePage() {
           </div>
         </div>
 
-    <DashboardLayout userInitials="U">
-      <div className="dash-hero">
-        <h1 className="dash-hero__title">Welcome to ZENTRO</h1>
-        <p className="dash-hero__subtitle">Connect, learn and play</p>
-        <Link to="/profile" className="dash-hero__profile-link">
-          View profile
-        </Link>
-      </div>
-
         {/* ── Cards grid ── */}
         <div className="home-grid">
           {CARDS.map(card => (
-            <Link key={card.to} to={card.to} className="home-card" style={{ '--card-color': card.color, '--card-bg': card.bg } as React.CSSProperties}>
+            <Link
+              key={card.to}
+              to={card.to}
+              className="home-card"
+              style={{ '--card-color': card.color, '--card-bg': card.bg } as React.CSSProperties}
+            >
               <span className="home-card__icon">{card.icon}</span>
               <h2 className="home-card__title">{card.title}</h2>
               <p className="home-card__desc">{card.desc}</p>
@@ -103,6 +98,7 @@ export function HomePage() {
             </Link>
           ))}
         </div>
+
       </div>
     </DashboardLayout>
   )
