@@ -5,7 +5,41 @@
 .home-page {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MAIN TWO-COLUMN LAYOUT
+   Left col  → hero + cards + sports + academic
+   Right col → sticky calendar sidebar (aligned to hero top)
+
+   Key trick: all left-column elements are placed in column 1,
+   the sidebar is placed in column 2 and spans ALL rows so that
+   position:sticky works for the full scroll height.
+═══════════════════════════════════════════════════════════ */
+
+.home-layout {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  grid-template-rows: auto auto auto auto; /* hero | cards | sports | academic */
+  column-gap: 1.75rem;
+  row-gap: 2rem;
+  align-items: start;
+}
+
+/* Explicitly place left-column children */
+.home-hero          { grid-column: 1; grid-row: 1; }
+.home-grid          { grid-column: 1; grid-row: 2; }
+.home-feed-section:nth-of-type(1) { grid-column: 1; grid-row: 3; }
+.home-feed-section:nth-of-type(2) { grid-column: 1; grid-row: 4; }
+
+/* Sidebar occupies the right column, spans ALL rows so sticky works */
+.home-layout__sidebar {
+  grid-column: 2;
+  grid-row: 1 / -1;         /* stretch from row 1 to the last row */
+  position: sticky;
+  top: 1.5rem;
+  /* Self-align to the top of its grid area */
+  align-self: start;
 }
 
 /* ── Hero ── */
@@ -27,12 +61,10 @@
 .home-hero::after {
   content: '';
   position: absolute;
-  right: -60px;
-  top: -60px;
-  width: 280px;
-  height: 280px;
+  right: -60px; top: -60px;
+  width: 280px; height: 280px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255,255,255,0.06);
   pointer-events: none;
 }
 
@@ -96,35 +128,10 @@
   text-align: center;
 }
 
-/* ═══════════════════════════════════════════════════════════
-   MAIN LAYOUT: content + sticky sidebar
-═══════════════════════════════════════════════════════════ */
-
-.home-layout {
-  display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 1.75rem;
-  align-items: start;
-}
-
-.home-layout__main {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  min-width: 0;
-}
-
-/* ── Sticky sidebar ── */
-.home-layout__sidebar {
-  position: sticky;
-  top: 1.5rem;
-  /* Keeps the sidebar fixed while main content scrolls */
-}
-
 /* ── Cards grid ── */
 .home-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
   gap: 1.15rem;
 }
 
@@ -190,13 +197,14 @@
 .home-card:hover .home-card__arrow { transform: translateX(4px); }
 
 /* ═══════════════════════════════════════════════════════════
-   FEED SECTIONS (Sports + Academic below cards)
+   FEED SECTIONS (Sports + Academic)
 ═══════════════════════════════════════════════════════════ */
 
 .home-feed-section {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  min-width: 0;
 }
 
 .home-feed-section__header {
@@ -226,10 +234,10 @@
 
 .home-feed-section__link:hover { opacity: 0.75; }
 
-/* ── Cards grid layout (rows × columns) ── */
+/* Grid of 3 cards in a row */
 .home-feed__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
 }
 
@@ -308,6 +316,7 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  flex: 1;
 }
 
 .home-feed-card__meta {
@@ -335,7 +344,7 @@
 .home-feed-card__ext:hover { opacity: 0.7; }
 
 /* ═══════════════════════════════════════════════════════════
-   WEEKLY SESSIONS SIDEBAR PANEL
+   STICKY SIDEBAR — WEEKLY SESSIONS
 ═══════════════════════════════════════════════════════════ */
 
 .home-week {
@@ -357,10 +366,7 @@
   font-size: 0.85rem;
 }
 
-.home-week__empty-icon {
-  font-size: 2rem;
-  opacity: 0.5;
-}
+.home-week__empty-icon { font-size: 2rem; opacity: 0.5; }
 
 .home-week__list {
   display: flex;
@@ -375,22 +381,20 @@
   gap: 0.75rem;
   padding: 0.85rem 0;
   border-bottom: 1px solid #f3f4f6;
-  position: relative;
 }
 
 .home-week-item:last-child { border-bottom: none; }
 
 .home-week-item__dot {
-  width: 9px;
-  height: 9px;
+  width: 9px; height: 9px;
   border-radius: 50%;
   margin-top: 0.3rem;
   flex-shrink: 0;
 }
 
 .home-week-item--upcoming .home-week-item__dot { background: #3b5bdb; }
-.home-week-item--ongoing .home-week-item__dot  { background: #059669; box-shadow: 0 0 0 3px #d1fae5; }
-.home-week-item--done .home-week-item__dot     { background: #d1d5db; }
+.home-week-item--ongoing  .home-week-item__dot { background: #059669; box-shadow: 0 0 0 3px #d1fae5; }
+.home-week-item--done     .home-week-item__dot { background: #d1d5db; }
 
 .home-week-item__body { flex: 1; min-width: 0; }
 
@@ -452,12 +456,24 @@
 @media (max-width: 1024px) {
   .home-layout {
     grid-template-columns: 1fr;
+    grid-template-rows: auto; /* let browser auto-place */
   }
 
-  /* On mobile, sidebar goes ABOVE the feed sections */
+  /* Reset explicit placements so elements flow naturally */
+  .home-hero,
+  .home-grid,
+  .home-feed-section:nth-of-type(1),
+  .home-feed-section:nth-of-type(2) {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  /* Sidebar loses sticky and moves to top (after hero) */
   .home-layout__sidebar {
+    grid-column: 1;
+    grid-row: 2; /* below hero */
     position: static;
-    order: -1;
+    order: 0;
   }
 
   .home-feed__grid {
@@ -466,19 +482,9 @@
 }
 
 @media (max-width: 640px) {
-  .home-hero {
-    padding: 1.75rem 1.5rem;
-  }
-
+  .home-hero { padding: 1.75rem 1.5rem; }
   .home-stats { gap: 0.75rem; }
-
-  .home-stat {
-    padding: 0.65rem 1rem;
-  }
-
+  .home-stat { padding: 0.65rem 1rem; }
   .home-stat__value { font-size: 1.4rem; }
-
-  .home-feed__grid {
-    grid-template-columns: 1fr;
-  }
+  .home-feed__grid { grid-template-columns: 1fr; }
 }

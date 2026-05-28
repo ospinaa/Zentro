@@ -69,15 +69,15 @@ export function HomePage() {
       .slice(0, 5)
   }, [sessions])
 
-  // Latest sports events (top 6 for grid)
+  // Latest sports events (top 3)
   const latestSports = useMemo(() =>
-    [...sportsEvents].sort((a, b) => b.createdAt - a.createdAt).slice(0, 6),
+    [...sportsEvents].sort((a, b) => b.createdAt - a.createdAt).slice(0, 3),
     [sportsEvents]
   )
 
-  // Latest academic events (top 6 for grid)
+  // Latest academic events (top 3)
   const latestAcademic = useMemo(() =>
-    [...academicEvents].sort((a, b) => b.createdAt - a.createdAt).slice(0, 6),
+    [...academicEvents].sort((a, b) => b.createdAt - a.createdAt).slice(0, 3),
     [academicEvents]
   )
 
@@ -87,106 +87,28 @@ export function HomePage() {
     <DashboardLayout userInitials={userInitials}>
       <div className="home-page">
 
-        {/* ── Hero ── */}
-        <div className="home-hero">
-          <div className="home-hero__text">
-            <p className="home-hero__greeting">Bienvenido de vuelta,</p>
-            <h1 className="home-hero__name">{firstName} 👋</h1>
-            <p className="home-hero__sub">Aquí está tu resumen de hoy</p>
-          </div>
-          <div className="home-stats">
-            <StatPill value={upcomingSessions} label="Sesiones próximas" color="#3b5bdb" />
-            <StatPill value={activeTasks}      label="Tareas activas"    color="#7c3aed" />
-            <StatPill value={projects.length}  label="Proyectos"         color="#059669" />
-          </div>
-        </div>
-
-        {/* ── Main layout: left content + right sticky sidebar ── */}
+        {/*
+          ── Two-column grid that spans the whole page:
+             Left col  → hero + cards + sports + academic
+             Right col → sticky calendar sidebar (starts next to hero)
+        ── */}
         <div className="home-layout">
 
-          {/* ── Left / main content ── */}
-          <div className="home-layout__main">
-
-            {/* Cards grid */}
-            <div className="home-grid">
-              {CARDS.map(card => (
-                <Link
-                  key={card.to}
-                  to={card.to}
-                  className="home-card"
-                  style={{ '--card-color': card.color, '--card-bg': card.bg } as React.CSSProperties}
-                >
-                  <span className="home-card__icon">{card.icon}</span>
-                  <h2 className="home-card__title">{card.title}</h2>
-                  <p className="home-card__desc">{card.desc}</p>
-                  <span className="home-card__cta">Explorar <span className="home-card__arrow">→</span></span>
-                </Link>
-              ))}
+          {/* ── Hero ── */}
+          <div className="home-hero">
+            <div className="home-hero__text">
+              <p className="home-hero__greeting">Bienvenido de vuelta,</p>
+              <h1 className="home-hero__name">{firstName} 👋</h1>
+              <p className="home-hero__sub">Aquí está tu resumen de hoy</p>
             </div>
-
-            {/* Sports recientes */}
-            <div className="home-feed-section">
-              <div className="home-feed-section__header">
-                <span className="home-feed-section__icon">⚽</span>
-                <h2 className="home-feed-section__title">Sports · Recientes</h2>
-                <Link to="/sports" className="home-feed-section__link">Ver todo →</Link>
-              </div>
-              {latestSports.length === 0 ? (
-                <p className="home-feed__empty">No hay actividades deportivas aún.</p>
-              ) : (
-                <div className="home-feed__grid">
-                  {latestSports.map(ev => (
-                    <div key={ev.id} className="home-feed-card home-feed-card--sports">
-                      <div className="home-feed-card__badge">Deporte</div>
-                      <h3 className="home-feed-card__title">{ev.title}</h3>
-                      <p className="home-feed-card__desc">{ev.description}</p>
-                      <div className="home-feed-card__meta">
-                        <span className="home-feed-card__date">📅 {formatEventDate(ev.eventTime)}</span>
-                        {ev.externalLink && (
-                          <a href={ev.externalLink} target="_blank" rel="noopener noreferrer" className="home-feed-card__ext">
-                            Ver más ↗
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
+            <div className="home-stats">
+              <StatPill value={upcomingSessions} label="Sesiones próximas" color="#3b5bdb" />
+              <StatPill value={activeTasks}      label="Tareas activas"    color="#7c3aed" />
+              <StatPill value={projects.length}  label="Proyectos"         color="#059669" />
             </div>
-
-            {/* Academic recientes */}
-            <div className="home-feed-section">
-              <div className="home-feed-section__header">
-                <span className="home-feed-section__icon">🎓</span>
-                <h2 className="home-feed-section__title">Academic · Recientes</h2>
-                <Link to="/academic" className="home-feed-section__link">Ver todo →</Link>
-              </div>
-              {latestAcademic.length === 0 ? (
-                <p className="home-feed__empty">No hay eventos académicos aún.</p>
-              ) : (
-                <div className="home-feed__grid">
-                  {latestAcademic.map(ev => (
-                    <div key={ev.id} className="home-feed-card home-feed-card--academic">
-                      <div className="home-feed-card__badge">Académico</div>
-                      <h3 className="home-feed-card__title">{ev.title}</h3>
-                      <p className="home-feed-card__desc">{ev.description}</p>
-                      <div className="home-feed-card__meta">
-                        <span className="home-feed-card__date">📅 {formatEventDate(ev.eventTime)}</span>
-                        {ev.externalLink && (
-                          <a href={ev.externalLink} target="_blank" rel="noopener noreferrer" className="home-feed-card__ext">
-                            Ver más ↗
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-
           </div>
 
-          {/* ── Right sticky sidebar: This week's sessions ── */}
+          {/* ── Sticky sidebar: spans all rows in the right column ── */}
           <div className="home-layout__sidebar">
             <div className="home-week">
               <div className="home-feed-section__header">
@@ -226,7 +148,69 @@ export function HomePage() {
             </div>
           </div>
 
-        </div>
+
+
+          {/* ── Sports recientes ── */}
+          <div className="home-feed-section">
+            <div className="home-feed-section__header">
+              <span className="home-feed-section__icon">⚽</span>
+              <h2 className="home-feed-section__title">Sports · Recientes</h2>
+              <Link to="/sports" className="home-feed-section__link">Ver todo →</Link>
+            </div>
+            {latestSports.length === 0 ? (
+              <p className="home-feed__empty">No hay actividades deportivas aún.</p>
+            ) : (
+              <div className="home-feed__grid">
+                {latestSports.map(ev => (
+                  <div key={ev.id} className="home-feed-card home-feed-card--sports">
+                    <div className="home-feed-card__badge">Deporte</div>
+                    <h3 className="home-feed-card__title">{ev.title}</h3>
+                    <p className="home-feed-card__desc">{ev.description}</p>
+                    <div className="home-feed-card__meta">
+                      <span className="home-feed-card__date">📅 {formatEventDate(ev.eventTime)}</span>
+                      {ev.externalLink && (
+                        <a href={ev.externalLink} target="_blank" rel="noopener noreferrer" className="home-feed-card__ext">
+                          Ver más ↗
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* ── Academic recientes ── */}
+          <div className="home-feed-section">
+            <div className="home-feed-section__header">
+              <span className="home-feed-section__icon">🎓</span>
+              <h2 className="home-feed-section__title">Academic · Recientes</h2>
+              <Link to="/academic" className="home-feed-section__link">Ver todo →</Link>
+            </div>
+            {latestAcademic.length === 0 ? (
+              <p className="home-feed__empty">No hay eventos académicos aún.</p>
+            ) : (
+              <div className="home-feed__grid">
+                {latestAcademic.map(ev => (
+                  <div key={ev.id} className="home-feed-card home-feed-card--academic">
+                    <div className="home-feed-card__badge">Académico</div>
+                    <h3 className="home-feed-card__title">{ev.title}</h3>
+                    <p className="home-feed-card__desc">{ev.description}</p>
+                    <div className="home-feed-card__meta">
+                      <span className="home-feed-card__date">📅 {formatEventDate(ev.eventTime)}</span>
+                      {ev.externalLink && (
+                        <a href={ev.externalLink} target="_blank" rel="noopener noreferrer" className="home-feed-card__ext">
+                          Ver más ↗
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+        </div>{/* end .home-layout */}
       </div>
     </DashboardLayout>
   )
