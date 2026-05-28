@@ -100,7 +100,7 @@
     overflow-x: auto;
     scrollbar-width: none;
     flex: 1;
-    max-width: 560px;
+    max-width: fit-content;
     margin: 0 12px;
   }
   
@@ -746,3 +746,5 @@
   color: white !important;
   text-decoration: none;
 }
+
+
