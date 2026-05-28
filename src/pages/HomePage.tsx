@@ -69,15 +69,15 @@ export function HomePage() {
       .slice(0, 5)
   }, [sessions])
 
-  // Latest sports events (top 3)
+  // Latest sports events (top 6 for grid)
   const latestSports = useMemo(() =>
-    [...sportsEvents].sort((a, b) => b.createdAt - a.createdAt).slice(0, 3),
+    [...sportsEvents].sort((a, b) => b.createdAt - a.createdAt).slice(0, 6),
     [sportsEvents]
   )
 
-  // Latest academic events (top 3)
+  // Latest academic events (top 6 for grid)
   const latestAcademic = useMemo(() =>
-    [...academicEvents].sort((a, b) => b.createdAt - a.createdAt).slice(0, 3),
+    [...academicEvents].sort((a, b) => b.createdAt - a.createdAt).slice(0, 6),
     [academicEvents]
   )
 
@@ -101,13 +101,30 @@ export function HomePage() {
           </div>
         </div>
 
-        {/* ── Feed Section ── */}
-        <div className="home-feed">
+        {/* ── Main layout: left content + right sticky sidebar ── */}
+        <div className="home-layout">
 
-          {/* Left column: Sports + Academic highlights */}
-          <div className="home-feed__left">
+          {/* ── Left / main content ── */}
+          <div className="home-layout__main">
 
-            {/* Sports highlights */}
+            {/* Cards grid */}
+            <div className="home-grid">
+              {CARDS.map(card => (
+                <Link
+                  key={card.to}
+                  to={card.to}
+                  className="home-card"
+                  style={{ '--card-color': card.color, '--card-bg': card.bg } as React.CSSProperties}
+                >
+                  <span className="home-card__icon">{card.icon}</span>
+                  <h2 className="home-card__title">{card.title}</h2>
+                  <p className="home-card__desc">{card.desc}</p>
+                  <span className="home-card__cta">Explorar <span className="home-card__arrow">→</span></span>
+                </Link>
+              ))}
+            </div>
+
+            {/* Sports recientes */}
             <div className="home-feed-section">
               <div className="home-feed-section__header">
                 <span className="home-feed-section__icon">⚽</span>
@@ -117,7 +134,7 @@ export function HomePage() {
               {latestSports.length === 0 ? (
                 <p className="home-feed__empty">No hay actividades deportivas aún.</p>
               ) : (
-                <div className="home-feed__cards">
+                <div className="home-feed__grid">
                   {latestSports.map(ev => (
                     <div key={ev.id} className="home-feed-card home-feed-card--sports">
                       <div className="home-feed-card__badge">Deporte</div>
@@ -137,7 +154,7 @@ export function HomePage() {
               )}
             </div>
 
-            {/* Academic highlights */}
+            {/* Academic recientes */}
             <div className="home-feed-section">
               <div className="home-feed-section__header">
                 <span className="home-feed-section__icon">🎓</span>
@@ -147,7 +164,7 @@ export function HomePage() {
               {latestAcademic.length === 0 ? (
                 <p className="home-feed__empty">No hay eventos académicos aún.</p>
               ) : (
-                <div className="home-feed__cards">
+                <div className="home-feed__grid">
                   {latestAcademic.map(ev => (
                     <div key={ev.id} className="home-feed-card home-feed-card--academic">
                       <div className="home-feed-card__badge">Académico</div>
@@ -166,10 +183,11 @@ export function HomePage() {
                 </div>
               )}
             </div>
+
           </div>
 
-          {/* Right column: This week's sessions */}
-          <div className="home-feed__right">
+          {/* ── Right sticky sidebar: This week's sessions ── */}
+          <div className="home-layout__sidebar">
             <div className="home-week">
               <div className="home-feed-section__header">
                 <span className="home-feed-section__icon">📅</span>
@@ -207,25 +225,8 @@ export function HomePage() {
               )}
             </div>
           </div>
-        </div>
 
-        {/* ── Cards grid ── */}
-        <div className="home-grid">
-          {CARDS.map(card => (
-            <Link
-              key={card.to}
-              to={card.to}
-              className="home-card"
-              style={{ '--card-color': card.color, '--card-bg': card.bg } as React.CSSProperties}
-            >
-              <span className="home-card__icon">{card.icon}</span>
-              <h2 className="home-card__title">{card.title}</h2>
-              <p className="home-card__desc">{card.desc}</p>
-              <span className="home-card__cta">Explorar <span className="home-card__arrow">→</span></span>
-            </Link>
-          ))}
         </div>
-
       </div>
     </DashboardLayout>
   )
