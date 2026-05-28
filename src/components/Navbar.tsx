@@ -52,6 +52,18 @@ export function Navbar({ userInitials = 'ZU', userPhoto = null }: NavbarProps) {
 
       <div className="dash-nav__actions">
         <NavLink
+
+        <Link
+          to="/profile"
+          className="dash-nav__avatar"
+          title="Profile"
+          aria-label="View profile"
+        >
+          {userInitials.slice(0, 2).toUpperCase()}
+        </Link>
+        <button type="button" className="dash-nav__logout" onClick={handleLogout}>
+
+        <Link
           to="/profile"
           className="dash-nav__avatar"
           title="Ver perfil"
