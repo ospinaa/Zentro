@@ -18,7 +18,7 @@ function StatPill({ value, label, color }: { value: number; label: string; color
   )
 }
 
-const CARDS = [
+  const CARDS = [
   { to: '/academic', icon: '🎓', title: 'Academic Exchange', desc: 'Comparte conocimiento, encuentra monitores o publica eventos académicos.', color: '#3b5bdb', bg: '#eef2ff' },
   { to: '/sports',   icon: '⚽', title: 'Sports Activities',  desc: 'Únete o crea actividades deportivas con tus compañeros.',              color: '#059669', bg: '#ecfdf5' },
   { to: '/projects', icon: '📋', title: 'Projects',           desc: 'Gestiona tareas, sigue el progreso y colabora en tus proyectos.',       color: '#7c3aed', bg: '#f5f3ff' },
