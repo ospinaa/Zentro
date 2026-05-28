@@ -1,0 +1,182 @@
+/* ───────────────── PAGE ───────────────── */
+
+.sports-page {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ───────────────── HERO ───────────────── */
+
+.sports-hero {
+  background: linear-gradient(
+    135deg,
+    #1d4ed8,
+    #3b82f6
+  );
+
+  border-radius: 28px;
+
+  padding: 42px;
+
+  color: white;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  box-shadow:
+    0 20px 40px rgba(59, 130, 246, 0.18);
+}
+
+.sports-hero__title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.sports-hero__text {
+  opacity: 0.9;
+  max-width: 520px;
+  line-height: 1.6;
+}
+
+.sports-hero__button {
+  background: white;
+  color: #2563eb;
+
+  border: none;
+
+  padding: 14px 22px;
+
+  border-radius: 16px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.sports-hero__button:hover {
+  transform: translateY(-2px);
+}
+
+/* ───────────────── FORM ───────────────── */
+
+.sports-form {
+  background: white;
+
+  padding: 28px;
+
+  border-radius: 24px;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.06);
+
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.sports-form__actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+/* ───────────────── GRID ───────────────── */
+
+.sports-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(300px, 1fr));
+
+  gap: 24px;
+}
+
+/* ───────────────── CARD ───────────────── */
+
+.sports-card {
+  background: white;
+
+  border-radius: 28px;
+
+  padding: 28px;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.06);
+
+  transition: 0.2s ease;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  border-top: 5px solid #2563eb;
+}
+
+.sports-card:hover {
+  transform: translateY(-4px);
+}
+
+.sports-card__icon {
+  width: 58px;
+  height: 58px;
+
+  border-radius: 18px;
+
+  background: #eff6ff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1.8rem;
+}
+
+.sports-card__title {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.sports-card__description {
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+.sports-card__time {
+  font-weight: 700;
+  color: #2563eb;
+}
+
+.sports-card__link {
+  margin-top: auto;
+
+  background: #2563eb;
+
+  color: white;
+
+  text-decoration: none;
+
+  padding: 12px;
+
+  border-radius: 14px;
+
+  text-align: center;
+
+  font-weight: 700;
+
+  transition: 0.2s;
+}
+
+.sports-card__link:hover {
+  background: #1d4ed8;
+}
+
+.sports-card__actions {
+  display: flex;
+  gap: 10px;
+}

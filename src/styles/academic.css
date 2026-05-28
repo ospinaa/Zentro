@@ -1,0 +1,132 @@
+.academic-page {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.academic-hero {
+  background: linear-gradient(
+    135deg,
+    #7c3aed,
+    #8b5cf6
+  );
+
+  border-radius: 28px;
+
+  padding: 42px;
+
+  color: white;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  box-shadow:
+    0 20px 40px rgba(124, 58, 237, 0.18);
+}
+
+.academic-hero__title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.academic-hero__text {
+  opacity: 0.92;
+  max-width: 520px;
+  line-height: 1.6;
+}
+
+.academic-hero__button {
+  background: white;
+  color: #7c3aed;
+
+  border: none;
+
+  padding: 14px 22px;
+
+  border-radius: 16px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.academic-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fit, minmax(300px, 1fr));
+
+  gap: 24px;
+}
+
+.academic-card {
+  background: white;
+
+  border-radius: 28px;
+
+  padding: 28px;
+
+  box-shadow:
+    0 10px 30px rgba(0, 0, 0, 0.06);
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  border-top: 5px solid #8b5cf6;
+}
+
+.academic-card__icon {
+  width: 58px;
+  height: 58px;
+
+  border-radius: 18px;
+
+  background: #f3e8ff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 1.8rem;
+}
+
+.academic-card__title {
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.academic-card__description {
+  color: #6b7280;
+  line-height: 1.6;
+}
+
+.academic-card__time {
+  color: #7c3aed;
+  font-weight: 700;
+}
+
+.academic-card__link {
+  margin-top: auto;
+
+  background: #7c3aed;
+
+  color: white;
+
+  text-decoration: none;
+
+  padding: 12px;
+
+  border-radius: 14px;
+
+  text-align: center;
+
+  font-weight: 700;
+}
+
+.academic-card__actions {
+  display: flex;
+  gap: 10px;
+}

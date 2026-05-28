@@ -8,6 +8,8 @@ import './styles/profile.css'
 import './styles/calendar.css'
 import './styles/events.css'   // ← new unified events styles
 import './styles/home.css'     // ← new home page styles
+import "./styles/academic.css";
+import "./styles/sports.css";
 
 import { AuthProvider }    from './context/AuthContext'
 import { ProfileProvider } from './context/ProfileContexts'
