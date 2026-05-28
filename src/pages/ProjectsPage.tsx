@@ -1,4 +1,3 @@
-
 // ─── src/pages/ProjectsPage.tsx ───────────────────────────────────────────────
 // Ahora consume el ProjectContext en lugar de manejar estado local.
 // Las funciones createProject, addTask, changeTaskStatus y moveTask
@@ -47,9 +46,10 @@ export function ProjectsPage() {
       <div className="proj-page">
         <div className="proj-page__top">
           <div>
-            <h1 className="dash-hero__title">Projects</h1>
-            <p className="dash-hero__subtitle">
-              Manage your tasks and track progress
+            <p className="proj-page__eyebrow">Gestión de proyectos</p>
+            <h1>Projects</h1>
+            <p>
+              Gestiona tus tareas, sigue el progreso y colabora en tus proyectos.
             </p>
           </div>
           <button
@@ -57,7 +57,7 @@ export function ProjectsPage() {
             className="proj-page__new-btn"
             onClick={() => setShowModal(true)}
           >
-            + New Project
+            + Nuevo proyecto
           </button>
         </div>
 
