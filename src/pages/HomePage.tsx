@@ -1,6 +1,8 @@
 // src/pages/HomePage.tsx
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+
+import { DashboardCard } from '../components/DashboardCard'
 import { DashboardLayout } from '../layout/DashboardLayout'
 import { useProfile } from '../context/ProfileContexts'
 import { useSessions } from '../context/SessionContext'
@@ -78,6 +80,15 @@ export function HomePage() {
             <StatPill value={projects.length}  label="Proyectos"         color="#059669" />
           </div>
         </div>
+
+    <DashboardLayout userInitials="U">
+      <div className="dash-hero">
+        <h1 className="dash-hero__title">Welcome to ZENTRO</h1>
+        <p className="dash-hero__subtitle">Connect, learn and play</p>
+        <Link to="/profile" className="dash-hero__profile-link">
+          View profile
+        </Link>
+      </div>
 
         {/* ── Cards grid ── */}
         <div className="home-grid">
