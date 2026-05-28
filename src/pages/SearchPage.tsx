@@ -1,5 +1,3 @@
-
-
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DashboardLayout } from '../layout/DashboardLayout'
@@ -96,8 +94,13 @@ export function SearchPage() {
     <DashboardLayout userInitials={userInitials}>
       <div className="sr-page">
         <div className="sr-hero">
-          <h1 className="dash-hero__title">Buscar en Zentro</h1>
-          <p className="dash-hero__subtitle">Proyectos, tareas y sesiones en un solo lugar</p>
+          <div className="cal-header">
+            <div className="cal-header__text">
+              <p className="cal-header__eyebrow">Exploración</p>
+              <h1 className="cal-header__title">Buscar en Zentro</h1>
+              <p className="cal-header__subtitle">Proyectos, tareas y sesiones en un solo lugar.</p>
+            </div>
+          </div>
         </div>
 
         <div className="sr-search-bar">
