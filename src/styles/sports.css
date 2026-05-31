@@ -395,3 +395,83 @@
 .sp-btn--ghost:hover {
   background: #f1f5f9;
 }
+/* ════════════════════════════════════════════
+   CARD IMAGE BANNER — visual cover on top
+   ════════════════════════════════════════════ */
+
+.sp-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.sp-card__banner {
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1d4ed8 0%, #3b82f6 50%, #60a5fa 100%);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.sp-card__banner::before {
+  content: '';
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+  top: -50px;
+  right: -30px;
+}
+
+.sp-card__banner::after {
+  content: '';
+  position: absolute;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  bottom: -35px;
+  left: 15px;
+}
+
+.sp-card__banner-icon {
+  font-size: 2.8rem;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
+}
+
+.sp-card__banner-tag {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(6px);
+  color: white;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+.sp-card__inner {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.sp-card__top {
+  gap: 10px;
+}
+
+.sp-card__icon {
+  display: none;
+}

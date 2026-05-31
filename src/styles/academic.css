@@ -395,3 +395,86 @@
 .ac-btn--ghost:hover {
   background: #f1f5f9;
 }
+/* ════════════════════════════════════════════
+   CARD IMAGE BANNER — visual cover on top
+   ════════════════════════════════════════════ */
+
+.ac-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.ac-card__banner {
+  height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #6d28d9 0%, #8b5cf6 50%, #a78bfa 100%);
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* Subtle decorative circles */
+.ac-card__banner::before {
+  content: '';
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.08);
+  top: -40px;
+  right: -30px;
+}
+
+.ac-card__banner::after {
+  content: '';
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.06);
+  bottom: -30px;
+  left: 20px;
+}
+
+.ac-card__banner-icon {
+  font-size: 2.8rem;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
+}
+
+.ac-card__banner-tag {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(6px);
+  color: white;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.25);
+}
+
+/* Restore inner padding for the content below the banner */
+.ac-card__inner {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+/* Override ac-card__top for the new layout */
+.ac-card__top {
+  gap: 10px;
+}
+
+.ac-card__icon {
+  display: none; /* icon now lives in the banner */
+}

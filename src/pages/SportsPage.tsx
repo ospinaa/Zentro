@@ -74,42 +74,49 @@ export function SportsPage() {
                   const isOwner = auth.currentUser?.uid === e.firebase_uid;
                   return (
                     <div key={e.id} className="sp-card">
-                      <div className="sp-card__top">
-                        <div className="sp-card__icon">🏀</div>
-                        <div className="sp-card__body">
-                          <h3 className="sp-card__title">{e.title}</h3>
-                          <p className="sp-card__desc">{e.description}</p>
-                        </div>
+                      {/* Banner visual */}
+                      <div className="sp-card__banner">
+                        <span className="sp-card__banner-icon">🏀</span>
+                        <span className="sp-card__banner-tag">Deporte</span>
                       </div>
-                      <div className="sp-card__footer">
-                        <span className="sp-card__time">🕒 {e.eventTime}</span>
-                        {e.externalLink && (
-                          <a
-                            href={e.externalLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="sp-card__link"
-                          >
-                            Más info →
-                          </a>
+                      {/* Content */}
+                      <div className="sp-card__inner">
+                        <div className="sp-card__top">
+                          <div className="sp-card__body">
+                            <h3 className="sp-card__title">{e.title}</h3>
+                            <p className="sp-card__desc">{e.description}</p>
+                          </div>
+                        </div>
+                        <div className="sp-card__footer">
+                          <span className="sp-card__time">🕒 {e.eventTime}</span>
+                          {e.externalLink && (
+                            <a
+                              href={e.externalLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="sp-card__link"
+                            >
+                              Más info →
+                            </a>
+                          )}
+                        </div>
+                        {isOwner && (
+                          <div className="sp-card__actions">
+                            <button
+                              className="sp-card__action-btn sp-card__action-btn--edit"
+                              onClick={() => handleEdit(e)}
+                            >
+                              Editar
+                            </button>
+                            <button
+                              className="sp-card__action-btn sp-card__action-btn--delete"
+                              onClick={() => removeEvent(e.id)}
+                            >
+                              Eliminar
+                            </button>
+                          </div>
                         )}
                       </div>
-                      {isOwner && (
-                        <div className="sp-card__actions">
-                          <button
-                            className="sp-card__action-btn sp-card__action-btn--edit"
-                            onClick={() => handleEdit(e)}
-                          >
-                            Editar
-                          </button>
-                          <button
-                            className="sp-card__action-btn sp-card__action-btn--delete"
-                            onClick={() => removeEvent(e.id)}
-                          >
-                            Eliminar
-                          </button>
-                        </div>
-                      )}
                     </div>
                   );
                 })}

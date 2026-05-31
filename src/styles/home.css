@@ -488,3 +488,87 @@
   .home-stat__value { font-size: 1.4rem; }
   .home-feed__grid { grid-template-columns: 1fr; }
 }
+/* ════════════════════════════════════════════
+   HOME FEED CARDS — image banner on top
+   ════════════════════════════════════════════ */
+
+.home-feed-card {
+  padding: 0;
+  overflow: hidden;
+  border-radius: 16px;
+}
+
+.home-feed-card__banner {
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.home-feed-card--sports .home-feed-card__banner {
+  background: linear-gradient(135deg, #065f46 0%, #059669 50%, #34d399 100%);
+}
+
+.home-feed-card--academic .home-feed-card__banner {
+  background: linear-gradient(135deg, #3730a3 0%, #4f46e5 50%, #818cf8 100%);
+}
+
+.home-feed-card__banner::before {
+  content: '';
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.07);
+  top: -40px;
+  right: -20px;
+}
+
+.home-feed-card__banner::after {
+  content: '';
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.05);
+  bottom: -25px;
+  left: 10px;
+}
+
+.home-feed-card__banner-icon {
+  font-size: 2.2rem;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.2));
+}
+
+.home-feed-card__banner-tag {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(5px);
+  color: white;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.home-feed-card__body {
+  padding: 0.8rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1;
+}
+
+/* Adjust old ::before border strip — now hidden since banner takes over */
+.home-feed-card::before {
+  display: none;
+}

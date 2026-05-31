@@ -74,42 +74,49 @@ export function AcademicPage() {
                   const isOwner = auth.currentUser?.uid === e.firebase_uid;
                   return (
                     <div key={e.id} className="ac-card">
-                      <div className="ac-card__top">
-                        <div className="ac-card__icon">🎓</div>
-                        <div className="ac-card__body">
-                          <h3 className="ac-card__title">{e.title}</h3>
-                          <p className="ac-card__desc">{e.description}</p>
-                        </div>
+                      {/* Banner visual */}
+                      <div className="ac-card__banner">
+                        <span className="ac-card__banner-icon">🎓</span>
+                        <span className="ac-card__banner-tag">Académico</span>
                       </div>
-                      <div className="ac-card__footer">
-                        <span className="ac-card__time">🕒 {e.eventTime}</span>
-                        {e.externalLink && (
-                          <a
-                            href={e.externalLink}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="ac-card__link"
-                          >
-                            Más info →
-                          </a>
+                      {/* Content */}
+                      <div className="ac-card__inner">
+                        <div className="ac-card__top">
+                          <div className="ac-card__body">
+                            <h3 className="ac-card__title">{e.title}</h3>
+                            <p className="ac-card__desc">{e.description}</p>
+                          </div>
+                        </div>
+                        <div className="ac-card__footer">
+                          <span className="ac-card__time">🕒 {e.eventTime}</span>
+                          {e.externalLink && (
+                            <a
+                              href={e.externalLink}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="ac-card__link"
+                            >
+                              Más info →
+                            </a>
+                          )}
+                        </div>
+                        {isOwner && (
+                          <div className="ac-card__actions">
+                            <button
+                              className="ac-card__action-btn ac-card__action-btn--edit"
+                              onClick={() => handleEdit(e)}
+                            >
+                              Editar
+                            </button>
+                            <button
+                              className="ac-card__action-btn ac-card__action-btn--delete"
+                              onClick={() => removeEvent(e.id)}
+                            >
+                              Eliminar
+                            </button>
+                          </div>
                         )}
                       </div>
-                      {isOwner && (
-                        <div className="ac-card__actions">
-                          <button
-                            className="ac-card__action-btn ac-card__action-btn--edit"
-                            onClick={() => handleEdit(e)}
-                          >
-                            Editar
-                          </button>
-                          <button
-                            className="ac-card__action-btn ac-card__action-btn--delete"
-                            onClick={() => removeEvent(e.id)}
-                          >
-                            Eliminar
-                          </button>
-                        </div>
-                      )}
                     </div>
                   );
                 })}

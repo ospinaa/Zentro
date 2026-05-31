@@ -5,9 +5,10 @@ import { Link } from 'react-router-dom'
 import { DashboardLayout } from '../layout/DashboardLayout'
 import { useProfile } from '../context/ProfileContexts'
 import { useSessions } from '../context/SessionContext'
-import { useCollaborativeProjects } from '../context/Collaborativeprojectcontext'
+import { useProjects } from '../context/ProjectContext'
 import { useSports } from '../context/SportsContext'
 import { useAcademic } from '../context/AcademicContext'
+import { useCollaborativeProjects } from '../context/Collaborativeprojectcontext'
 
 function StatPill({ value, label, color }: { value: number; label: string; color: string }) {
   return (
@@ -163,16 +164,21 @@ export function HomePage() {
               <div className="home-feed__grid">
                 {latestSports.map(ev => (
                   <div key={ev.id} className="home-feed-card home-feed-card--sports">
-                    <div className="home-feed-card__badge">Deporte</div>
-                    <h3 className="home-feed-card__title">{ev.title}</h3>
-                    <p className="home-feed-card__desc">{ev.description}</p>
-                    <div className="home-feed-card__meta">
-                      <span className="home-feed-card__date">📅 {formatEventDate(ev.eventTime)}</span>
-                      {ev.externalLink && (
-                        <a href={ev.externalLink} target="_blank" rel="noopener noreferrer" className="home-feed-card__ext">
-                          Ver más ↗
-                        </a>
-                      )}
+                    <div className="home-feed-card__banner">
+                      <span className="home-feed-card__banner-icon">⚽</span>
+                      <span className="home-feed-card__banner-tag">Deporte</span>
+                    </div>
+                    <div className="home-feed-card__body">
+                      <h3 className="home-feed-card__title">{ev.title}</h3>
+                      <p className="home-feed-card__desc">{ev.description}</p>
+                      <div className="home-feed-card__meta">
+                        <span className="home-feed-card__date">📅 {formatEventDate(ev.eventTime)}</span>
+                        {ev.externalLink && (
+                          <a href={ev.externalLink} target="_blank" rel="noopener noreferrer" className="home-feed-card__ext">
+                            Ver más ↗
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -193,16 +199,21 @@ export function HomePage() {
               <div className="home-feed__grid">
                 {latestAcademic.map(ev => (
                   <div key={ev.id} className="home-feed-card home-feed-card--academic">
-                    <div className="home-feed-card__badge">Académico</div>
-                    <h3 className="home-feed-card__title">{ev.title}</h3>
-                    <p className="home-feed-card__desc">{ev.description}</p>
-                    <div className="home-feed-card__meta">
-                      <span className="home-feed-card__date">📅 {formatEventDate(ev.eventTime)}</span>
-                      {ev.externalLink && (
-                        <a href={ev.externalLink} target="_blank" rel="noopener noreferrer" className="home-feed-card__ext">
-                          Ver más ↗
-                        </a>
-                      )}
+                    <div className="home-feed-card__banner">
+                      <span className="home-feed-card__banner-icon">🎓</span>
+                      <span className="home-feed-card__banner-tag">Académico</span>
+                    </div>
+                    <div className="home-feed-card__body">
+                      <h3 className="home-feed-card__title">{ev.title}</h3>
+                      <p className="home-feed-card__desc">{ev.description}</p>
+                      <div className="home-feed-card__meta">
+                        <span className="home-feed-card__date">📅 {formatEventDate(ev.eventTime)}</span>
+                        {ev.externalLink && (
+                          <a href={ev.externalLink} target="_blank" rel="noopener noreferrer" className="home-feed-card__ext">
+                            Ver más ↗
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}
