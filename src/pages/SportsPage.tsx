@@ -49,133 +49,167 @@ export function SportsPage() {
   return (
     <DashboardLayout>
       <div className="sp-page">
+        <div className="sp-layout">
 
-        {/* ── Hero ── */}
-        <div className="sp-hero">
-          <div className="sp-hero__text">
-            <p className="sp-hero__eyebrow">Comunidad deportiva</p>
-            <h1 className="sp-hero__title">Sports Activities</h1>
-            <p className="sp-hero__subtitle">
-              Únete a actividades deportivas, crea torneos y conecta con otros estudiantes.
-            </p>
-          </div>
-          <button className="sp-hero__btn" onClick={() => setShowForm(true)}>
-            + Publicar evento
-          </button>
-        </div>
+          {/* ── LEFT: Events feed ── */}
+          <main className="sp-main">
+            <div className="sp-main__header">
+              <h2 className="sp-main__title">Publicaciones</h2>
+              <span className="sp-main__count">
+                {events.length} evento{events.length !== 1 ? "s" : ""}
+              </span>
+            </div>
 
-        {/* ── Form ── */}
-        {showForm && (
-          <div className="sp-form-card">
-            <h2 className="sp-form-card__title">
-              {editingId ? "Editar evento" : "Nuevo evento deportivo"}
-            </h2>
-
-            <div className="sp-form-grid">
-              <div className="auth-field">
-                <label className="auth-label">Título</label>
-                <input
-                  className="auth-input"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
+            {events.length === 0 ? (
+              <div className="sp-empty">
+                <span className="sp-empty__icon">⚽</span>
+                <p className="sp-empty__text">No hay eventos deportivos aún.</p>
+                <button className="sp-btn sp-btn--primary" onClick={() => setShowForm(true)}>
+                  + Crear el primero
+                </button>
               </div>
-              <div className="auth-field">
-                <label className="auth-label">Hora</label>
-                <input
-                  type="time"
-                  className="auth-input"
-                  value={eventTime}
-                  onChange={(e) => setEventTime(e.target.value)}
-                />
-              </div>
-            </div>
-
-            <div className="auth-field">
-              <label className="auth-label">Descripción</label>
-              <textarea
-                className="auth-input"
-                rows={3}
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              />
-            </div>
-
-            <div className="auth-field">
-              <label className="auth-label">Link o contacto</label>
-              <input
-                className="auth-input"
-                placeholder="https://..."
-                value={externalLink}
-                onChange={(e) => setExternalLink(e.target.value)}
-              />
-            </div>
-
-            <div className="sp-form-card__actions">
-              <button className="auth-btn auth-btn--primary" onClick={handleSubmit}>
-                {editingId ? "Guardar cambios" : "Publicar"}
-              </button>
-              <button className="auth-btn auth-btn--secondary" onClick={resetForm}>
-                Cancelar
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* ── Events grid ── */}
-        {events.length === 0 ? (
-          <div className="sp-empty">
-            <span className="sp-empty__icon">⚽</span>
-            <p className="sp-empty__text">No hay eventos deportivos aún.</p>
-            <button className="sp-hero__btn" onClick={() => setShowForm(true)}>
-              + Crear el primero
-            </button>
-          </div>
-        ) : (
-          <div className="sp-grid">
-            {events.map((e) => {
-              const isOwner = auth.currentUser?.uid === e.firebase_uid;
-              return (
-                <div key={e.id} className="sp-card">
-                  <div className="sp-card__icon">🏀</div>
-                  <div className="sp-card__body">
-                    <h3 className="sp-card__title">{e.title}</h3>
-                    <p className="sp-card__desc">{e.description}</p>
-                  </div>
-                  <div className="sp-card__footer">
-                    <span className="sp-card__time">🕒 {e.eventTime}</span>
-                    {e.externalLink && (
-                      <a
-                        href={e.externalLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="sp-card__link"
-                      >
-                        Más info →
-                      </a>
-                    )}
-                  </div>
-                  {isOwner && (
-                    <div className="sp-card__actions">
-                      <button
-                        className="sp-card__action-btn sp-card__action-btn--edit"
-                        onClick={() => handleEdit(e)}
-                      >
-                        Editar
-                      </button>
-                      <button
-                        className="sp-card__action-btn sp-card__action-btn--delete"
-                        onClick={() => removeEvent(e.id)}
-                      >
-                        Eliminar
-                      </button>
+            ) : (
+              <div className="sp-grid">
+                {events.map((e) => {
+                  const isOwner = auth.currentUser?.uid === e.firebase_uid;
+                  return (
+                    <div key={e.id} className="sp-card">
+                      <div className="sp-card__top">
+                        <div className="sp-card__icon">🏀</div>
+                        <div className="sp-card__body">
+                          <h3 className="sp-card__title">{e.title}</h3>
+                          <p className="sp-card__desc">{e.description}</p>
+                        </div>
+                      </div>
+                      <div className="sp-card__footer">
+                        <span className="sp-card__time">🕒 {e.eventTime}</span>
+                        {e.externalLink && (
+                          <a
+                            href={e.externalLink}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="sp-card__link"
+                          >
+                            Más info →
+                          </a>
+                        )}
+                      </div>
+                      {isOwner && (
+                        <div className="sp-card__actions">
+                          <button
+                            className="sp-card__action-btn sp-card__action-btn--edit"
+                            onClick={() => handleEdit(e)}
+                          >
+                            Editar
+                          </button>
+                          <button
+                            className="sp-card__action-btn sp-card__action-btn--delete"
+                            onClick={() => removeEvent(e.id)}
+                          >
+                            Eliminar
+                          </button>
+                        </div>
+                      )}
                     </div>
-                  )}
+                  );
+                })}
+              </div>
+            )}
+          </main>
+
+          {/* ── RIGHT: Sidebar ── */}
+          <aside className="sp-sidebar">
+
+            {/* Hero / Header */}
+            <div className="sp-sidebar__hero">
+              <p className="sp-sidebar__eyebrow">Comunidad deportiva</p>
+              <h1 className="sp-sidebar__title">Sports Activities</h1>
+              <p className="sp-sidebar__subtitle">
+                Únete a actividades deportivas, crea torneos y conecta con otros estudiantes.
+              </p>
+              {!showForm && (
+                <button className="sp-btn sp-btn--white" onClick={() => setShowForm(true)}>
+                  + Publicar evento
+                </button>
+              )}
+            </div>
+
+            {/* Form */}
+            {showForm && (
+              <div className="sp-sidebar__form">
+                <h2 className="sp-sidebar__form-title">
+                  {editingId ? "Editar evento" : "Nuevo evento deportivo"}
+                </h2>
+
+                <div className="sp-form-grid">
+                  <div className="auth-field">
+                    <label className="auth-label">Título</label>
+                    <input
+                      className="auth-input"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      placeholder="Nombre del evento"
+                    />
+                  </div>
+                  <div className="auth-field">
+                    <label className="auth-label">Hora</label>
+                    <input
+                      type="time"
+                      className="auth-input"
+                      value={eventTime}
+                      onChange={(e) => setEventTime(e.target.value)}
+                    />
+                  </div>
                 </div>
-              );
-            })}
-          </div>
-        )}
+
+                <div className="auth-field">
+                  <label className="auth-label">Descripción</label>
+                  <textarea
+                    className="auth-input"
+                    rows={3}
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Describe el evento..."
+                  />
+                </div>
+
+                <div className="auth-field">
+                  <label className="auth-label">Link o contacto</label>
+                  <input
+                    className="auth-input"
+                    placeholder="https://..."
+                    value={externalLink}
+                    onChange={(e) => setExternalLink(e.target.value)}
+                  />
+                </div>
+
+                <div className="sp-form-actions">
+                  <button className="sp-btn sp-btn--primary" onClick={handleSubmit}>
+                    {editingId ? "Guardar cambios" : "Publicar"}
+                  </button>
+                  <button className="sp-btn sp-btn--ghost" onClick={resetForm}>
+                    Cancelar
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* Stats */}
+            <div className="sp-sidebar__stats">
+              <div className="sp-stat">
+                <span className="sp-stat__value">{events.length}</span>
+                <span className="sp-stat__label">Eventos publicados</span>
+              </div>
+              <div className="sp-stat">
+                <span className="sp-stat__value">
+                  {events.filter(e => auth.currentUser?.uid === e.firebase_uid).length}
+                </span>
+                <span className="sp-stat__label">Tus publicaciones</span>
+              </div>
+            </div>
+
+          </aside>
+        </div>
       </div>
     </DashboardLayout>
   );
