@@ -1,19 +1,41 @@
+// src/components/ProjectCard.tsx
 import { useState } from 'react'
-import type { Project, Task, TaskStatus } from '../pages/ProjectsPage'
+import type { CollaborativeProject, CollaborativeTask, TaskStatus } from '../services/Collaborativeprojectservice'
 import { TaskList } from './TaskList'
 
 const STATUS_OPTIONS: { value: TaskStatus | 'all'; label: string }[] = [
-  { value: 'all', label: 'All' },
-  { value: 'todo', label: 'To Do' },
-  { value: 'in-progress', label: 'In Progress' },
-  { value: 'done', label: 'Done' },
+  { value: 'all', label: 'Todos' },
+  { value: 'pending', label: 'Por hacer' },
+  { value: 'in-progress', label: 'En progreso' },
+  { value: 'completed', label: 'Listo' },
 ]
 
 interface ProjectCardProps {
-  project: Project
+  project: CollaborativeProject
   onAddTask: (projectId: string, title: string) => void
   onChangeTaskStatus: (projectId: string, taskId: string, status: TaskStatus) => void
   onMoveTask: (projectId: string, fromIndex: number, toIndex: number) => void
+}
+
+// ── Inline circular progress (no import needed) ─────────────────
+function CircularProgress({ pct, color = '#7c3aed', size = 46, stroke = 4 }: {
+  pct: number; color?: string; size?: number; stroke?: number
+}) {
+  const r = (size - stroke) / 2
+  const circ = 2 * Math.PI * r
+  const offset = circ - (pct / 100) * circ
+  return (
+    <svg width={size} height={size} style={{ transform: 'rotate(-90deg)', flexShrink: 0 }}>
+      <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="#f1f5f9" strokeWidth={stroke} />
+      <circle
+        cx={size / 2} cy={size / 2} r={r} fill="none"
+        stroke={color} strokeWidth={stroke}
+        strokeDasharray={circ} strokeDashoffset={offset}
+        strokeLinecap="round"
+        style={{ transition: 'stroke-dashoffset 0.5s ease' }}
+      />
+    </svg>
+  )
 }
 
 export function ProjectCard({ project, onAddTask, onChangeTaskStatus, onMoveTask }: ProjectCardProps) {
@@ -21,8 +43,8 @@ export function ProjectCard({ project, onAddTask, onChangeTaskStatus, onMoveTask
   const [filterStatus, setFilterStatus] = useState<TaskStatus | 'all'>('all')
 
   const progressColor =
-    project.progress === 100 ? '#4caf82' :
-    project.progress >= 50  ? '#f0a500' : '#e05c5c'
+    project.progress === 100 ? '#16a34a' :
+    project.progress >= 50  ? '#d97706' : '#7c3aed'
 
   return (
     <article className="pc-card">
@@ -37,20 +59,20 @@ export function ProjectCard({ project, onAddTask, onChangeTaskStatus, onMoveTask
           <h3 className="pc-name">{project.name}</h3>
           {project.description && <p className="pc-desc">{project.description}</p>}
         </div>
-        <span className="pc-chevron">{open ? '▲' : '▼'}</span>
-      </div>
-
-      <div className="pc-progress-wrap" aria-label={`Progress: ${project.progress}%`}>
-        <div className="pc-progress-track">
-          <div className="pc-progress-fill" style={{ width: `${project.progress}%`, background: progressColor }} />
+        <div className="pc-header__right">
+          {/* Circular progress replaces the horizontal bar */}
+          <div className="pc-circle-wrap">
+            <CircularProgress pct={project.progress} color={progressColor} />
+            <span className="pc-circle-pct">{project.progress}%</span>
+          </div>
+          <span className="pc-chevron">{open ? '▲' : '▼'}</span>
         </div>
-        <span className="pc-progress-pct">{project.progress}%</span>
       </div>
 
       <div className="pc-stats">
-        <span className="pc-stat pc-stat--total">{project.tasks.length} tasks</span>
-        <span className="pc-stat pc-stat--done">{project.tasks.filter((t: Task) => t.status === 'done').length} done</span>
-        <span className="pc-stat pc-stat--wip">{project.tasks.filter((t: Task) => t.status === 'in-progress').length} in progress</span>
+        <span className="pc-stat pc-stat--total">{project.tasks.length} tareas</span>
+        <span className="pc-stat pc-stat--done">{project.tasks.filter((t: CollaborativeTask) => t.status === 'completed').length} listas</span>
+        <span className="pc-stat pc-stat--wip">{project.tasks.filter((t: CollaborativeTask) => t.status === 'in-progress').length} en progreso</span>
       </div>
 
       {open && (

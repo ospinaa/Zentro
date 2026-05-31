@@ -10,10 +10,11 @@ import "./styles/events.css";
 import "./styles/home.css";
 import "./styles/academic.css";
 import "./styles/sports.css";
+import "./styles/Projects collaborative.css";
 
 import { AuthProvider }    from "./context/AuthContext";
 import { ProfileProvider } from "./context/ProfileContexts";
-import { ProjectProvider } from "./context/ProjectContext";
+import { CollaborativeProjectProvider } from "./context/Collaborativeprojectcontext";
 import { SessionProvider } from "./context/SessionContext";
 import { AcademicProvider } from "./context/AcademicContext";
 import { SportsProvider }  from "./context/SportsContext";
@@ -34,7 +35,7 @@ function App() {
   return (
     <AuthProvider>
       <ProfileProvider>
-        <ProjectProvider>
+        <CollaborativeProjectProvider>
           <SessionProvider>
             <AcademicProvider>
               <SportsProvider>
@@ -61,7 +62,7 @@ function App() {
               </SportsProvider>
             </AcademicProvider>
           </SessionProvider>
-        </ProjectProvider>
+        </CollaborativeProjectProvider>
       </ProfileProvider>
     </AuthProvider>
   );
