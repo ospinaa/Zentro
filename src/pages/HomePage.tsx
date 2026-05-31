@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import { DashboardLayout } from '../layout/DashboardLayout'
 import { useProfile } from '../context/ProfileContexts'
 import { useSessions } from '../context/SessionContext'
-import { useProjects } from '../context/ProjectContext'
+import { useCollaborativeProjects } from '../context/Collaborativeprojectcontext'
 import { useSports } from '../context/SportsContext'
 import { useAcademic } from '../context/AcademicContext'
 
@@ -49,12 +49,12 @@ function getWeekRange() {
 export function HomePage() {
   const { profile, userInitials } = useProfile()
   const { sessions } = useSessions()
-  const { projects } = useProjects()
+  const { projects } = useCollaborativeProjects()
   const { events: sportsEvents } = useSports()
   const { events: academicEvents } = useAcademic()
 
   const upcomingSessions = sessions.filter(s => s.status === 'upcoming').length
-  const activeTasks = projects.flatMap(p => p.tasks).filter(t => t.status !== 'done').length
+  const activeTasks = projects.flatMap(p => p.tasks).filter(t => t.status !== 'completed').length
   const firstName = profile.name?.split(' ')[0] || userInitials
 
   // Sessions this week

@@ -1,11 +1,11 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { DashboardLayout } from '../layout/DashboardLayout'
-import { useProjects } from '../context/ProjectContext'
+import { useCollaborativeProjects } from '../context/Collaborativeprojectcontext'
 import { useSessions } from '../context/SessionContext'
 import { useSearch } from '../hooks/useSearch'
 import type { ResultKind, SearchResult } from '../services/searchService'
-import type { TaskStatus } from '../pages/ProjectsPage'
+import type { TaskStatus } from '../services/Collaborativeprojectservice'
 import type { SessionStatus } from '../services/sessionService'
 import { useProfile } from '../context/ProfileContexts'
 
@@ -18,17 +18,16 @@ const KIND_LABELS: Record<ResultKind, string> = {
 
 const TASK_STATUS_OPTS: { value: TaskStatus | 'all'; label: string }[] = [
   { value: 'all',         label: 'Todas' },
-  { value: 'todo',        label: 'Por hacer' },
+  { value: 'pending',        label: 'Por hacer' },
   { value: 'in-progress', label: 'En progreso' },
-  { value: 'done',        label: 'Completadas' },
+  { value: 'completed',        label: 'Listo' },
 ]
 
 const SESSION_STATUS_OPTS: { value: SessionStatus | 'all'; label: string }[] = [
   { value: 'all',       label: 'Todas' },
   { value: 'upcoming',  label: 'Próximas' },
-  { value: 'ongoing',   label: 'En curso' },
-  { value: 'done',      label: 'Finalizadas' },
-  { value: 'cancelled', label: 'Canceladas' },
+  { value: 'in-progress',   label: 'En curso' },
+  { value: 'completed', label: 'Listo' },
 ]
 
 const KIND_OPTS: { value: ResultKind; label: string }[] = [
@@ -64,7 +63,7 @@ function ResultCard({ result, onClick }: { result: SearchResult; onClick: () => 
 
 
 export function SearchPage() {
-  const { projects } = useProjects()
+  const { projects } = useCollaborativeProjects()
   const { sessions } = useSessions()
   const { userInitials } = useProfile()
   const navigate = useNavigate()

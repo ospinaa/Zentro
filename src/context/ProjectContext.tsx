@@ -7,12 +7,12 @@ import {
     useState,
     type ReactNode,
   } from 'react'
-  import type { Project, TaskStatus } from '../pages/ProjectsPage'
+  import type { CollaborativeProject, TaskStatus } from '../services/Collaborativeprojectservice'
   import * as projectService from '../services/projectService'
   
   
   interface ProjectContextValue {
-    projects: Project[]
+    projects: CollaborativeProject[]
   
     createProject: (name: string, description: string) => void
   
@@ -35,7 +35,7 @@ import {
   
   
   export function ProjectProvider({ children }: { children: ReactNode }) {
-    const [projects, setProjects] = useState<Project[]>(() =>
+    const [projects, setProjects] = useState<CollaborativeProject[]>(() =>
       projectService.getProjects()
     )
   
