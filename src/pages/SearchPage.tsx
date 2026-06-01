@@ -6,7 +6,7 @@ import { useSessions } from '../context/SessionContext'
 import { useSearch } from '../hooks/useSearch'
 import type { ResultKind, SearchResult } from '../services/searchService'
 import type { TaskStatus } from '../services/Collaborativeprojectservice'
-import type { SessionStatus } from '../services/sessionService'
+//import type { SessionStatus } from '../services/sessionService'
 import { useProfile } from '../context/ProfileContexts'
 
 
