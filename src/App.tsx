@@ -11,6 +11,7 @@ import "./styles/home.css";
 import "./styles/academic.css";
 import "./styles/sports.css";
 import "./styles/Projects collaborative.css";
+import "./styles/imagePicker.css";
 
 import { AuthProvider }    from "./context/AuthContext";
 import { ProfileProvider } from "./context/ProfileContexts";

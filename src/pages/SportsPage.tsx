@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { DashboardLayout } from "../layout/DashboardLayout";
 import { useSports } from "../context/SportsContext";
 import { auth } from "../services/firebase";
+import { ImagePicker } from "../components/imagePicker";
+
+const SPORTS_ACCENT = "#059669";
 
 export function SportsPage() {
   const { events, addEvent, editEvent, removeEvent } = useSports();
@@ -12,14 +15,13 @@ export function SportsPage() {
   const [description, setDescription] = useState("");
   const [eventTime, setEventTime] = useState("");
   const [externalLink, setExternalLink] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
-  useEffect(() => {
-    document.title = "Sports · Zentro";
-  }, []);
+  useEffect(() => { document.title = "Sports · Zentro"; }, []);
 
   async function handleSubmit() {
     if (!title.trim()) return;
-    const payload = { title, description, eventTime, externalLink };
+    const payload = { title, description, eventTime, externalLink, imageUrl };
     if (editingId) {
       await editEvent(editingId, payload);
     } else {
@@ -29,20 +31,17 @@ export function SportsPage() {
   }
 
   function resetForm() {
-    setTitle("");
-    setDescription("");
-    setEventTime("");
-    setExternalLink("");
-    setEditingId(null);
-    setShowForm(false);
+    setTitle(""); setDescription(""); setEventTime("");
+    setExternalLink(""); setImageUrl(""); setEditingId(null); setShowForm(false);
   }
 
-  function handleEdit(event: {id: string; title: string; description: string; eventTime: string; externalLink: string; firebase_uid: string}) {
+  function handleEdit(event: typeof events[number]) {
     setEditingId(event.id);
     setTitle(event.title);
     setDescription(event.description);
     setEventTime(event.eventTime);
     setExternalLink(event.externalLink);
+    setImageUrl(event.imageUrl ?? "");
     setShowForm(true);
   }
 
@@ -74,9 +73,17 @@ export function SportsPage() {
                   const isOwner = auth.currentUser?.uid === e.firebase_uid;
                   return (
                     <div key={e.id} className="sp-card">
-                      {/* Banner visual */}
+                      {/* Banner visual — image or gradient fallback */}
                       <div className="sp-card__banner">
-                        <span className="sp-card__banner-icon">🏀</span>
+                        {e.imageUrl ? (
+                          <img
+                            src={e.imageUrl}
+                            alt={e.title}
+                            className="sp-card__banner-img"
+                          />
+                        ) : (
+                          <span className="sp-card__banner-icon">🏀</span>
+                        )}
                         <span className="sp-card__banner-tag">Deporte</span>
                       </div>
                       {/* Content */}
@@ -127,7 +134,6 @@ export function SportsPage() {
           {/* ── RIGHT: Sidebar ── */}
           <aside className="sp-sidebar">
 
-            {/* Hero / Header */}
             <div className="sp-sidebar__hero">
               <p className="sp-sidebar__eyebrow">Comunidad deportiva</p>
               <h1 className="sp-sidebar__title">Sports Activities</h1>
@@ -141,12 +147,22 @@ export function SportsPage() {
               )}
             </div>
 
-            {/* Form */}
             {showForm && (
               <div className="sp-sidebar__form">
                 <h2 className="sp-sidebar__form-title">
                   {editingId ? "Editar evento" : "Nuevo evento deportivo"}
                 </h2>
+
+                {/* Image picker — subir o URL */}
+                <div className="auth-field">
+                  <label className="auth-label">Imagen del evento</label>
+                  <ImagePicker
+                    value={imageUrl}
+                    onChange={setImageUrl}
+                    accent={SPORTS_ACCENT}
+                    defaultEmoji="⚽"
+                  />
+                </div>
 
                 <div className="sp-form-grid">
                   <div className="auth-field">
@@ -201,7 +217,6 @@ export function SportsPage() {
               </div>
             )}
 
-            {/* Stats */}
             <div className="sp-sidebar__stats">
               <div className="sp-stat">
                 <span className="sp-stat__value">{events.length}</span>

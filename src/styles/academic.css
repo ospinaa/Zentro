@@ -478,3 +478,25 @@
 .ac-card__icon {
   display: none; /* icon now lives in the banner */
 }
+/* ── Banner image (when user uploads a photo) ── */
+.ac-card__banner-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Darken so the tag stays readable over any image */
+.ac-card__banner:has(.ac-card__banner-img)::before {
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  top: 0; right: 0;
+  border-radius: 0;
+  background: rgba(0,0,0,0.28);
+}
+.ac-card__banner:has(.ac-card__banner-img)::after {
+  display: none;
+}

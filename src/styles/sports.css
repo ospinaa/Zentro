@@ -475,3 +475,25 @@
 .sp-card__icon {
   display: none;
 }
+/* ── Banner image (when user uploads a photo) ── */
+.sp-card__banner-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Darken so the tag stays readable over any image */
+.sp-card__banner:has(.sp-card__banner-img)::before {
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  top: 0; right: 0;
+  border-radius: 0;
+  background: rgba(0,0,0,0.28);
+}
+.sp-card__banner:has(.sp-card__banner-img)::after {
+  display: none;
+}

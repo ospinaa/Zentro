@@ -1,32 +1,23 @@
+// src/services/academicService.ts
 import { supabase } from "./supabase";
 import { auth } from "./firebase";
 
 export interface AcademicEvent {
   id: string;
-
   firebase_uid: string;
-
   title: string;
-
   description: string;
-
   eventTime: string;
-
   externalLink: string;
-
+  imageUrl: string;       // ← NEW: image_url column
   createdAt: number;
 }
 
-
-
 export async function getAcademicEvents(): Promise<AcademicEvent[]> {
-
   const { data, error } = await supabase
     .from("academic_events")
     .select("*")
-    .order("created_at", {
-      ascending: false,
-    });
+    .order("created_at", { ascending: false });
 
   if (error) {
     console.error(error);
@@ -35,110 +26,68 @@ export async function getAcademicEvents(): Promise<AcademicEvent[]> {
 
   return data.map((e) => ({
     id: e.id,
-
     firebase_uid: e.firebase_uid,
-
     title: e.title,
-
     description: e.description,
-
     eventTime: e.event_time,
-
     externalLink: e.external_link,
-
-    createdAt: new Date(
-      e.created_at
-    ).getTime(),
+    imageUrl: e.image_url ?? "",   // ← map column
+    createdAt: new Date(e.created_at).getTime(),
   }));
 }
 
-
-
 export async function addAcademicEvent(
-  data: Omit<
-    AcademicEvent,
-    "id" |
-    "firebase_uid" |
-    "createdAt"
-  >
+  data: Omit<AcademicEvent, "id" | "firebase_uid" | "createdAt">
 ) {
-
   const user = auth.currentUser;
+  if (!user) throw new Error("Usuario no autenticado");
 
-  if (!user) {
-    throw new Error(
-      "Usuario no autenticado"
-    );
-  }
+  const { error } = await supabase.from("academic_events").insert([
+    {
+      firebase_uid: user.uid,
+      title: data.title,
+      description: data.description,
+      event_time: data.eventTime,
+      external_link: data.externalLink,
+      image_url: data.imageUrl || null,   // ← persist image
+    },
+  ]);
 
-  const { error } = await supabase
-    .from("academic_events")
-    .insert([
-      {
-        firebase_uid: user.uid,
-
-        title: data.title,
-
-        description: data.description,
-
-        event_time: data.eventTime,
-
-        external_link:
-          data.externalLink,
-      },
-    ]);
-
-  if (error) {
-    console.error(error);
-  }
-
+  if (error) console.error(error);
   return await getAcademicEvents();
 }
-
-
 
 export async function updateAcademicEvent(
   id: string,
   fields: Partial<AcademicEvent>
 ) {
+  const updatePayload: Record<string, unknown> = {
+    title: fields.title,
+    description: fields.description,
+    event_time: fields.eventTime,
+    external_link: fields.externalLink,
+  };
+
+  // Only update image_url when explicitly provided
+  if (fields.imageUrl !== undefined) {
+    updatePayload.image_url = fields.imageUrl || null;
+  }
 
   const { error } = await supabase
     .from("academic_events")
-    .update({
-      title: fields.title,
-
-      description:
-        fields.description,
-
-      event_time:
-        fields.eventTime,
-
-      external_link:
-        fields.externalLink,
-    })
+    .update(updatePayload)
     .eq("id", id);
 
-  if (error) {
-    console.error(error);
-  }
-
+  if (error) console.error(error);
   return await getAcademicEvents();
 }
 
-
-
-export async function deleteAcademicEvent(
-  id: string
-) {
-
+export async function deleteAcademicEvent(id: string) {
   const { error } = await supabase
     .from("academic_events")
     .delete()
     .eq("id", id);
 
-  if (error) {
-    console.error(error);
-  }
-
+  if (error) console.error(error);
   return await getAcademicEvents();
 }

@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { DashboardLayout } from "../layout/DashboardLayout";
 import { useAcademic } from "../context/AcademicContext";
 import { auth } from "../services/firebase";
+import { ImagePicker } from "../components/imagePicker";
+
+const ACADEMIC_ACCENT = "#3b5bdb";
 
 export function AcademicPage() {
   const { events, addEvent, editEvent, removeEvent } = useAcademic();
@@ -12,14 +15,13 @@ export function AcademicPage() {
   const [description, setDescription] = useState("");
   const [eventTime, setEventTime] = useState("");
   const [externalLink, setExternalLink] = useState("");
+  const [imageUrl, setImageUrl] = useState("");
 
-  useEffect(() => {
-    document.title = "Academic · Zentro";
-  }, []);
+  useEffect(() => { document.title = "Academic · Zentro"; }, []);
 
   async function handleSubmit() {
     if (!title.trim()) return;
-    const payload = { title, description, eventTime, externalLink };
+    const payload = { title, description, eventTime, externalLink, imageUrl };
     if (editingId) {
       await editEvent(editingId, payload);
     } else {
@@ -29,20 +31,17 @@ export function AcademicPage() {
   }
 
   function resetForm() {
-    setTitle("");
-    setDescription("");
-    setEventTime("");
-    setExternalLink("");
-    setEditingId(null);
-    setShowForm(false);
+    setTitle(""); setDescription(""); setEventTime("");
+    setExternalLink(""); setImageUrl(""); setEditingId(null); setShowForm(false);
   }
 
-  function handleEdit(event: {id: string; title: string; description: string; eventTime: string; externalLink: string; firebase_uid: string}) {
+  function handleEdit(event: typeof events[number]) {
     setEditingId(event.id);
     setTitle(event.title);
     setDescription(event.description);
     setEventTime(event.eventTime);
     setExternalLink(event.externalLink);
+    setImageUrl(event.imageUrl ?? "");
     setShowForm(true);
   }
 
@@ -74,9 +73,17 @@ export function AcademicPage() {
                   const isOwner = auth.currentUser?.uid === e.firebase_uid;
                   return (
                     <div key={e.id} className="ac-card">
-                      {/* Banner visual */}
+                      {/* Banner visual — image or gradient fallback */}
                       <div className="ac-card__banner">
-                        <span className="ac-card__banner-icon">🎓</span>
+                        {e.imageUrl ? (
+                          <img
+                            src={e.imageUrl}
+                            alt={e.title}
+                            className="ac-card__banner-img"
+                          />
+                        ) : (
+                          <span className="ac-card__banner-icon">🎓</span>
+                        )}
                         <span className="ac-card__banner-tag">Académico</span>
                       </div>
                       {/* Content */}
@@ -127,7 +134,6 @@ export function AcademicPage() {
           {/* ── RIGHT: Sidebar ── */}
           <aside className="ac-sidebar">
 
-            {/* Hero / Header */}
             <div className="ac-sidebar__hero">
               <p className="ac-sidebar__eyebrow">Comunidad académica</p>
               <h1 className="ac-sidebar__title">Academic Exchange</h1>
@@ -141,12 +147,22 @@ export function AcademicPage() {
               )}
             </div>
 
-            {/* Form */}
             {showForm && (
               <div className="ac-sidebar__form">
                 <h2 className="ac-sidebar__form-title">
                   {editingId ? "Editar evento" : "Nuevo evento académico"}
                 </h2>
+
+                {/* Image picker — subir o URL */}
+                <div className="auth-field">
+                  <label className="auth-label">Imagen del evento</label>
+                  <ImagePicker
+                    value={imageUrl}
+                    onChange={setImageUrl}
+                    accent={ACADEMIC_ACCENT}
+                    defaultEmoji="🎓"
+                  />
+                </div>
 
                 <div className="ac-form-grid">
                   <div className="auth-field">
@@ -201,7 +217,6 @@ export function AcademicPage() {
               </div>
             )}
 
-            {/* Stats */}
             <div className="ac-sidebar__stats">
               <div className="ac-stat">
                 <span className="ac-stat__value">{events.length}</span>
