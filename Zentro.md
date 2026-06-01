@@ -1,16 +1,16 @@
 # Zentro
 
-> Plataforma web enfocada en el bienestar universitario que conecta estudiantes a través del intercambio de conocimientos, la colaboración académica y la organización de actividades deportivas.
+> Web platform focused on university well-being that connects students through knowledge sharing, academic collaboration, and the organization of sports activities.
 
 ---
 
 ## Overview
 
-Zentro es una aplicación desarrollada para fortalecer la comunidad estudiantil mediante espacios de aprendizaje colaborativo y actividades deportivas organizadas por los mismos estudiantes.
+Zentro is an application developed to strengthen the student community through collaborative learning spaces and sports activities organized by the students themselves.
 
-La plataforma permite que los usuarios compartan conocimientos, soliciten apoyo académico, creen oportunidades de colaboración y participen en actividades deportivas fuera de los horarios convencionales de la universidad.
+The platform allows users to share knowledge, request academic support, create collaboration opportunities, publish events with images, and participate in sports activities outside conventional university hours.
 
-El proyecto nace como una solución a la falta de herramientas que integren el bienestar académico y deportivo en un solo entorno digital, promoviendo la interacción, el aprendizaje entre pares y una vida universitaria más activa.
+The project was born as a solution to the lack of tools that integrate academic and sports well-being in a single digital environment, promoting peer interaction, collaborative learning, and a more active university life.
 
 ---
 
@@ -18,16 +18,21 @@ El proyecto nace como una solución a la falta de herramientas que integren el b
 
 ### Features
 
-* Registro e inicio de sesión de usuarios.
-* Gestión y edición de perfiles estudiantiles.
-* Publicación y visualización de intercambios académicos.
-* Creación y exploración de oportunidades de aprendizaje colaborativo.
-* Navegación entre módulos académicos y deportivos.
-* Organización de actividades y encuentros deportivos entre estudiantes.
+* User registration and authentication.
+* Student profile management and editing with photo support.
+* Publication and visualization of academic exchange events with image uploads.
+* Creation and exploration of sports activities with image uploads.
+* Collaborative and individual project management with task assignment and progress tracking.
+* Activity feed on the home page showing the latest academic and sports posts.
+* Weekly session sidebar with real-time schedule overview.
+* Calendar for scheduling and visualizing upcoming sessions.
+* Global search across the platform.
+* Smooth animations and transitions across all interactions.
+* Responsive design for desktop and mobile.
 
 ### Status
 
-> El repositorio se encuentra en la fase de construcción del MVP, con las pantallas principales implementadas, navegación funcional y estructura preparada para la integración completa con Supabase.
+> The repository is in an advanced MVP stage, with all main screens implemented, functional navigation, full Supabase integration, and a recent design and UX improvement sprint that introduced animations, image uploads, and a home feed.
 
 ---
 
@@ -35,33 +40,38 @@ El proyecto nace como una solución a la falta de herramientas que integren el b
 
 ### Responsibilities
 
-* Gestionar la autenticación y acceso de usuarios.
-* Facilitar la publicación y consulta de oportunidades académicas.
-* Permitir la creación y organización de actividades deportivas.
-* Centralizar la interacción entre estudiantes en una única plataforma.
-* Mantener una experiencia de usuario responsive y accesible.
+* Manage user authentication and access control.
+* Facilitate the publication and discovery of academic opportunities and events.
+* Enable the creation and organization of sports activities.
+* Support collaborative project workflows with task tracking and member progress.
+* Centralize student interaction in a single platform.
+* Maintain a responsive, accessible, and animated user experience.
 
 ### Integrations
 
-* Supabase Authentication.
-* Supabase Database.
-* React Router.
-* Vite Development Server.
+* Firebase Authentication
+* Supabase Database (PostgreSQL)
+* Supabase Storage (event image uploads via `event-images` bucket)
+* React Router DOM
+* Vite Development Server
+* Netlify (deployment with SPA redirect rules)
 
 ---
 
 ## Tech Stack
 
-| Category | Technologies                      |
-| -------- | --------------------------------- |
-| Core     | React, TypeScript, Vite           |
-| Routing  | React Router DOM                  |
-| Backend  | Supabase                          |
-| Styling  | CSS Modules / Custom CSS          |
-| State    | React Hooks (useState, useEffect) |
-| Tooling  | ESLint, Git, GitHub               |
+| Category | Technologies                          |
+| -------- | ------------------------------------- |
+| Core     | React, TypeScript, Vite               |
+| Routing  | React Router DOM                      |
+| Auth     | Firebase Authentication               |
+| Backend  | Supabase (Database + Storage)         |
+| Styling  | Custom CSS (modular per page/component) |
+| State    | React Context API + Hooks             |
+| Tooling  | ESLint, Git, GitHub                   |
+| Deploy   | Netlify                               |
 
-> Consultar `package.json` para las versiones específicas.
+> See `package.json` for exact versions.
 
 ---
 
@@ -88,44 +98,49 @@ npm run dev
 
 ## Environment Variables
 
-Crear un archivo `.env.local`:
+Create a `.env.local` file:
 
 ```env
 VITE_SUPABASE_URL=
 VITE_SUPABASE_ANON_KEY=
+VITE_FIREBASE_API_KEY=
+VITE_FIREBASE_AUTH_DOMAIN=
+VITE_FIREBASE_PROJECT_ID=
+VITE_FIREBASE_STORAGE_BUCKET=
+VITE_FIREBASE_MESSAGING_SENDER_ID=
+VITE_FIREBASE_APP_ID=
 ```
 
-Las credenciales deben obtenerse desde el proyecto configurado en Supabase.
+Credentials must be obtained from the configured Supabase and Firebase projects.
 
 ---
 
 ## Available Scripts
 
-| Command         | Description                      |
-| --------------- | -------------------------------- |
-| npm run dev     | Inicia el servidor de desarrollo |
-| npm run build   | Genera la versión de producción  |
-| npm run preview | Visualiza la build localmente    |
-| npm run lint    | Ejecuta ESLint                   |
+| Command           | Description                        |
+| ----------------- | ---------------------------------- |
+| `npm run dev`     | Start development server           |
+| `npm run build`   | Create production build            |
+| `npm run preview` | Preview the production build locally |
+| `npm run lint`    | Run ESLint                         |
 
 ---
 
 ## Development Standards
 
-* Arquitectura basada en componentes reutilizables.
-* Uso de TypeScript para tipado estático.
-* Convención de commits semánticos.
-* Separación de responsabilidades por módulos.
-* Desarrollo colaborativo mediante Git Flow.
+* Component-based reusable architecture.
+* TypeScript for static typing throughout the codebase.
+* Conventional Commits for semantic version control.
+* Separation of concerns by module (pages, components, services, context, styles).
+* Collaborative development via Git and GitHub.
 
-Ejemplo de commit:
-
-```text
-feat: add academic exchange page
-```
+Example commits:
 
 ```text
-fix: resolve navigation issue on dashboard
+feat: add image upload to academic and sports events
+fix: correct ImagePicker import casing for Linux builds
+refactor: move weekly sessions to sticky home sidebar
+style: add smooth animations and sliding navbar pill
 ```
 
 ---
@@ -134,21 +149,22 @@ fix: resolve navigation issue on dashboard
 
 ```text
 src/
-├── components/
-├── pages/
-├── layout/
-├── services/
-├── assets/
-├── styles/
-├── router/
-└── main.tsx
+├── components/        # Reusable UI components (Navbar, ImagePicker, etc.)
+│   └── projects/      # Project-specific components
+├── context/           # React Context providers (Auth, Academic, Sports, Sessions…)
+├── layout/            # DashboardLayout, AuthLayout
+├── pages/             # Route-level page components
+├── services/          # Supabase + Firebase service functions
+├── styles/            # Per-page and per-component CSS files
+├── assets/            # Static assets
+└── main.tsx           # Application entry point
 ```
 
 ---
 
 ## Documentation
 
-La documentación del proyecto incluye:
+Project documentation can be found under:
 
 ```text
 docs/
@@ -157,6 +173,16 @@ docs/
 ├── route-map.md
 ├── diagrams/
 └── presentation/
+```
+
+---
+
+## Deployment
+
+The application is deployed on **Netlify**. A `_redirects` file is included in the `public/` folder to handle client-side routing:
+
+```text
+/*    /index.html   200
 ```
 
 ---
@@ -175,4 +201,4 @@ docs/
 
 ## Vision
 
-Zentro busca convertirse en un punto de encuentro para la comunidad universitaria, donde los estudiantes puedan potenciar su aprendizaje, compartir conocimientos y participar activamente en actividades deportivas y colaborativas, fortaleciendo así el bienestar integral dentro de la universidad.
+Zentro aims to become a meeting point for the university community, where students can enhance their learning, share knowledge, and actively participate in sports and collaborative activities — strengthening overall well-being within the university.
