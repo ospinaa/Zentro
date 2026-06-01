@@ -1,21 +1,23 @@
 import { useRef, useState } from 'react'
-import type { Task, TaskStatus } from '../pages/ProjectsPage'
+import type { CollaborativeTask, TaskStatus } from '../services/Collaborativeprojectservice'
 
 const STATUS_LABELS: Record<TaskStatus, string> = {
-  'todo': 'To Do',
-  'in-progress': 'In Progress',
-  'done': 'Done',
+  'pending': 'Pendiente',
+  'in-progress': 'En progreso',
+  'completed': 'Listo',
+  'blocked': 'Bloqueada',
 }
 
 const STATUS_CYCLE: Record<TaskStatus, TaskStatus> = {
-  'todo': 'in-progress',
-  'in-progress': 'done',
-  'done': 'todo',
+  'pending': 'in-progress',
+  'in-progress': 'completed',
+  'completed': 'pending',
+  'blocked': 'pending',
 }
 
 interface TaskListProps {
   projectId: string
-  tasks: Task[]
+  tasks: CollaborativeTask[]
   filterStatus: TaskStatus | 'all'
   onAddTask: (projectId: string, title: string) => void
   onChangeTaskStatus: (projectId: string, taskId: string, status: TaskStatus) => void
@@ -79,16 +81,16 @@ export function TaskList({ projectId, tasks, filterStatus, onAddTask, onChangeTa
               onDrop={() => handleDrop(i)}
             >
               <span className="tl-item__drag">⠿</span>
-              <span className={`tl-item__title ${task.status === 'done' ? 'tl-item__title--done' : ''}`}>
+              <span className={`tl-item__title ${task.status === 'completed' ? 'tl-item__title--completed' : ''}`}>
                 {task.title}
               </span>
               <button
                 type="button"
-                className={`tl-item__badge tl-item__badge--${task.status}`}
+                className={`tl-item__badge tl-item__badge--${task.status as 'pending' | 'in-progress' | 'completed'}`}
                 onClick={() => onChangeTaskStatus(projectId, task.id, STATUS_CYCLE[task.status])}
                 title="Click to advance status"
               >
-                {STATUS_LABELS[task.status]}
+                {STATUS_LABELS[task.status as TaskStatus]}
               </button>
             </li>
           ))}

@@ -1,5 +1,8 @@
-
-import type { Project, Task, TaskStatus } from '../pages/ProjectsPage'
+import type {
+  CollaborativeProject,
+  CollaborativeTask,
+  TaskStatus
+} from './Collaborativeprojectservice'
 import type { CalendarSession, SessionStatus } from './sessionService'
 
 
@@ -13,7 +16,7 @@ export interface SearchResult {
   status?: string
   tags?: string[]
   score: number         
-  payload: Project | Task | CalendarSession
+  payload: CollaborativeProject | CollaborativeTask | CalendarSession
 }
 
 
@@ -59,7 +62,7 @@ function inDateRange(date: string, from?: string, to?: string): boolean {
 
 
 export function search(
-  projects: Project[],
+  projects: CollaborativeProject[],
   sessions: CalendarSession[],
   filters: SearchFilters
 ): SearchResult[] {
@@ -132,7 +135,7 @@ export function search(
 
 
 export function quickSearch(
-  projects: Project[],
+  projects: CollaborativeProject[],
   sessions: CalendarSession[],
   query: string
 ): SearchResult[] {

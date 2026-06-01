@@ -20,15 +20,10 @@ const TASK_STATUS_OPTS: { value: TaskStatus | 'all'; label: string }[] = [
   { value: 'all',         label: 'Todas' },
   { value: 'pending',        label: 'Por hacer' },
   { value: 'in-progress', label: 'En progreso' },
-  { value: 'completed',        label: 'Listo' },
+  { value: 'blocked',        label: 'Bloqueada' },
 ]
 
-const SESSION_STATUS_OPTS: { value: SessionStatus | 'all'; label: string }[] = [
-  { value: 'all',       label: 'Todas' },
-  { value: 'upcoming',  label: 'Próximas' },
-  { value: 'in-progress',   label: 'En curso' },
-  { value: 'completed', label: 'Listo' },
-]
+
 
 const KIND_OPTS: { value: ResultKind; label: string }[] = [
   { value: 'project', label: 'Proyectos' },
@@ -148,41 +143,17 @@ export function SearchPage() {
             </div>
 
             <div className="sr-filters__group">
-              <p className="sr-filters__label">Estado de sesión</p>
+              <p className="sr-filters__label">Estado de proyecto</p>
               <select
                 className="auth-input"
-                value={filters.sessionStatus ?? 'all'}
-                onChange={(e) => setFilter('sessionStatus', e.target.value as SessionStatus | 'all')}
+                value={filters.projectProgress ?? 'all'}
+                onChange={(e) => setFilter('projectProgress', e.target.value as number | 'all')}
               >
-                {SESSION_STATUS_OPTS.map((o) => (
+                {PROJECT_PROGRESS_OPTS.map((o) => (
                   <option key={o.value} value={o.value}>{o.label}</option>
                 ))}
               </select>
             </div>
-
-            <div className="sr-filters__group">
-              <p className="sr-filters__label">Rango de fechas (sesiones)</p>
-              <input
-                className="auth-input"
-                type="date"
-                placeholder="Desde"
-                value={filters.dateFrom ?? ''}
-                onChange={(e) => setFilter('dateFrom', e.target.value || undefined)}
-              />
-              <input
-                className="auth-input"
-                type="date"
-                placeholder="Hasta"
-                value={filters.dateTo ?? ''}
-                onChange={(e) => setFilter('dateTo', e.target.value || undefined)}
-              />
-            </div>
-
-            <button type="button" className="cal-action-btn cal-action-btn--cancel"
-              style={{ marginTop: '1rem', width: '100%' }}
-              onClick={resetFilters}>
-              Limpiar filtros
-            </button>
           </aside>
 
           <div className="sr-results">
