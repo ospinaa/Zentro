@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 import { DashboardLayout } from '../layout/DashboardLayout'
 import { useProfile } from '../context/ProfileContexts'
 import { useSessions } from '../context/SessionContext'
-import { useProjects } from '../context/ProjectContext'
 import { useSports } from '../context/SportsContext'
 import { useAcademic } from '../context/AcademicContext'
 import { useCollaborativeProjects } from '../context/Collaborativeprojectcontext'
@@ -19,12 +18,6 @@ function StatPill({ value, label, color }: { value: number; label: string; color
   )
 }
 
-const CARDS = [
-  { to: '/academic', icon: '🎓', title: 'Academic Exchange', desc: 'Comparte conocimiento, encuentra monitores o publica eventos académicos.', color: '#3b5bdb', bg: '#eef2ff' },
-  { to: '/sports',   icon: '⚽', title: 'Sports Activities',  desc: 'Únete o crea actividades deportivas con tus compañeros.',              color: '#059669', bg: '#ecfdf5' },
-  { to: '/projects', icon: '📋', title: 'Projects',           desc: 'Gestiona tareas, sigue el progreso y colabora en tus proyectos.',       color: '#7c3aed', bg: '#f5f3ff' },
-  { to: '/calendar', icon: '📅', title: 'Calendar',           desc: 'Visualiza y organiza todas tus sesiones programadas.',                  color: '#d97706', bg: '#fffbeb' },
-]
 
 function formatEventDate(dateStr: string) {
   const d = new Date(dateStr)

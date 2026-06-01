@@ -1,5 +1,4 @@
-
-import type { Project, Task, TaskStatus } from '../pages/ProjectsPage'
+import type { Project, Task, TaskStatus } from '../types/project'
 
 const STORAGE_KEY = 'zentro_projects'
 

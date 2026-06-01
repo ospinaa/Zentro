@@ -1,7 +1,7 @@
 
 
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import type { Project } from '../pages/ProjectsPage'
+import type { CollaborativeProject } from '../services/Collaborativeprojectservice'
 import type { CalendarSession } from '../services/sessionService'
 import {
   search,
@@ -11,7 +11,7 @@ import {
 } from '../services/searchService'
 
 interface UseSearchOptions {
-  projects: Project[]
+  projects: CollaborativeProject[]
   sessions: CalendarSession[]
   debounceMs?: number
 }
