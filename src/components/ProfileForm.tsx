@@ -41,7 +41,7 @@ export function ProfileForm({
             type="text"
             label="Name"
             autoComplete="name"
-            value={profile.name}
+            value={profile.name ?? ''}
             onChange={(e) => onFieldChange('name', e.target.value)}
             error={errors.name}
           />
@@ -51,7 +51,7 @@ export function ProfileForm({
             type="email"
             label="Email"
             autoComplete="email"
-            value={profile.email}
+            value={profile.email ?? ''}
             onChange={(e) => onFieldChange('email', e.target.value)}
             error={errors.email}
           />
@@ -61,7 +61,7 @@ export function ProfileForm({
             label="Bio"
             rows={4}
             placeholder="Tell others about yourself"
-            value={profile.bio}
+            value={profile.bio ?? ''}
             onChange={(e) => onFieldChange('bio', e.target.value)}
             error={errors.bio}
           />
@@ -71,7 +71,7 @@ export function ProfileForm({
             type="text"
             label="Skills"
             placeholder="e.g. React, Math"
-            value={profile.skills}
+            value={profile.skills ?? ''}
             onChange={(e) => onFieldChange('skills', e.target.value)}
             error={errors.skills}
           />
@@ -81,7 +81,7 @@ export function ProfileForm({
             type="text"
             label="Interests (optional)"
             placeholder="e.g. Football, Gym"
-            value={profile.interests}
+            value={profile.interests ?? ''}
             onChange={(e) => onFieldChange('interests', e.target.value)}
             error={errors.interests}
           />
