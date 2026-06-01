@@ -18,9 +18,9 @@ function StatPill({ value, label, color }: { value: number; label: string; color
   )
 }
 
-function formatEventDate(dateStr: string) {
-  const d = new Date(dateStr)
-  return d.toLocaleDateString('es-CO', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
+function formatEventDate(timeStr: string) {
+  if (!timeStr) return 'Sin hora'
+  return timeStr
 }
 
 function formatSessionDate(dateStr: string, start: string) {
