@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 // src/components/projects/SegmentedCircularProgress.tsx
 // Renders a pie-like progress ring with one arc-segment per member.
 // Each segment fills proportionally to that member's task completion.

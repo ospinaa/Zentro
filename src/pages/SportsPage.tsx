@@ -37,7 +37,7 @@ export function SportsPage() {
     setShowForm(false);
   }
 
-  function handleEdit(event: any) {
+  function handleEdit(event: {id: string; title: string; description: string; eventTime: string; externalLink: string; firebase_uid: string}) {
     setEditingId(event.id);
     setTitle(event.title);
     setDescription(event.description);

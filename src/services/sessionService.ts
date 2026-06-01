@@ -1,4 +1,3 @@
-
 import { supabase } from "./supabase";
 import { auth } from "./firebase";
 
@@ -185,7 +184,7 @@ export async function updateSession(
     );
   }
 
-  const updateData: any = {};
+  const updateData: Record<string, unknown> = {};
 
   if (fields.title !== undefined) {
     updateData.title = fields.title;

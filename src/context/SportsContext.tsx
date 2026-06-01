@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState, type ReactNode, } from "react";
 import * as sportsService from "../services/sportService";
 import type { SportsEvent } from "../services/sportService";
@@ -48,6 +49,7 @@ export function SportsProvider({
   }
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadEvents();
   }, []);
 

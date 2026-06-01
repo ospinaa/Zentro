@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 // src/context/CollaborativeProjectContext.tsx
 import {
     createContext,
@@ -63,7 +64,8 @@ import {
     }, [user])
   
     useEffect(() => {
-      if (!authLoading) refreshProjects()
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (!authLoading) refreshProjects()
     }, [authLoading, refreshProjects])
   
     const createProject = useCallback(

@@ -31,7 +31,8 @@ export interface SearchFilters {
   dateTo?: string
 
   tags?: string[]     
-  kinds?: ResultKind[] 
+  kinds?: ResultKind[]
+  projectProgress?: number | 'all'
 }
 
 

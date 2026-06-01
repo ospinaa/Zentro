@@ -63,13 +63,12 @@ export function RegisterPage() {
 
       navigate('/home', { replace: true })
 
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error(err)
-
-
-      if (err.code === 'auth/email-already-in-use') {
+      const e = err as { code?: string }
+      if (e.code === 'auth/email-already-in-use') {
         setError('Email already in use')
-      } else if (err.code === 'auth/weak-password') {
+      } else if (e.code === 'auth/weak-password') {
         setError('Password should be at least 6 characters')
       } else {
         setError('Error creating account')

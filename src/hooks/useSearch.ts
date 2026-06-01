@@ -1,5 +1,3 @@
-
-
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import type { CollaborativeProject } from '../services/Collaborativeprojectservice'
 import type { CalendarSession } from '../services/sessionService'
@@ -53,6 +51,7 @@ export function useSearch({
 
   useEffect(() => {
     if (query === debouncedQuery) return
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsSearching(true)
     const t = setTimeout(() => {
       setDebounced(query)

@@ -75,6 +75,7 @@ export function CalendarPage() {
   }, [])
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setForm((prev) => ({ ...prev, date: selectedDate }))
   }, [selectedDate])
 

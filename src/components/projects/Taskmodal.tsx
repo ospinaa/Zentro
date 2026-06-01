@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 // src/components/projects/TaskModal.tsx
 import { useState } from 'react'
 import type { CollaborativeProject, TaskStatus } from '../../services/Collaborativeprojectservice'

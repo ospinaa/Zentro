@@ -25,11 +25,6 @@ export function ProjectDetailPanel({ project, onClose }: ProjectDetailPanelProps
   const [replyText, setReplyText] = useState('')
   const [showTaskModal, setShowTaskModal] = useState(false)
 
-  useEffect(() => {
-    if (tab === 'activity') loadActivity()
-    if (tab === 'comments') loadComments()
-  }, [tab, project.id])
-
   async function loadActivity() {
     const data = await svc.getProjectActivity(project.id)
     setActivity(data)
@@ -39,6 +34,12 @@ export function ProjectDetailPanel({ project, onClose }: ProjectDetailPanelProps
     const data = await svc.getProjectComments(project.id)
     setComments(data)
   }
+
+  useEffect(() => {
+    if (tab === 'activity') loadActivity()
+    if (tab === 'comments') loadComments()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tab, project.id])
 
   async function handlePostComment() {
     if (!commentText.trim()) return

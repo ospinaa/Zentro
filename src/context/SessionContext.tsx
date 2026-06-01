@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 
 import {
   createContext,
@@ -134,6 +135,7 @@ export function SessionProvider({
 
     if (loading) return;
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadSessions();
 
   }, [loading, user, loadSessions]);

@@ -6,9 +6,7 @@ import { useSessions } from '../context/SessionContext'
 import { useSearch } from '../hooks/useSearch'
 import type { ResultKind, SearchResult } from '../services/searchService'
 import type { TaskStatus } from '../services/Collaborativeprojectservice'
-//import type { SessionStatus } from '../services/sessionService'
 import { useProfile } from '../context/ProfileContexts'
-
 
 const KIND_LABELS: Record<ResultKind, string> = {
   project: 'Proyecto',
@@ -17,20 +15,25 @@ const KIND_LABELS: Record<ResultKind, string> = {
 }
 
 const TASK_STATUS_OPTS: { value: TaskStatus | 'all'; label: string }[] = [
-  { value: 'all',         label: 'Todas' },
-  { value: 'pending',        label: 'Por hacer' },
+  { value: 'all',         label: 'Todas'       },
+  { value: 'pending',     label: 'Por hacer'   },
   { value: 'in-progress', label: 'En progreso' },
-  { value: 'blocked',        label: 'Bloqueada' },
+  { value: 'blocked',     label: 'Bloqueada'   },
 ]
 
-
+// ← variable que faltaba
+const PROJECT_PROGRESS_OPTS: { value: number | 'all'; label: string }[] = [
+  { value: 'all', label: 'Todos'         },
+  { value: 0,     label: 'Sin iniciar'   },
+  { value: 50,    label: 'En progreso'   },
+  { value: 100,   label: 'Finalizados'   },
+]
 
 const KIND_OPTS: { value: ResultKind; label: string }[] = [
   { value: 'project', label: 'Proyectos' },
-  { value: 'task',    label: 'Tareas' },
-  { value: 'session', label: 'Sesiones' },
+  { value: 'task',    label: 'Tareas'    },
+  { value: 'session', label: 'Sesiones'  },
 ]
-
 
 function ResultCard({ result, onClick }: { result: SearchResult; onClick: () => void }) {
   return (
@@ -55,7 +58,6 @@ function ResultCard({ result, onClick }: { result: SearchResult; onClick: () => 
     </button>
   )
 }
-
 
 export function SearchPage() {
   const { projects } = useCollaborativeProjects()
@@ -113,7 +115,6 @@ export function SearchPage() {
         </div>
 
         <div className="sr-body">
-
           <aside className="sr-filters">
             <div className="sr-filters__group">
               <p className="sr-filters__label">Tipo de resultado</p>

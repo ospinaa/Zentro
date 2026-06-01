@@ -150,7 +150,7 @@ export function ProjectsPage() {
   const filtered = filter === 'all' ? projects : projects.filter((p) => p.type === filter)
 
   const totalTasks = projects.reduce((s, p) => s + p.tasks.length, 0)
-  const doneTasks = projects.reduce((s, p) => s + p.tasks.filter((t) => t.status === 'done').length, 0)
+  const doneTasks = projects.reduce((s, p) => s + p.tasks.filter((t) => t.status === 'completed').length, 0)
   const doneProjects = projects.filter((p) => p.progress === 100).length
 
   async function handleCreateProject(
