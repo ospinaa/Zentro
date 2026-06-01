@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { DashboardLayout } from "../layout/DashboardLayout";
 import { useSports } from "../context/SportsContext";
 import { auth } from "../services/firebase";
-import { ImagePicker } from "../components/imagePicker";
+import { ImagePicker } from "../components/ImagePicker";
 
 const SPORTS_ACCENT = "#059669";
 

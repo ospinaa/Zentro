@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 import { DashboardLayout } from "../layout/DashboardLayout";
 import { useAcademic } from "../context/AcademicContext";
 import { auth } from "../services/firebase";
-import { ImagePicker } from "../components/imagePicker";
-
+import { ImagePicker } from "../components/ImagePicker";
 const ACADEMIC_ACCENT = "#3b5bdb";
 
 export function AcademicPage() {
