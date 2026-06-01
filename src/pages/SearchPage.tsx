@@ -90,11 +90,11 @@ export function SearchPage() {
     <DashboardLayout userInitials={userInitials}>
       <div className="sr-page">
         <div className="sr-hero">
-          <div className="cal-header">
-            <div className="cal-header__text">
-              <p className="cal-header__eyebrow">Exploración</p>
-              <h1 className="cal-header__title">Buscar en Zentro</h1>
-              <p className="cal-header__subtitle">Proyectos, tareas y sesiones en un solo lugar.</p>
+          <div className="sr-hero__banner">
+            <div className="sr-hero__text">
+              <p className="sr-hero__eyebrow">Exploración</p>
+              <h1 className="sr-hero__title">Buscar en Zentro</h1>
+              <p className="sr-hero__subtitle">Proyectos, tareas y sesiones en un solo lugar.</p>
             </div>
           </div>
         </div>

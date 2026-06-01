@@ -747,3 +747,50 @@
   font-size: 0.72rem;
   font-weight: 700;
 }
+
+/* ── Search hero banner ── */
+.sr-hero {
+  margin-bottom: 24px;
+}
+
+.sr-hero__banner {
+  background: linear-gradient(135deg, #0f172a, #1e3a5f);
+  border-radius: 24px;
+  padding: 40px 42px;
+  color: white;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+}
+
+.sr-hero__eyebrow {
+  font-size: 0.85rem;
+  font-weight: 500;
+  opacity: 0.75;
+  margin: 0 0 6px;
+  letter-spacing: 0.03em;
+}
+
+.sr-hero__title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 0 0 8px;
+  letter-spacing: -0.02em;
+  color: white;
+}
+
+.sr-hero__subtitle {
+  font-size: 0.95rem;
+  opacity: 0.8;
+  margin: 0;
+  line-height: 1.6;
+}
+
+@media (max-width: 640px) {
+  .sr-hero__banner {
+    padding: 28px 24px;
+  }
+  .sr-hero__title {
+    font-size: 1.5rem;
+  }
+}
