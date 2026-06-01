@@ -572,3 +572,25 @@
 .home-feed-card::before {
   display: none;
 }
+/* ── Banner image in home feed cards ── */
+.home-feed-card__banner-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+/* Dim decorative circles when there's a real image */
+.home-feed-card__banner:has(.home-feed-card__banner-img)::before {
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  top: 0; right: 0;
+  border-radius: 0;
+  background: rgba(0, 0, 0, 0.25);
+}
+.home-feed-card__banner:has(.home-feed-card__banner-img)::after {
+  display: none;
+}

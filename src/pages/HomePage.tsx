@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 import { DashboardLayout } from '../layout/DashboardLayout'
 import { useProfile } from '../context/ProfileContexts'
 import { useSessions } from '../context/SessionContext'
-//import { useProjects } from '../context/ProjectContext'
 import { useSports } from '../context/SportsContext'
 import { useAcademic } from '../context/AcademicContext'
 import { useCollaborativeProjects } from '../context/Collaborativeprojectcontext'
@@ -18,8 +17,6 @@ function StatPill({ value, label, color }: { value: number; label: string; color
     </div>
   )
 }
-
-
 
 function formatEventDate(dateStr: string) {
   const d = new Date(dateStr)
@@ -53,7 +50,6 @@ export function HomePage() {
   const activeTasks = projects.flatMap(p => p.tasks).filter(t => t.status !== 'completed').length
   const firstName = profile.name?.split(' ')[0] || userInitials
 
-  // Sessions this week
   const weekSessions = useMemo(() => {
     const { monday, sunday } = getWeekRange()
     return sessions
@@ -65,13 +61,11 @@ export function HomePage() {
       .slice(0, 5)
   }, [sessions])
 
-  // Latest sports events (top 3)
   const latestSports = useMemo(() =>
     [...sportsEvents].sort((a, b) => b.createdAt - a.createdAt).slice(0, 3),
     [sportsEvents]
   )
 
-  // Latest academic events (top 3)
   const latestAcademic = useMemo(() =>
     [...academicEvents].sort((a, b) => b.createdAt - a.createdAt).slice(0, 3),
     [academicEvents]
@@ -82,12 +76,6 @@ export function HomePage() {
   return (
     <DashboardLayout userInitials={userInitials}>
       <div className="home-page">
-
-        {/*
-          ── Two-column grid that spans the whole page:
-             Left col  → hero + cards + sports + academic
-             Right col → sticky calendar sidebar (starts next to hero)
-        ── */}
         <div className="home-layout">
 
           {/* ── Hero ── */}
@@ -104,7 +92,7 @@ export function HomePage() {
             </div>
           </div>
 
-          {/* ── Sticky sidebar: spans all rows in the right column ── */}
+          {/* ── Sticky sidebar ── */}
           <div className="home-layout__sidebar">
             <div className="home-week">
               <div className="home-feed-section__header">
@@ -144,8 +132,6 @@ export function HomePage() {
             </div>
           </div>
 
-
-
           {/* ── Sports recientes ── */}
           <div className="home-feed-section">
             <div className="home-feed-section__header">
@@ -160,7 +146,11 @@ export function HomePage() {
                 {latestSports.map(ev => (
                   <div key={ev.id} className="home-feed-card home-feed-card--sports">
                     <div className="home-feed-card__banner">
-                      <span className="home-feed-card__banner-icon">⚽</span>
+                      {ev.imageUrl ? (
+                        <img src={ev.imageUrl} alt={ev.title} className="home-feed-card__banner-img" />
+                      ) : (
+                        <span className="home-feed-card__banner-icon">⚽</span>
+                      )}
                       <span className="home-feed-card__banner-tag">Deporte</span>
                     </div>
                     <div className="home-feed-card__body">
@@ -195,7 +185,11 @@ export function HomePage() {
                 {latestAcademic.map(ev => (
                   <div key={ev.id} className="home-feed-card home-feed-card--academic">
                     <div className="home-feed-card__banner">
-                      <span className="home-feed-card__banner-icon">🎓</span>
+                      {ev.imageUrl ? (
+                        <img src={ev.imageUrl} alt={ev.title} className="home-feed-card__banner-img" />
+                      ) : (
+                        <span className="home-feed-card__banner-icon">🎓</span>
+                      )}
                       <span className="home-feed-card__banner-tag">Académico</span>
                     </div>
                     <div className="home-feed-card__body">
@@ -216,7 +210,7 @@ export function HomePage() {
             )}
           </div>
 
-        </div>{/* end .home-layout */}
+        </div>
       </div>
     </DashboardLayout>
   )
