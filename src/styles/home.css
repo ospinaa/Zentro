@@ -35,11 +35,18 @@
 /* Sidebar occupies the right column, spans ALL rows so sticky works */
 .home-layout__sidebar {
   grid-column: 2;
-  grid-row: 1 / -1;         /* stretch from row 1 to the last row */
-  position: sticky;
-  top: 1.5rem;
-  /* Self-align to the top of its grid area */
+  grid-row: 1 / -1;
   align-self: start;
+  position: sticky;
+  top: calc(65px + 1.25rem);
+  max-height: calc(100vh - 65px - 2.5rem);
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.home-layout__sidebar::-webkit-scrollbar {
+  display: none;
 }
 
 /* ── Hero ── */
